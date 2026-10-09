@@ -1,0 +1,34 @@
+Gold1 buyer handover dependency lock - v2.3.6
+
+Core required stack:
+  primecount = 8.7
+  primesieve = 12.15
+  Python >= 3.10
+  C++17 compiler + CMake + Ninja + git/curl/tar
+
+Windows core path:
+  MSYS2 UCRT64
+  Visual Studio and Rust are NOT required for the default benchmark.
+
+Linux core path:
+  Supported package-manager bootstrap via setup_linux.sh
+  Rust is NOT downloaded by default.
+
+Optional fourth comparator:
+  fast-prime repository = https://github.com/secwest/fast-prime.git
+  commit = ad2642f917526e2de0e45833b1a242c10963568f
+  binary = prime_count_v8
+  enable = GOLD1_WITH_FASTPRIME=1 ./setup_all.sh
+  Windows optional requirements = Visual Studio C++ Build Tools + rustup/nightly MSVC
+  Linux optional requirements = rustup/nightly native target (bootstrapped by setup)
+
+Benchmark protocol:
+  default worker budget = 12 logical workers
+  fixed total worker budget override = GOLD1_BENCH_THREADS (integer >= 2)
+  concurrent endpoint split = floor(budget/2) + remainder
+  sequential endpoint mode = full budget per endpoint, never concurrently
+  comparability rule = compare only runs with the same budget and environment
+  protocol calibration repeats = GOLD1_PROTOCOL_CALIBRATION_REPEATS (default 3)
+  near-tie margin = GOLD1_PROTOCOL_NEAR_TIE (default 0.02)
+  adaptive tie-break repeats = GOLD1_PROTOCOL_TIE_BREAK_REPEATS (default 2)
+  selection rule = lower final median after any adaptive tie-breaks

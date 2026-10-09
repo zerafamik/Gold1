@@ -1,0 +1,105 @@
+Gold1 generalized exact interval prime-count ranking benchmark v2.3.6 - robust calibration + crossover suite
+UTC=20261008T200637Z
+benchmark_started_utc=2026-10-08T20:05:26.113Z
+benchmark_finished_utc=2026-10-08T20:06:37.635Z
+L=100000000000000
+H=100100000000000
+X=99999999999999
+width=100000000000
+relative_width=9.990009990010e-04
+pi_H=3208043814729
+pi_X=3204941750802
+expected_interval_count=3102063927
+thread_budget=4
+protocol_calibration_repeats=3
+protocol_tie_break_repeats=2
+protocol_near_tie_margin=2.000000%
+gold1_execution_mode=dual_cutoff_endpoint_fallback
+common_y=not_applicable
+common_z=not_applicable
+common_k=not_applicable
+common_cutoff_source=not_applicable_endpoint_specific
+endpoint_high_y=660341 endpoint_high_z=660341 endpoint_high_k=8
+endpoint_low_y=660067 endpoint_low_z=660067 endpoint_low_k=8
+gold1_ac_mode=endpoint_specific_sequential
+gold1_ac_qualification={"selected_ac_mode":"endpoint_specific_sequential","fallback_reason":"no endpoint-selected common Gourdon cutoff passed sequential verification; using exact endpoint-specific Gourdon fallback inside the normal matrix","common_verify_attempts_per_candidate":3,"common_verify_required_successes":2}
+
+===== SELECTED PROTOCOLS =====
+gold1_mode=dual_cutoff_endpoint_fallback_sequential_4+4
+primecount_mode=concurrent_2+2
+primesieve_mode=direct_interval_4
+
+===== RUNS / STATISTICS =====
+gold1_runs=0.150227,0.158881,0.159840,0.163486,0.172637
+gold1_mean_seconds=0.161014
+gold1_median_seconds=0.159840
+gold1_min_seconds=0.150227
+gold1_max_seconds=0.172637
+gold1_stdev_seconds=0.008116
+gold1_cv=0.050405
+primecount_runs=0.158801,0.150031,0.167748,0.160785,0.159345
+primecount_mean_seconds=0.159342
+primecount_median_seconds=0.159345
+primecount_min_seconds=0.150031
+primecount_max_seconds=0.167748
+primecount_stdev_seconds=0.006319
+primecount_cv=0.039657
+primesieve_runs=8.840042,8.342331,8.348611,8.165858,7.950251
+primesieve_mean_seconds=8.329419
+primesieve_median_seconds=8.342331
+primesieve_min_seconds=7.950251
+primesieve_max_seconds=8.840042
+primesieve_stdev_seconds=0.328554
+primesieve_cv=0.039445
+
+===== RANKING =====
+1. primecount 0.159345s
+2. gold1 0.159840s
+3. primesieve 8.342331s
+WINNER=primecount
+primecount_vs_gold1_speedup=1.003108x
+primecount_vs_gold1_saved_seconds=0.000495
+primecount_vs_primesieve_speedup=52.353924x
+primecount_vs_primesieve_saved_seconds=8.182986
+
+===== BUILD METADATA =====
+cpu_model=Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz
+physical_core_count=6
+logical_cpu_count=12
+total_ram_bytes=17088835584
+total_ram_gib=15.915
+os_caption=Microsoft Windows 11 Pro
+os_version=10.0.26200
+os_build_number=26200
+platform=Windows-11-10.0.26200-SP0
+machine=AMD64
+python=3.14.7
+compiler=c++.exe (Rev3, Built by MSYS2 project) 16.2.0
+primecount=primecount 8.7, <https://github.com/kimwalisch/primecount>
+primesieve=primesieve 12.15, <https://github.com/kimwalisch/primesieve>
+primesieve_pinned_version=12.15
+visual_studio_installation_path=unknown
+visual_studio_installation_version=unknown
+visual_studio_cmake_generator=unknown
+rustc=unknown
+ambient_rustc=rustc 1.98.1 (48a229cea 2026-09-01)
+fastprime_build_rustc_verbose=unknown
+fastprime_build_cargo=unknown
+fastprime_toolchain=unknown
+fastprime_commit=unknown
+fastprime_rust_host=unknown
+fastprime_pool_mult=1
+fastprime_thread_override=GOLD1_THREADS
+fastprime_large_pages=not-built-optional
+fastprime_available=False
+fastprime_status=optional-skipped
+gold1_source_sha256=37e0f3e56676302473dcc7fe3552aaa9d79d4da38f6341547f935c9254dfc68a
+gold1_source_sha256_scope=gold1/apply_patch.py + gold1/patch/**
+gold1_source_file_count=5
+benchmark_harness_sha256=ac64d397d10b7001d3a5e895fccc53e48d0695f396e932f9ef91990caa964c97
+benchmark_harness_sha256_scope=tools/** + platform/** + setup/validation/runner entrypoints
+benchmark_harness_file_count=27
+gold1_binary_sha256=d33d1041359b879d05327b672558f0ab91acff1ead0964adc11ca48c107168e0
+primecount_binary_sha256=f35ce300bb731518bdef3ec6408c36076e3d82087b60b07a49103001e4d748a0
+fastprime_binary_sha256=unavailable
+primesieve_binary_sha256=dd8cf42131adbc4ac1c0daa99352d41e82ed08518565b9f37428b1fffe19cd3f

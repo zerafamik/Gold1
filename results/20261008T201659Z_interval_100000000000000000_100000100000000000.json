@@ -1,0 +1,424 @@
+{
+  "schema_version": "2.3.6-robust-calibration-crossover",
+  "utc": "20261008T201659Z",
+  "benchmark_started_utc": "2026-10-08T20:10:59.430Z",
+  "benchmark_finished_utc": "2026-10-08T20:16:59.582Z",
+  "task": {
+    "L": 100000000000000000,
+    "H": 100000100000000000,
+    "X": 99999999999999999,
+    "width": 100000000000,
+    "relative_width": 9.99999000001e-07,
+    "pi_H": 2623559712366328,
+    "pi_X": 2623557157654233,
+    "interval_count": 2554712095
+  },
+  "runs": 5,
+  "thread_budget": 4,
+  "thread_plan": {
+    "total": 4,
+    "concurrent_high": 2,
+    "concurrent_low": 2,
+    "sequential_per_endpoint": 4
+  },
+  "protocol_calibration_policy": {
+    "repeats": 3,
+    "tie_break_repeats": 2,
+    "near_tie_margin": 0.02,
+    "order": "alternating_sequential_first_then_concurrent_first",
+    "selection": "lower_final_median"
+  },
+  "gold1_execution_mode": "common_cutoff_delta",
+  "common_gourdon": {
+    "y": 11914935,
+    "z": 11914935,
+    "k": 8,
+    "source": "lower_endpoint",
+    "endpoint_status": {
+      "high": {
+        "y": 11914961,
+        "z": 11914961,
+        "k": 8,
+        "seconds": 4.067082200002915
+      },
+      "low": {
+        "y": 11914935,
+        "z": 11914935,
+        "k": 8,
+        "seconds": 3.9295026999971014
+      },
+      "candidate_attempts": [
+        {
+          "source": "lower_endpoint",
+          "y": 11914935,
+          "z": 11914935,
+          "k": 8,
+          "attempt": 1,
+          "ok": true,
+          "seconds": 13.416074700005993,
+          "verification_ac_mode": "sequential"
+        },
+        {
+          "source": "lower_endpoint",
+          "y": 11914935,
+          "z": 11914935,
+          "k": 8,
+          "attempt": 2,
+          "ok": true,
+          "seconds": 13.26981700000033,
+          "verification_ac_mode": "sequential"
+        }
+      ],
+      "reference_generation_seconds": {
+        "pi_H": 4.084705799999938,
+        "pi_X": 3.9531396000020322
+      }
+    }
+  },
+  "endpoint_gourdon": {
+    "high": {
+      "y": 11914961,
+      "z": 11914961,
+      "k": 8
+    },
+    "low": {
+      "y": 11914935,
+      "z": 11914935,
+      "k": 8
+    }
+  },
+  "cutoff_selection": {
+    "high": {
+      "y": 11914961,
+      "z": 11914961,
+      "k": 8,
+      "seconds": 4.067082200002915
+    },
+    "low": {
+      "y": 11914935,
+      "z": 11914935,
+      "k": 8,
+      "seconds": 3.9295026999971014
+    },
+    "candidate_attempts": [
+      {
+        "source": "lower_endpoint",
+        "y": 11914935,
+        "z": 11914935,
+        "k": 8,
+        "attempt": 1,
+        "ok": true,
+        "seconds": 13.416074700005993,
+        "verification_ac_mode": "sequential"
+      },
+      {
+        "source": "lower_endpoint",
+        "y": 11914935,
+        "z": 11914935,
+        "k": 8,
+        "attempt": 2,
+        "ok": true,
+        "seconds": 13.26981700000033,
+        "verification_ac_mode": "sequential"
+      }
+    ],
+    "reference_generation_seconds": {
+      "pi_H": 4.084705799999938,
+      "pi_X": 3.9531396000020322
+    }
+  },
+  "gold1_ac_mode": "balanced",
+  "gold1_ac_scheduler_qualification": {
+    "requested_balanced_repeats": 5,
+    "balanced_attempts": [
+      {
+        "attempt": 1,
+        "ok": true,
+        "seconds": 13.106378399999812,
+        "returncode": 0
+      },
+      {
+        "attempt": 2,
+        "ok": true,
+        "seconds": 13.312281400001666,
+        "returncode": 0
+      },
+      {
+        "attempt": 3,
+        "ok": true,
+        "seconds": 13.131116099997598,
+        "returncode": 0
+      },
+      {
+        "attempt": 4,
+        "ok": true,
+        "seconds": 13.054457599995658,
+        "returncode": 0
+      },
+      {
+        "attempt": 5,
+        "ok": true,
+        "seconds": 13.02934699999605,
+        "returncode": 0
+      }
+    ],
+    "selected_ac_mode": "balanced",
+    "fallback_reason": null,
+    "common_verify_attempts_per_candidate": 3,
+    "common_verify_required_successes": 2
+  },
+  "modes": {
+    "gold1": "direct_interval_balanced_2+2",
+    "primecount": "concurrent_2+2",
+    "primesieve": "direct_interval_4"
+  },
+  "calibration": {
+    "thread_plan": {
+      "total": 4,
+      "concurrent_high": 2,
+      "concurrent_low": 2,
+      "sequential_per_endpoint": 4
+    },
+    "policy": {
+      "repeats": 3,
+      "tie_break_repeats": 2,
+      "near_tie_margin": 0.02,
+      "order": "alternating_sequential_first_then_concurrent_first",
+      "selection": "lower_final_median"
+    },
+    "primecount": {
+      "sequential": 8.006315300001006,
+      "concurrent": 7.541124399998807,
+      "sequential_samples": [
+        7.974101400002837,
+        8.127499800000805,
+        8.006315300001006
+      ],
+      "concurrent_samples": [
+        7.541124399998807,
+        7.461776199997985,
+        7.797587100001692
+      ],
+      "sequential_median": 8.006315300001006,
+      "concurrent_median": 7.541124399998807,
+      "concurrent_relative_gain": 0.05810299526951434,
+      "relative_median_gap": 0.05810299526951434,
+      "near_tie_margin": 0.02,
+      "near_tie": false,
+      "sequential_mode": "sequential_4+4",
+      "concurrent_mode": "concurrent_2+2",
+      "selected_mode": "concurrent_2+2",
+      "selection_reason": "lower repeated median",
+      "base_repeats": 3,
+      "tie_break_repeats_requested": 2,
+      "tie_break_repeats_performed": 0,
+      "total_repeats": 3,
+      "initial_near_tie": false,
+      "initial_sequential_median": 8.006315300001006,
+      "initial_concurrent_median": 7.541124399998807,
+      "order_by_repeat": [
+        [
+          "sequential",
+          "concurrent"
+        ],
+        [
+          "concurrent",
+          "sequential"
+        ],
+        [
+          "sequential",
+          "concurrent"
+        ]
+      ]
+    }
+  },
+  "times": {
+    "gold1": [
+      6.507997000000614,
+      6.531839299997955,
+      6.509877700002107,
+      6.580856900000072,
+      6.535641399997985
+    ],
+    "primecount": [
+      7.813929700001609,
+      7.625437100003182,
+      7.793362900003558,
+      7.698186399997212,
+      7.8330128000015975
+    ],
+    "primesieve": [
+      13.69110389999696,
+      12.146590399999695,
+      13.517309300004854,
+      14.789428399999451,
+      12.035827400002745
+    ]
+  },
+  "statistics": {
+    "gold1": {
+      "mean": 6.533242459999746,
+      "median": 6.531839299997955,
+      "min": 6.507997000000614,
+      "max": 6.580856900000072,
+      "stdev": 0.029402822687479367,
+      "cv": 0.004500494642208718
+    },
+    "primecount": {
+      "mean": 7.752785780001432,
+      "median": 7.793362900003558,
+      "min": 7.625437100003182,
+      "max": 7.8330128000015975,
+      "stdev": 0.08806281132365648,
+      "cv": 0.011358860391940331
+    },
+    "primesieve": {
+      "mean": 13.23605188000074,
+      "median": 13.517309300004854,
+      "min": 12.035827400002745,
+      "max": 14.789428399999451,
+      "stdev": 1.1539737658289553,
+      "cv": 0.08718413740675748
+    }
+  },
+  "raw": [
+    {
+      "round": 1,
+      "name": "gold1",
+      "seconds": 6.507997000000614,
+      "mode": "direct_interval_balanced_2+2"
+    },
+    {
+      "round": 1,
+      "name": "primecount",
+      "seconds": 7.813929700001609,
+      "mode": "concurrent_2+2"
+    },
+    {
+      "round": 1,
+      "name": "primesieve",
+      "seconds": 13.69110389999696,
+      "mode": "direct_interval_4"
+    },
+    {
+      "round": 2,
+      "name": "primesieve",
+      "seconds": 12.146590399999695,
+      "mode": "direct_interval_4"
+    },
+    {
+      "round": 2,
+      "name": "gold1",
+      "seconds": 6.531839299997955,
+      "mode": "direct_interval_balanced_2+2"
+    },
+    {
+      "round": 2,
+      "name": "primecount",
+      "seconds": 7.625437100003182,
+      "mode": "concurrent_2+2"
+    },
+    {
+      "round": 3,
+      "name": "primecount",
+      "seconds": 7.793362900003558,
+      "mode": "concurrent_2+2"
+    },
+    {
+      "round": 3,
+      "name": "gold1",
+      "seconds": 6.509877700002107,
+      "mode": "direct_interval_balanced_2+2"
+    },
+    {
+      "round": 3,
+      "name": "primesieve",
+      "seconds": 13.517309300004854,
+      "mode": "direct_interval_4"
+    },
+    {
+      "round": 4,
+      "name": "primesieve",
+      "seconds": 14.789428399999451,
+      "mode": "direct_interval_4"
+    },
+    {
+      "round": 4,
+      "name": "primecount",
+      "seconds": 7.698186399997212,
+      "mode": "concurrent_2+2"
+    },
+    {
+      "round": 4,
+      "name": "gold1",
+      "seconds": 6.580856900000072,
+      "mode": "direct_interval_balanced_2+2"
+    },
+    {
+      "round": 5,
+      "name": "gold1",
+      "seconds": 6.535641399997985,
+      "mode": "direct_interval_balanced_2+2"
+    },
+    {
+      "round": 5,
+      "name": "primecount",
+      "seconds": 7.8330128000015975,
+      "mode": "concurrent_2+2"
+    },
+    {
+      "round": 5,
+      "name": "primesieve",
+      "seconds": 12.035827400002745,
+      "mode": "direct_interval_4"
+    }
+  ],
+  "ranking": [
+    "gold1",
+    "primecount",
+    "primesieve"
+  ],
+  "validation_status": "pass",
+  "build_metadata": {
+    "cpu_model": "Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz",
+    "physical_core_count": 6,
+    "logical_cpu_count": 12,
+    "total_ram_bytes": 17088835584,
+    "total_ram_gib": 15.915,
+    "os_caption": "Microsoft Windows 11 Pro",
+    "os_version": "10.0.26200",
+    "os_build_number": "26200",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "python": "3.14.7",
+    "compiler": "c++.exe (Rev3, Built by MSYS2 project) 16.2.0",
+    "primecount": "primecount 8.7, <https://github.com/kimwalisch/primecount>",
+    "primesieve": "primesieve 12.15, <https://github.com/kimwalisch/primesieve>",
+    "primesieve_pinned_version": "12.15",
+    "visual_studio_installation_path": "unknown",
+    "visual_studio_installation_version": "unknown",
+    "visual_studio_cmake_generator": "unknown",
+    "rustc": "unknown",
+    "ambient_rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "fastprime_build_rustc_verbose": "unknown",
+    "fastprime_build_cargo": "unknown",
+    "fastprime_toolchain": "unknown",
+    "fastprime_commit": "unknown",
+    "fastprime_rust_host": "unknown",
+    "fastprime_pool_mult": 1,
+    "fastprime_thread_override": "GOLD1_THREADS",
+    "fastprime_large_pages": "not-built-optional",
+    "fastprime_available": false,
+    "fastprime_status": "optional-skipped",
+    "gold1_source_sha256": "37e0f3e56676302473dcc7fe3552aaa9d79d4da38f6341547f935c9254dfc68a",
+    "gold1_source_sha256_scope": "gold1/apply_patch.py + gold1/patch/**",
+    "gold1_source_file_count": 5,
+    "benchmark_harness_sha256": "ac64d397d10b7001d3a5e895fccc53e48d0695f396e932f9ef91990caa964c97",
+    "benchmark_harness_sha256_scope": "tools/** + platform/** + setup/validation/runner entrypoints",
+    "benchmark_harness_file_count": 27,
+    "gold1_binary_sha256": "d33d1041359b879d05327b672558f0ab91acff1ead0964adc11ca48c107168e0",
+    "primecount_binary_sha256": "f35ce300bb731518bdef3ec6408c36076e3d82087b60b07a49103001e4d748a0",
+    "fastprime_binary_sha256": "unavailable",
+    "primesieve_binary_sha256": "dd8cf42131adbc4ac1c0daa99352d41e82ed08518565b9f37428b1fffe19cd3f"
+  }
+}

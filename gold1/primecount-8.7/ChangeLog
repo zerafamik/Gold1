@@ -1,0 +1,1154 @@
+Changes in primecount-8.7, 2026-08-13
+
+* primecount now requires a C++14 compiler (up from C++11).
+* nth_prime_sieve.cpp: Fix rare OpenMP multi-threading bug.
+* Fix GCC/Clang -Wundef warnings.
+* PiTable.cpp: Add multi-threaded primes vector initialization.
+* FactorTableD.hpp: Reduce Gourdon D memory using 16-bit prime factor ordinals #133.
+* primecount.pc.in: Add missing libatomic and libquadmath dependencies.
+* primecountConfig.cmake.in: Only find OpenMP when required.
+* ci.yml: Add pkg-config and CMake find_package() CI tests.
+* D_arm_sve.hpp: Fix GCC ARM SVE failed auto-vectorization.
+* Fix get_max_x() for x > 10^31.
+* CmdOptions.cpp: Detect too many input numbers.
+* P2.cpp: Fix potential 64-bit integer overflow.
+* phi.cpp: Fix phi(x, a) for x >= 4611686065672028281 which requires primes > INT32_MAX.
+* lmo/*.cpp: Fix int32_t primes overflow.
+* api.cpp: Fix nth_prime() error message.
+* api.cpp: Fix 128-bit nth_prime() for negative inputs.
+* main.cpp: Validate 128-bit to 64-bit integer conversions.
+* LoadBalancerS2.cpp: Fix Clang scaling issue.
+* AC.cpp: Improve clustered easy leaves algorithm using Gourdon's inversion equality.
+* AC.cpp: Implement segmented C1 algorithm to improve cache efficiency.
+* AC.cpp: Use multi-threading to initialize the libdivide vector.
+* util.cpp: Retune Gourdon alpha factors due to improved C algorithm.
+* test.cpp: Improve test coverage using alternate alpha_z values.
+* doc/Easy-Special-Leaves.pdf: Add description of new C algorithm.
+* doc/alpha-factor-gourdon.pdf: Retune Gourdon alpha factors.
+
+Changes in primecount-8.6, 2026-07-15
+
+* Update to libprimesieve 12.15.
+* count_simd.hpp: Prevent loop unrolling to reduce branch mispredictions.
+* Sieve.cpp: New sieving algorithm for small primes #122.
+  Up to 45% faster on Apple M2 CPU and up to 10% faster on AMD Zen5 CPU.
+* macros.hpp: Add INDETERMINATE macro to prevent memset zero initialization of large stack arrays.
+* Sieve_count_simd.hpp: Fix undefined behavior.
+* Sieve.hpp: Use Vector<uint64_t> sieve to fix undefined behavior.
+* Sieve.cpp: Changes due to new sieve vector type.
+* Sieve_pre_sieve.hpp: Changes due to new sieve vector type.
+* Sieve_arrays.hpp: Changes due to new sieve vector type.
+* Move the sieve source files into the new src/sieve directory and drop the Sieve_ file name prefix.
+* Fix LLVM/Clang -Wunused-template warning.
+* Sieve.hpp, Sieve_count_start_stop.hpp, Sieve_count_stop.hpp,
+  gourdon/D_arm_sve.hpp: Use __attribute__((target("+sve"))) instead of
+  target("arch=armv8-a+sve") for the ARM SVE multiarch runtime dispatch.
+  The latter reset the CPU architecture baseline to armv8-a.
+* multiarch_arm_sve.cmake: Update the ARM SVE compiler support check
+  to match.
+
+Changes in primecount-8.5, 2026-05-10
+
+* Update to libprimesieve-12.14.
+* ci.yml: Add Windows/Clang GitHub Actions CI tests.
+* ci.yml: Add FreeBSD GitHub Actions CI tests.
+* PiTable.cpp: Annotate OpenMP barrier with nowait.
+* main.cpp: Set LLVM OpenMP environment variables as a
+  workaround for this performance issue: https://github.com/llvm/llvm-project/issues/195239
+* CMakeLists.txt: Set WITH_DIV32=OFF by default to fix Clang-22
+  performance regression in the D algorithm.
+* CMakeLists.txt: Add support for building primecount as a
+  shared library (primecount.dll) on Windows using MSVC.
+* CMakeLists.txt: Remove WITH_MSVC_CRT_STATIC option.
+* FactorTable.hpp: Fix 64-bit integer overflow.
+* CmdOptions.cpp: Validate alpha tuning factor command-line options.
+* calculator.hpp: Fix std::tolower() undefined behavior.
+* util.cpp: Improve get_time() precision.
+* StatusS2.cpp: Support use in lockfree code.
+* LoadBalancerS2.cpp: Use lockfree implementation, get rid of mutex.
+* LoadBalancerAC.cpp: Use lockfree implementation, get rid of mutex.
+* LoadBalancerP2.cpp: Use lockfree implementation, get rid of mutex.
+* nth_prime.cpp: Use new nth_prime_sieve() implementation.
+* nth_prime_sieve.cpp: Improved multi-threading.
+* RiemannR.cpp: Add RiemannR(psi(x)) implementation.
+* CmdOptions.cpp: Add --RiemannR-psi & --RiemannR-psi-inverse.
+* README.md: Document --RiemannR-psi & --RiemannR-psi-inverse.
+* doc/primecount.txt: Add --RiemannR-psi & --RiemannR-psi-inverse.
+* doc/primecount.1: Add --RiemannR-psi & --RiemannR-psi-inverse.
+* test/nth_prime_sieve.cpp: Update nth_prime_sieve() test.
+* test/RiemannR_psi.cpp: New test for RiemannR(psi(x)) implementation.
+
+Changes in primecount-8.4, 2026-04-04
+
+This release adds a new branchfree implementation of Gourdon's
+D formula with AVX512, ARM SVE and portable integer code.
+
+* test/codegen: Add assembly code generation tests.
+* doc/Hard-Special-Leaves-SIMD-Filtering.pdf: New math paper
+  about the branchfree SIMD hard special leaves algorithm.
+* Vector.hpp: Improve Vector exception safety.
+* Sieve_count_simd.hpp: Tune AVX512 and ARM SVE kernels.
+* D_avx512.hpp: Implement new branchfree AVX512 algorithm.
+* D_arm_sve.hpp: Implement new branchfree ARM SVE algorithm.
+* D.cpp: Implement new branchfree portable D algorithm.
+* FactorTableD.hpp: Add direct data() access and improve
+  32-bit/64-bit support for the new D algorithms.
+* popcnt.hpp: Add popcnt64_native() to bypass POPCNT runtime checks.
+* multiarch_avx512_vpopcnt.cmake: Require AVX512BW and AVX512VL.
+* cpu_arch_macros.hpp: Require AVX512BW and AVX512VL.
+* cpu_supports_avx512_vpopcnt.hpp: Detect AVX512BW and AVX512VL.
+* cpuid.cpp: Detect AVX512BW and AVX512VL.
+* multiarch_arm_sve.cmake: Improve ARM SVE compile test for svcompact().
+* sve.cpp: Clarify ARM SVE detection requirements.
+* Sieve.hpp: Update AVX512 attributes to use AVX512BW and AVX512VL.
+* Sieve_count_start_stop.hpp: Remove count_algo_name() and update
+  AVX512 attributes.
+* Sieve_count_stop.hpp: Simplify count() algorithm selection.
+* S2_hard.cpp: Remove obsolete SIMD-specialized thread code.
+* pi_lmo_parallel.cpp: Remove obsolete SIMD-specialized thread code.
+* pi_lmo5.cpp: Remove bit counting algorithm status output.
+
+Changes in primecount-8.3, 2026-03-16
+
+* fast_div.hpp: Improve x64 assembly.
+* S2_easy.cpp: Bidirectional clustered easy leaves optimization.
+* AC.cpp: Bidirectional clustered easy leaves optimization.
+* AC.cpp: Cast to smaller type optimization.
+* SegmentedPiTable.hpp: Use faster lightweight compression.
+* SegmentedPiTable.cpp: Use faster lightweight compression.
+* SegmentedPiTable.cpp: Do not interleave pi and bits lookup tables.
+* SegmentedPiTable.cpp: Reuse primesieve::iterator object when
+  initializing multiple segments.
+* LoadBalancerAC.cpp: Tune single thread performance.
+* Sieve.cpp: Optimize cross_off() and cross_off_count().
+* Sieve.cpp: Tune minimum counter distance.
+* nth_prime_sieve.hpp: Optimize 128-bit division on x64 CPUs.
+* util.hpp: Tune alpha_z for new AC algorithm.
+* README.md: Update benchmark timings.
+
+Changes in primecount-8.2, 2026-02-01
+
+* Fix missing version in .pc file #104.
+* AC.cpp: Improve loop condition.
+
+Changes in primecount-8.1, 2026-01-26
+
+* CMakeLists.txt: Fix CMAKE_PROJECT_VERSION not defined.
+* AC.cpp: Up to 15% faster due to improved instruction level parallelism.
+* S2_easy.cpp: Fix "#pragma omp master" deprecated in OpenMP 5.1. 
+* Sieve_count*.hpp: Improve GCC conditional move code gen.
+* Automated building Windows binaries using GitHub Actions CI.
+
+Changes in primecount-8.0, 2025-12-13
+
+# BREAKING C/C++ API CHANGES:
+
+* primecount.hpp (C++ API): Remove std::string functions:
+    std::string pi(std::string x);
+    std::string get_max_x();
+
+* primecount.h (C API): Remove string functions:
+    const char* primecount_pi_str(x);
+    const char* primecount_get_max_x();
+
+We have a new 128-bit API without string arguments and with
+better performance and improved error handling:
+
+## 128-bit C++ API:
+pc_int128_t pi(pc_int128_t x);
+pc_int128_t nth_prime(pc_int128_t n);
+
+## 128-bit C API:
+pc_int128_t primecount_pi_128(pc_int128_t x);
+pc_int128_t primecount_nth_prime_128(pc_int128_t n);
+
+
+# OTHER NON-BREAKING CHANGES:
+
+* api.cpp: Fix broken 128-bit nth prime function.
+* util.cpp: Fix undefined behavior in to_string().
+* calculator.hpp: Add code to detect integer overflows.
+* LoadBalancerP2.cpp: Faster critical section.
+* LoadBalancerS2.cpp: Faster critical section.
+* LoadBalancerAC.cpp: Faster critical section.
+* nth_prime.cpp: Improve status output.
+* AC.cpp: Improved instruction level parallelism.
+* AC_libdivide.cpp: Improved instruction level parallelism.
+* D.cpp: Refactor runtime dispatch to optimized SIMD algorithm.
+* S2_hard.cpp: Refactor runtime dispatch to optimized SIMD algorithm.
+* pi_lmo_parallel.cpp: Add support for runtime dispatch to optimized SIMD algorithm.
+* Move S2_easy_libdivide.cpp code into S2_easy.cpp.
+* Move AC_libdivide.cpp code into AC.cpp.
+* src/app/test.cpp: Speed up tests.
+* CMakeLists.txt: Set CMAKE_VISIBILITY_INLINES_HIDDEN = ON by default.
+
+Changes in primecount-7.20, 2025-11-03
+
+* CMakeLists.txt: Support building libprimecount.dll using MinGW.
+* pi_gourdon.cpp: Quickly verify pi(x) results.
+* pi_deleglise_rivat.cpp: Quickly verify pi(x) results.
+* pi_lmo_parallel.cpp: Quickly verify pi(x) results.
+* CmdOptions.cpp: Add --double-check option.
+* build_mingw64_arm64.sh: Enable ARM SVE for Mingw-w64 on ARM64.
+* doc/Easy-Special-Leaves.pdf: Converted Markdown to LaTeX.
+* doc/Hard-Special-Leaves.pdf: Converted Markdown to LaTeX.
+* doc/Partial-Sieve-Function.pdf: Converted Markdown to LaTeX.
+* ci.yml: Add WebAssembly/Emscripten test.
+* BUILD.md: Add WebAssembly/Emscripten build instructions.
+* README.md: Updated Algorithms section.
+
+Changes in primecount-7.19, 2025-06-04
+
+* nth_prime.cpp: Add 128-bit nth_prime function.
+* nth_prime_sieve.hpp: New sieving algo for nth_prime(n).
+* primecount.h: Improved 128-bit C API using portable pc_int128_t struct.
+* primecount.hpp: Improved 128-bit C++ API using portable pc_int128_t struct.
+* libprimecount.md: Add new 128-bit C/C++ API functions.
+
+Changes in primecount-7.18, 2025-05-14
+
+* Add CMake find_package(primecount) support.
+* libprimecount.md: Add CMake find_package(primecount) section.
+* PhiTiny.cpp: Reduce code bloat.
+* Move private header files from /include to /src.
+* src/CMakeLists.txt: Update for private header files in /src.
+* test/CMakeLists.txt: Update for private header files in /src.
+* Vector.hpp: Get rid of std::is_trivial which is deprecated in C++26.
+* Update to latest primesieve-12.9 library.
+* Update to latest libdivide-5.2.0 library.
+
+Changes in primecount-7.17, 2025-04-29
+
+* Sieve_pre_sieve.hpp: Improved pre-sieving using primes ≤ 71.
+  Speeds up S2_hard and D algorithms by up to 5%.
+* README.md: Fix Markdown math formulas.
+* Hard-Special-Leaves.md: Fix Markdown math formulas.
+* Update to primesieve-12.8 library.
+
+Changes in primecount-7.16, 2025-03-31
+
+The if check for runtime dispatching to CPU vector instruction
+sets has been moved outside of the main loop. This improves
+performance of the D and S2_hard algorithms by up to 10% for
+x < 2^64. The important Sieve::count_*() method is now always
+inlined.
+
+* fast_div.hpp: Fix "Warning: mnemonic suffix used with `div'"
+* libdivide.h: Fix "Warning: mnemonic suffix used with `div'"
+* LoadBalancerS2.cpp: Tune load balancing.
+* LoadBalancerAC.cpp: Tune load balancing.
+* primecount-internal.hpp: Update default CPU cache sizes.
+* Sieve.cpp: Improve count balancing.
+* Sieve.cpp: Add multiarch count methods.
+* Sieve.hpp: New multiarch count methods.
+* D.cpp: Runtime dispatching changes.
+* D_multiarch_avx512.cpp: New file.
+* D_multiarch_arm_sve.cpp: New file.
+* S2_hard.cpp: Runtime dispatching changes.
+* S2_hard_multiarch_avx512.cpp: New file.
+* S2_hard_multiarch_arm_sve.cpp: New file.
+* CMakeLists.txt: Add new multiarch cpp files.
+* CMakeLists.txt: Fix broken MSVC OpenMP detection.
+
+Changes in primecount-7.15, 2025-03-01
+
+* Sieve.hpp: Improve ARM SVE bit counting algorithm.
+* multiarch_arm_sve.cmake: Improve ARM SVE detection.
+* src/arch/arm/sve.cpp: Detect ARM SVE instruction set.
+* Update to libprimesieve-12.7.
+* README.md: Add sponsors section.
+
+Changes in primecount-7.14, 2024-07-30
+
+* Fix libdivide.h issue with GCC 15: #76.
+* Move x86 cpuid code from cpuid.hpp to src/arch/x86/cpuid.cpp.
+* Move generate.hpp code to src/generate_primes.cpp.
+* Move generate_phi.hpp code to src/phi_vector.cpp.
+* int128_t.hpp: Rename namespace port to pstd (portable std namespace).
+* Sieve.hpp: Tune AVX512 code.
+* Sieve.hpp: Branchfree bitmask calculation.
+* cpu_supports_popcnt.hpp: Simplify, move preprocessor checks to new multiarch_x86_popcnt.cmake.
+* multiarch_avx512_vpopcnt.cmake: Tune AVX512 code.
+* multiarch_x86_popcnt.cmake: Detect x86 POPCNT.
+* CMakeLists.txt: Use CMake list for all compile time definitions.
+
+Changes in primecount-7.13, 2024-04-15
+
+* Add preliminary MSVC 128-bit support.
+* CMakeLists.txt: New WITH_MULTIARCH option (default ON).
+* Sieve.hpp: New AVX512 popcount algorithm for x86 CPUs.
+* Sieve.hpp: New ARM SVE popcount algorithm.
+* int128.cmake: Improve int128_t support for Windows.
+* OpenMP.cmake: Improve LLVM/Clang OpenMP detection.
+* Delete ci-sage.yml, it has not been updated in 3 years and I
+  don't want to maintain it. I feel like this CI script should
+  be part of SageMath, not primecount.
+
+Changes in primecount-7.12, 2024-04-01
+
+* CMakeLists.txt: Remove WITH_POPCNT=OFF option used to build a
+  portable primecount binary. primecount is now portable by default.
+* popcnt.hpp: On x86 & x64 CPUs enable CPUID POPCNT runtime
+  check by default (unless user compiles with -mpopcnt).
+* LoadBalancerAC.cpp: New dynamic/adaptive load balancing #67.
+* LogarithmicIntegral.cpp: Fix infinite loop on Linux i386 #66.
+* RiemannR.cpp: Fix infinite loop on Linux i386 #66.
+* RiemannR.cpp: Faster and simpler RiemannR_inverse(x).
+* test/Li.cpp: Add more tests.
+* test/Riemann_R.cpp: Add more tests.
+* fast_div.hpp: Get rid of make_smaller<T>::type hack.
+
+Changes in primecount-7.11, 2024-03-11
+
+* CMakeLists.txt: Detect Apple Silicon CPUs and disable libdivide since
+  Apple Silicon CPUs have very fast integer division instructions.
+* test/iroot.cpp: Fix musl libc issue.
+* test/Li.cpp: Speed up test.
+* Faster RiemannR(x) and RiemannR_inverse(x) implementations.
+  https://github.com/kimwalisch/primesieve/pull/144
+* Renamed option --Ri to: -R or --RiemannR.
+* Renamed option --Ri-inverse to: --RiemannR-inverse.
+* CmdOptions.cpp: Detect incompatible options.
+* PiTable.cpp: Increase cache size to 2 KiB.
+* Improve status output on Windows.
+* Updated to latest primesieve-12.1 library.
+
+Changes in primecount-7.10, 2024-01-08
+
+* RiemannR.cpp: Fix integer overflows in Li_inverse(x) & Ri_inverse(x).
+* cmake/OpenMP.cmake: Improve libatomic detection.
+* .github/workflows/ci.yml: Port AppVeyor CI tests to GitHub Actions.
+* Vector.hpp: Rename pod_vector to Vector and pod_array to Array.
+* README.md: Add C & C++ API badges.
+* Update to latest primesieve-11.2 library.
+
+Changes in primecount-7.9, 2023-04-03
+
+The focus of this release has been to improve primecount's test suite.
+Before this release there were e.g. no unit tests for most of the
+algorithms used in the pi_gourdon(x) prime counting function. Now
+virtually everything is unit tested!
+
+* test/README.md: Add debug mode + GCC/Clang sanitizers documentation.
+* doc/BUILD.md: Add link to detailed test information.
+* test/pi_lehmer.cpp: Add new test.
+* test/pi_*.cpp: Add large pi(x) computation tests.
+* test/gourdon/AC.cpp: Add new test.
+* test/gourdon/B.cpp: Add new test.
+* test/gourdon/D.cpp: Add new test.
+* test/gourdon/Phi0.cpp: Add new test.
+* test/gourdon/Sigma.cpp: Add new test.
+* test/gourdon/alpha_y.cpp: Add 128-bit tests.
+* test/gourdon/alpha_z.cpp: Add 128-bit tests.
+* test/deleglise-rivat/S2_trivial.cpp: Add large computation tests.
+* test/deleglise-rivat/S2_easy.cpp: Add large computation tests.
+* test/deleglise-rivat/S2_hard.cpp: Add large computation tests.
+* test/deleglise-rivat/alpha_deleglise_rivat.cpp: Add 128-bit tests.
+* test/lmo/alpha.cpp: Add more tests.
+* test/api/nth_prime.cpp: Add large computation tests.
+
+Changes in primecount-7.8, 2023-03-27
+
+I fixed the pi(-n) crash yesterday for 64-bit integers. Unfortunately
+I forgot to fix the same issue for 128-bit integers. Hence this
+release fixes the same issue for 128-bit integers.
+
+* api.cpp: Add missing check for negative numbers in pi(int128_t x),
+           pi_deleglise_rivat(int128_t x), pi_gourdon(int128_t x).
+* test/api.cpp: Add more pi(-n) tests.
+* test/api_c.cpp: Add more primecount_pi(-n) tests.
+* test/pi_cache.cpp: Add new test.
+* test/pi_deleglise_rivat.cpp: Add new test.
+* test/pi_gourdon.cpp: Add new test.
+* test/pi_legendre.cpp: Add new test.
+* test/pi_lmo5.cpp: Add new test.
+* test/pi_lmo_parallel.cpp: Add new test.
+* test/pi_meissel.cpp: Add new test.
+* CMakeLists.txt: Disable building libprimesieve examples.
+
+Changes in primecount-7.7, 2023-03-26
+
+This is a bug fix release.
+
+* primecount.h: Fix -Wstrict-prototypes warning.
+* api.cpp: Fix pi(-1) crash #64. Now pi(-1) returns 0
+           without reporting any error.
+* test/api.cpp: Add pi(-1) test.
+* test/api_c.cpp: Add primecount_pi(-1) test.
+* test/nthprime.cpp: Add new test.
+* test/api_c.c: Convert api_c.cpp to api_c.c
+
+Changes in primecount-7.6, 2022-12-07
+
+This is a bug fix release.
+
+There is a missing header include in primecount-7.5 (in print.hpp)
+which may cause the build to fail when compiling with C++17 or later.
+This e.g. caused the build of primecount-7.5 to fail on Fedora-39
+i686. This issue has been fixed in primecount-7.6, there are no other
+changes. The API and ABI of primecount-7.6 are backwards compatible
+with primecount-7.*
+
+* print.hpp: Add missing <string_view> header.
+
+Changes in primecount-7.5, 2022-12-05
+
+The C/C++ API and ABI of primecount-7.5 are backwards compatible but
+primecount-7.5 now requires >= libprimesieve.so.11. The previous
+primecount-7.4 requried >= libprimesieve.so.10.
+
+* Update to the latest libprimesieve-11.0.
+* phi.cpp: 10% phi(x, a) speedup.
+* pi_gourdon.cpp: Reduce context switches and cpu migrations by up to 2x.
+* LoadBalancerP2.cpp: Improve load balancing for high CPU core count servers.
+* S2_hard.cpp: Improve load balancing for high CPU core count servers.
+* S2_easy.cpp: Improve load balancing for high CPU core count servers.
+* AC.cpp: Improve load balancing for high CPU core count servers.
+* D.cpp: Improve load balancing for high CPU core count servers.
+* P3.cpp: Improve load balancing for high CPU core count servers.
+* Sieve.cpp: Simplify COUNT_UNSET_BIT() macro.
+* pod_vector.hpp: Added support for types with destructors.
+* CMakeLists.txt: Use WITH_DIV32=OFF when using the Clang compiler.
+* Hard-Special-Leaves.md: Convert formulas to MathJax.
+* Easy-Special-Leaves.md: Convert formulas to MathJax.
+* Partial-Sieve-Function.md: Convert formulas to MathJax.
+
+Changes in primecount-7.4, 2022-06-03
+
+* CMakeLists.txt: primecount now requires primesieve-8.0 or later.
+* CMakeLists.txt: Simplify, split up into multiple *.cmake files.
+* primecount.pc.in: primecount now requires primesieve-8.0 or later.
+* Sieve.cpp: Reduce branch mispredictions.
+* B.cpp: Faster counting of primes.
+* P2.cpp: Faster counting of primes.
+* isqrt.cpp: Improve code gen for 128-bit integers.
+* Update to latest libprimesieve-8.0 with AVX512 support.
+
+Changes in primecount-7.3, 2022-04-28
+
+* util.cpp: Tune gourdon alpha factors for primecount-7.3.
+* nth_prime.cpp: Improved performance for small n.
+* FactorTable.hpp: Reduce memory allocations.
+* DFactorTable.hpp: Reduce memory allocations.
+* S2_trivial.cpp: Reduce memory allocations.
+* SegmentedPiTable.cpp: Reduce memory allocations.
+* CMakeLists.txt: Detect at build time if the C++ compiler and the
+  C++ Standard Library support int128_t. If not, int128_t will be
+  disabled. The -std=c++* option usually disables int128_t, use
+  -std=gnu++* instead (or omit both -std=c++* and -std=gnu++*).
+* CMakeLists.txt: Detect at build time if the host CPU (x86) supports
+  the POPCNT instruction. If not, disable the POPCNT instruction.
+* CMakeLists.txt: Fix AppleClang OpenMP detection.
+* CMakeLists.txt: Print warning message if OpenMP library is missing.
+* CMakeLists.txt: Add option STATICALLY_LINK_LIBPRIMECOUNT=ON/OFF.
+* Update to latest libprimesieve-7.9.
+* appveyor.yml: Test primecount using many different C++ compilers:
+  GCC-5, GCC-7, GCC-8, GCC-9, Clang-9, AppleClang 13, MSVC 2019.
+* ci.yml: New Github Actions tests: Windows/MinGW-w64 and Linux with
+  Valgrind and PrimePi(10^20) 128-bit test.
+
+Changes in primecount-7.2, 2021-11-20
+
+I have been able to prove that primecount's hard special leaf
+algorithm has a runtime complexity of only O(z log z / log log x)
+operations, provided that the algorithm uses O(log z / log log x)
+levels of counters. Hence the runtime complexity of primecount's hard
+special leaf algorithm is lower by a factor of O(log log x) compared
+to the hard special leaf algorithms from the Deléglise-Rivat and
+Gourdon papers.
+
+* Hard-Special-Leaves.md: Many new paragraphs: "Multiple levels of
+  counters", "Batch counting", "Runtime complexity" and "Appendix".
+* Sieve.hpp: Add Counter struct.
+* Sieve.cpp: Use new Counter struct.
+* LoadBalancerS2.cpp: Increase default sieve array size to 128 KiB.
+* primecount.pc.in: Add pkg-config/pkgconf support.
+* CMakeLists.txt: Add WITH_MSVC_CRT_STATIC option to force static linking.
+* Updated to libprimesieve-7.7 (improved CPU cache size detection).
+
+Changes in primecount-7.1, 2021-08-13
+
+PrimePi(x) is now computed in O(1) for small values of x < 64 * 240
+using a lookup table. primecount's partial sieve function phi(x, a)
+implementation now uses a compressed lookup table for small values of
+a. It can compute phi(x, a) in O(1) for a <= 8 (previously 6). The
+improved phi(x, a) also benefits the computation of the hard special
+leaves which now does more pre-sieving and hence runs slightly faster.
+
+* Partial-Sieve-Function.md: Description of phi(x, a) algorithm.
+* PhiTiny.cpp: Use compressed phi(x, a) lookup table.
+* phi.cpp: More correct usage of recursive phi(x, a) formula.
+* PiTable.cpp: Add PrimePi(x) lookup table for x < 64 * 240.
+* generate_phi.hpp: More correct usage of recursive phi(x, a) formula.
+* nth_prime.cpp: Cache small primes <= 1009.
+* nth_prime.cpp: Improve error handling, n must be >= 1.
+* appveyor.yml: Fix debug build.
+
+Changes in primecount-7.0, 2021-04-28
+
+In primecout-6.x the AC algorithm scales very badly on PCs & servers
+with a large number of CPU cores. The two root causes of this scaling
+issue are cache misses and thread synchronization overhead. In
+primecount-7.0 the AC algorithm has been completely rewritten, now
+all threads are independent from each other and require only minimal
+synchronization. Furthermore each thread operates on its own tiny
+chunk of memory that conveniently fits into the CPU's cache. On my
+dual socket AMD EPYC server this improves performance by more than 2x
+for large AC computations with x >= 1e23. The P2 & B algorithms have
+also been rewritten so that the threads are independent from each
+other.
+
+An in-depth description of the new AC algorithm is available at:
+https://github.com/kimwalisch/primecount/blob/master/doc/Easy-Special-Leaves.md
+
+* Easy-Special-Leaves.md: Description of the new algorithm.
+* AC.cpp: New algorithm with improved scaling.
+* AC_libdivide.cpp: New algorithm with improved scaling.
+* B.cpp: Improved scaling due to independent threads.
+* P2.cpp: Improved scaling due to independent threads.
+* LoadBalancerAC.cpp: New thread scheduler for AC algorithm.
+* LoadBalancerS2.cpp: Improve load balancing of S2_hard & D.
+* LoadBalancerP2.cpp: Rewritten, now similar to other load balancers.
+* SegmentedPiTable.cpp: Decrease size to x^(1/4).
+* util.cpp: Improve scaling using larger default alpha_z = 2.
+* imath.hpp: Optimize ilog2() & next_power_of_2() using __builtin_clzll().
+* Remove MPI support: No users, too much work to maintain.
+
+Changes in primecount-6.4, 2021-03-20
+
+This version fixes a critical integer overflow in the B formula
+which is part of Xavier Gourdon's prime counting algorithm. The
+integer overflow occurred when computing B(x) with x > 1e25, this bug
+has been present in primecount-6.1, 6.2 and 6.3. This version also
+adds a workaround for a severe scaling issue in Clang's OpenMP 
+library (Clang 11, 2021) that occurs when using dynamic thread
+scheduling combined with long running computations. Because of this
+issue primecount-6.3 compiled with Clang takes 2.5x longer to
+compute AC(1e24) than primecount-6.3 compiled with GCC on my
+dual-socket AMD EPYC Rome server. I have submitted a bug report
+to LLVM which contains more information:
+https://bugs.llvm.org/show_bug.cgi?id=49588
+
+* B.cpp: Fix integer overflow (thanks to David Baugh for reporting it)
+* B_mpi.cpp: Fix integer overflow (same as in B.cpp).
+* P2.cpp: Fix integer overflow (same as in B.cpp).
+* for_atomic.hpp: Lock-free for loop built with std::atomic.
+* AC.cpp: Fix Clang/OpenMP scaling issue.
+* AC.cpp: Decrease size of SegmentedPiTable by 1.5x.
+* AC_libdivide.cpp: Fix Clang/OpenMP scaling issue.
+* AC_libdivide.cpp: Decrease size of SegmentedPiTable by 1.5x.
+* S2_easy.cpp: Fix Clang/OpenMP scaling issue.
+* S2_easy_libdivide.cpp: Fix Clang/OpenMP scaling issue.
+* SegmentedPiTable.cpp: Increase minimum segment size.
+* SegmentedPiTable.cpp: Annotate pi(x) with ALWAYS_INLINE.
+* Sieve.cpp: Simplify counters_dist initialization.
+* PiTable.cpp: Annotate pi(x) with ALWAYS_INLINE.
+* LoadBalancerP2.cpp: Fix last iteration detection.
+
+Changes in primecount-6.3, 2021-03-05
+
+  The memory usage of the PiTable and SegmentedPiTable has been
+  reduced by about 2x, this speeds up the computation of the easy
+  special leaves (S2_easy & AC formulas) by up to 30% for large pi(x)
+  computations with x >= 1e23. Furthermore the partial sieve function
+  a.k.a. phi(x, a) has been improved significantly, it now runs 3 to
+  5x faster for most input. phi(x, a) is used extensively by many
+  other functions such as pi_legendre(x) and pi_meissel(x) which now
+  also run up to 5x faster.
+
+  * PiTable.cpp: Reduce memory usage by 2x.
+  * SegmentedPiTable.cpp: Reduce memory usage by 2x.
+  * Sieve.cpp: Reduce memory usage of counters array by 2x.
+  * phi.cpp: Fixed integer overflow #39.
+  * phi.cpp: Cache 40x more phi(x, a) results.
+  * phi.cpp: Use pi(x) if a > pi(sqrt(x)).
+  * phi.cpp: Use larger c constant if phi(x, larger_c) is cached.
+  * generate_phi.hpp: Same optimizations as phi.cpp.
+  * LoadBalancer.cpp: Tune for new phi(x, a) implementation.
+  * FactorTable.hpp: Reduce number of branches.
+  * DFactorTable.hpp: Reduce number of branches.
+
+Changes in primecount-6.2, 2021-01-07
+
+  The sieving algorithm has been improved by annotating branches
+  with likely/unlikely and __builtin_unreachable(). This improves
+  the performance of the S2_hard and D formulas by up to 5%. GCC
+  benefits most from these changes (Clang's performance was
+  already very good before). With this release there is also a new
+  primecount-backup version (last primecount-backup release was 6.0).
+
+  In order to reduce the amount of work for myself there will be no
+  precompiled binaries anymore going forward. You can now install
+  primecount using your operating system's package manager (if it
+  is available there) or by compiling it from source yourself.
+
+  * Use Appveyor-CI instead of Travis-CI for testing.
+  * README.md: primecount can now be installed using package managers.
+  * Sieve.cpp: Annotate branches with unlikely, up to 5% speedup.
+  * Sieve.cpp: Annotate switch cases with fallthrough.
+  * AC.cpp: Reduce number of function paramaters.
+  * AC_libdivide.cpp: Reduce number of function paramaters.
+  * B.cpp: Improve GCC performance.
+  * P2.cpp: Improve GCC performance.
+  * popcnt.hpp: Improve GCC performance.
+
+Changes in primecount-6.1, 2020-09-12
+
+  The main focus of this release has been on polishing the code
+  and improving the documentation. I also tried many things to
+  improve the scaling on servers with a large number of CPU cores,
+  however I only achieved minor speed ups. The only meaningful
+  improvement is that the same threads are now reused throughout
+  the entire AC computation. This improves the scaling for small
+  to medium sized computations up to 10^20. GCC benefits most
+  from this change whereas Clang performance is mostly unchanged.
+
+  * Xavier Gourdon's algorithm has been distributed using MPI
+    so that computations can now run on HPC clusters.
+  * CMakeLists.txt: New WITH_JEMALLOC option (default OFF).
+  * AC.cpp: Reuse the same threads throughout the computation.
+  * AC.cpp: Improve upper bound of C2 formula.
+  * AC.cpp: Avoid branch inside hot loop of A formula.
+  * SegmentedPiTable.cpp: Reuse threads from AC.cpp.
+  * LoadBalancerP2.cpp: New load balancer for P2 & B.
+  * phi.cpp: Reduce caching for tiny numbers.
+  * generate_phi.hpp: Reduce caching for tiny numbers.
+  * pod_vector.hpp: Like std::vector, but without default
+    initialization (useful when allocating 100s of GiB).
+  * PiTable.cpp: Multi-threaded initialization.
+  * Status.cpp: Avoid thread synchronization when printing
+    in order to improve scaling of AC and S2_easy.
+  * Status.cpp: Improve S2_hard & D status accuracy.
+  * StatusAC.cpp: More accurate status for AC formula.
+  * cmdoptions.cpp: Add -B & -D options.
+  * Fixed #32: primecount-backup prints incorrect time elapsed.
+
+Changes in primecount-6.0, 2020-03-16
+
+  This version fixes a scaling issue that has been present in
+  primecount since the first version. The computation of the
+  hard special leaves (S2_hard & D formulas) used a flawed
+  optimization that deteriorated the runtime complexity of the
+  algorithm. The doc/Special-Leaves.md document contains more
+  information. The new version should run much faster for large
+  computations >= 10^23.
+
+  * Sieve.cpp: Implemented O(sqrt(sieve_size)) counting,
+    previously counting was O(sieve_size).
+  * AC_libdivide.cpp: Up to 20% faster using GCC.
+  * S2_easy_libdivide.cpp: Up to 20% faster using GCC.
+  * primecount.h: New C API. primecount now has both a C API
+    (primecount.h) and a C++ API (primecount.hpp).
+  * LoadBalancer.cpp: Refactor using new ThreadSettings struct.
+  * find_optimal_alpha_*.sh: New scripts that find optimal
+    alpha tuning factors using the Linux perf tool.
+
+Changes in primecount-5.3, 2020-01-18
+
+  libprimesieve has been updated to the latest version which
+  provides a minor speedup for all formulas that use
+  primesieve::iterator e.g. P2, B, pi_lehmer, ...
+
+  * Sieve.hpp: Use NOINLINE.
+  * S2Status.hpp: Use NOINLINE.
+  * D4.cpp: Simplify bounds.
+  * S2_hard.cpp: Simplify bounds.
+  * LoadBalancer.cpp: Simplify bounds.
+  * RiemannR.cpp: Add support for __float128 type.
+  * popcnt.hpp: Faster ARM64 popcount implementation.
+  * fast_div.hpp: Add ENABLE_DIV32 macro.
+  * S2Status.cpp: Fix non-critical data race.
+  * LoadBalancer.cpp: Improve thread load balancing.
+
+Changes in primecount-5.2, 2019-11-17
+
+  I have now implemented Xavier Gourdon's algorithm in the
+  primecount-backup version (branch backup3). Other than that
+  there have been documentation improvements and build system
+  improvements which should make it easier to package
+  primecount for e.g. Linux distros (see BUILD.md).
+
+  * Sieve.cpp: Fix vector out of bounds.
+  * cmdoptions.cpp: Support options of type: --option VALUE.
+  * doc/BUILD.md: Detailed build instructions. Contains new
+    section: "Packaging primecount" for Linux distros.
+  * doc/primecount.1: Add primecount man page.
+  * doc/primecount.txt: AsciiDoc, used to generate primecount.1.
+  * CMakeLists.txt: Generate man page using a2x program.
+  * CMakeLists.txt: New option: -DBUILD_LIBPRIMESIEVE=OFF.
+  * Get rid of underscores in command-line options:
+
+      --deleglise_rivat -> --deleglise-rivat
+      --S2_trivial      -> --S2-trivial
+      --S2_easy         -> --S2-easy
+      --S2_hard         -> --S2-hard
+
+Changes in primecount-5.1, 2019-09-02
+
+  The memory usage of Xavier Gourdon's algorithm has been
+  reduced from O(x^(1/2)) to O(x^(1/3) * log^3 x). Xavier
+  Gourdon's algorithm is now fully implemented and luckily it
+  scales well up to a very large number of CPU cores. Xavier
+  Gourdon's algorithm is now enabled by default for
+  numbers > 10^7.
+
+  * main.cpp: New options: --AC, --B, --D, --Phi0, --Sigma.
+  * SegmentedPiTable.cpp: New PiTable implementation.
+  * AC.cpp: Combine the A & C formulas to improve scaling.
+  * D4.cpp: Tighter bounds, minor speedup.
+  * Sigma.cpp: Reduce initialization overhead.
+  * Sieve.cpp: Improved pre-sieving.
+  * S2_hard.cpp: Improved pre-sieving.
+  * print.cpp: Updated for Gourdon's algorithm.
+
+  === C++ API Changes ===
+
+  In order to simplify the API the following functions have
+  been removed from the primecount.hpp header:
+
+  int64_t pi_deleglise_rivat(int64_t x);
+  int64_t pi_legendre(int64_t x);
+  int64_t pi_lehmer(int64_t x);
+  int64_t pi_lmo(int64_t x);
+  int64_t pi_meissel(int64_t x);
+  int64_t pi_primesieve(int64_t x);
+
+  You should use pi(x) instead which is an alias for the
+  fastest prime counting function implementation in
+  primecount.
+
+Changes in primecount-5.0, 2019-08-13
+
+  I have finally implemented Xavier Gourdon's prime counting
+  algorithm! Xavier Gourdon's algorithm is an improved
+  version of the Deleglise-Rivat algorithm. According to my
+  benchmarks Gourdon's algorithm runs up to 2x faster than
+  the Deleglise-Rivat algorithm.
+
+  * src/gourdon: Implementation of Xavier Gourdon's algorithm.
+  * LoadBalancer.cpp: Updated for Gourdon's algorithm.
+  * primecount.cpp: Updated for Gourdon's algorithm.
+  * print.cpp: Updated for Gourdon's algorithm.
+  * generate.cpp: Generate array with largest prime factors.
+  * test.cpp: Test Gourdon's algorithm.
+  * README.md: Update benchmarks.
+
+Changes in primecount-4.8, 2019-07-14
+
+  This version reduces the memory usage of S2_easy(n) by
+  15% and the memory usage of S2_hard(n) by 10%.
+  I have also improved the documentation of the code so
+  that others and myself can easier understand it.
+
+  * PiTable.cpp: Reduce memory usage by 2x.
+  * FactorTable.hpp: Reduce memory usage by 10%.
+  * LoadBalancer.cpp: Improve scaling.
+  * MpiLoadBalancer.cpp: Improve scaling.
+  * fast_div.hpp: x64 assembly for (128-bit / 64-bit) = 64-bit.
+  * phi_tiny.hpp: Speedup for 128-bit integers.
+  * S2_trivial.cpp: Implement O(1) math formula.
+  * libdivide.h: Update to libdivide-2.0.
+  * appveyor.yml: Treat compiler warnings as errors.
+
+Changes in primecount-4.7, 2019-04-16
+
+  This version fixes an issue with the new MD5 checksum
+  feature introduced in primecount-backup-4.6 that I
+  found unfortunately 1 day after releasing primecount-4.6.
+
+  * json.hpp: Fix incorrect MD5 formatting, bytes with the
+    first 4 bits masked off must be prefixed with '0'.
+
+Changes in primecount-4.6, 2019-04-13
+
+  This version fixes 2 bugs in the CMakeLists.txt build script
+  and improves the primecount backup version that stores
+  intermediate results to hard disk. Note that
+  primecount.backup files produced by previous primecount
+  releases are incompatible with primecount-4.6.
+
+  * CMakeLists.txt: Fix libatomic issue.
+  * CMakeLists.txt: Require CMake 3.4 instead of 3.9.
+  * LoadBalancer.cpp: Increase number of backups.
+  * S2_easy.cpp: Allow resuming using fewer/more threads.
+  * S2_hard.cpp: Allow resuming using fewer/more threads.
+  * primecount.backup: Add MD5 checksum.
+
+Changes in primecount-4.5, 2019-02-20
+
+  This is a maintenance release that contains minor
+  improvements e.g. tests should run 10% faster.
+
+  * lib/primesieve: upgrade to version 7.4.
+  * travis.yml: Test using many different compiler versions.
+  * calculator.hpp: Silence clang-cl -Wdeprecated warning.
+
+Changes in primecount-4.4, 2018-05-09
+
+  The computation of the second partial sieve function
+  P2(x, a) has been sped up by 30% due to an update to the
+  latest primesieve-7.0 library.
+
+  * CMakeLists.txt: Add OpenMP support for LLVM/Clang.
+  * CMakeLists.txt: Add Intel C++ compiler support.
+  * nth_prime.cpp: Fix non-critical data race.
+  * pi_legendre.cpp: Fix non-critical data race.
+  * pi_primesieve.cpp: Fix non-critical data race.
+  * make test: Runs twice as fast.
+
+Changes in primecount-4.3, 2018-03-18
+
+  * Support big-endian CPUs.
+  * Speed up x86 without POPCNT.
+  * libdivide.h: update to libdivide 1.0.
+  * calculator.hpp: Fix integer overflow in pow().
+  * Required CMake version is now 3.4 (previously 3.1).
+  * CMakeLists.txt: Fix make install issue.
+  * CMakeLists.txt: Get rid of int128_t, __int128_t checks.
+  * isqrt_constexpr.cpp: Add test for compile time square root.
+
+Changes in primecount-4.2, 2017-12-02
+
+  The computation of the second partial sieve function
+  P2(x, a) has been sped up by 10% due to an upgrade to the
+  latest primesieve-6.3 library.
+
+  * lib/primesieve: upgrade to version 6.3.
+  * src/backup.cpp: Speed up resume from backup.
+  * test/RiemannR.cpp: Fix bash/ubuntu on Windows issue.
+  * CMakeLists.txt: Silence GCC 7 warnings.
+  * .travis.yml: Update to Ubuntu 14.
+
+Changes in primecount-4.1, 2017-07-19
+
+  This version improves the backup & resume functionality
+  and uses up to 8% less memory due to a reduced alpha
+  tuning factor.
+
+  * S2_easy.cpp: Fix severe backup scaling issues.
+  * S2_easy_libdivide.cpp: Fix severe backup scaling issues.
+  * S2_hard.cpp: Faster resume.
+  * LoadBalancer.cpp: Simplify backup.
+  * results.txt: Fix incorrect time elapsed.
+  * primecount.cpp: smaller alpha tuning factor.
+
+Changes in primecount-4.0, 2017-07-06
+
+  This version features a new highly optimized sieve of
+  Eratosthenes implementation for the computation of the
+  hard special leaves that speeds up the S2_hard algorithm
+  by up to 40%, giving an overall speed up of up to 20%.
+
+  * Sieve.cpp: New sieve of Eratosthenes.
+  * S2_hard.cpp: Use new sieve.
+  * S2_hard_mpi.cpp: Use new sieve.
+  * lmo5.cpp: Use new sieve.
+  * pi_lmo_parallel.cpp: Use new sieve.
+  * LoadBalancer.cpp: L1 cache size optimization.
+  * MpiLoadBalancer.cpp: L1 cache size optimization.
+
+Changes in primecount-3.8, 2017-06-27
+
+  This version reduces the memory usage by a factor of 2
+  above 10^20! Furthermore the S2_hard algorithm for
+  computing the hard special leaves has been improved: The
+  binary indexed tree data structure (random memory access
+  pattern) has been removed. This fixes the scaling issues
+  above 10^24 primecount had previously.
+
+  * libdivide.h: Reduce memory usage, pack structs.
+  * BitSieve.hpp: Reduce memory usage, store odd integers.
+  * S2_hard.cpp: Remove binary indexed tree.
+  * S2_hard_mpi.cpp: Remove binary indexed tree.
+  * primecount.cpp: Update alpha tuning factor formula.
+
+Changes in primecount-3.7, 2017-06-07
+
+  This version features a new multi-threading load balancer
+  for the computation of the hard special leaves. The new
+  load balancer requires no synchronization between threads
+  and achieves 100% CPU cores usage. The new load balancer
+  is based on ideas from Xavier Gourdon and Douglas Staple.
+
+  * LoadBalancer.cpp: New multi-threading load balancer.
+  * generate_phi.hpp: Part of new load balancer.
+  * S2_hard.cpp: Use new load balancer.
+  * BitSieve.cpp: Get rid of AVX2 (use POPCNT).
+  * Li.cpp: Riemann R and inverse Riemann R implementations.
+  * fast_div.hpp: Refactor using template metaprogramming.
+  * src/test: Added 27 unit tests.
+  * phi(x, a) now scales > 8 threads.
+  * BinaryIndexedTree.hpp: Do not store multiples of 2.
+  * CMakeLists.txt: Faster C++ compilation.
+  * S2Status.cpp: Reduce --status overhead.
+
+Changes in primecount-3.6, 2017-03-04
+
+  This version features a new AVX2 popcount algorithm which
+  computes the hard special leaves up to 15% faster on x86 CPUs
+  with AVX2 support (2013 or later).
+
+  * BitSieve-popcnt.cpp: New AVX2 popcount algorithm.
+  * popcnt.hpp: Fix clang performance bug.
+  * primecount.cpp: Fix clang time measuring.
+  * CMakeLists.txt: Add AVX2 check.
+
+Changes in primecount-3.5, 2016-12-16
+
+  * CMake: Use CMake build system instead of Autotools.
+  * README.md: Update build instructions.
+
+Changes in primecount-3.4, 2016-08-06
+
+  * Makfile.msvc: Use libdivide also with MSVC compiler.
+  * S2LoadBalancer.cpp: Improved load balancing.
+  * P2.cpp: Improved load balancing.
+  * P2_mpi.cpp: Improved load balancing.
+  * .travis.yml: Add static C++ code analysis using cppcheck.
+
+Changes in primecount-3.3, 2016-07-16
+
+  * README.md: Fix error in "C++ API" section.
+  * S2_hard.cpp: Refactoring.
+  * S2_hard_mpi.cpp: Refactoring.
+  * P2.cpp: Refactoring.
+  * P2_mpi.cpp: Refactoring.
+
+Changes in primecount-3.2, 2016-05-09
+
+  This version runs up to 5% faster due to an improved P2(x, a)
+  implementation.
+
+  * P2.cpp: 30% faster.
+  * P2_mpi.cpp: 30% faster.
+  * libdivide.h: Update to latest version.
+  * autogen.sh: Print error msg if Autotools is not installed.
+
+Changes in primecount-3.1, 2016-04-02
+
+  This version runs up to 20% faster! The speed up is due to
+  the usage of libdivide in S2_easy, libdivide allows to replace
+  expensive integer divides with comparatively cheap
+  multiplication and bitshifts.
+
+  * S2_easy_libdivide.cpp: 40% speed up due to libdivide.
+  * S2_easy_mpi_libdivide.cpp: 40% speed up due to libdivide.
+  * BitSieve.cpp: Fix broken Big-Endian CPU support.
+
+Changes in primecount-3.0, 2016-03-12
+
+  In this release I have merged the MPI (Message Passing Interface)
+  branch into the master branch. primecount can now distribute
+  computations onto cluster nodes if MPI is enabled in the build
+  process (--enable-mpi).
+
+  * doc/primecount-MPI.md: primecount MPI documentation.
+  * src/mpi: primecount MPI source code.
+  * include/FactorTable.hpp: Multi-threaded initialization.
+  * build.sh: Improved build script with support for primecount MPI.
+  * README.md: Updated build instructions.
+
+Changes in primecount-2.6, 2016-02-14
+
+  primecount has been distributed using MPI (Message Passing Interface)
+  and can now run computations on large clusters!
+  The distributed version of primecount is named primecount-mpi and
+  the code can be found at:
+
+  https://github.com/kimwalisch/primecount/tree/mpi
+
+  * src/phi.cpp: 2x speed up due to pi(x) lookup table optimization.
+  * scripts/build.sh: Easily build primecount.
+
+Changes in primecount-2.5, 2016-01-24
+
+  This version adds logging to primecount-backup and fixes 2
+  integer overflow bugs in primecount-backup.
+
+  * --log: Logs results into results.txt and primecount.log.
+  * scripts/worktodo.sh: Script for batch processing via worktodo.txt.
+  * src/S1.cpp: Fix integer overflow bug (in backup branch).
+  * src/deleglise-rivat/S2_trivial.cpp: Fix integer overflow bug (in backup branch).
+
+Changes in primecount-2.4, 2015-12-27
+
+  * README.md: Simplified build instructions.
+  * appveyor.yml: Automated Windows (MSVC++) testing.
+  * configure.ac: Removed usage of buggy ax_gcc_builtin.m4 macro.
+  * src/P2.cpp: Port to primesieve-5.5.0 library.
+  * src/test.cpp: Faster nth prime testing.
+
+Changes in primecount-2.3, 2015-10-07
+
+  This version runs about 10% faster for x <= 10^21. Because of the
+  sieving optimizations implemented in primecount-2.2 the sieving
+  limit has now been increased which reduces the time to compute the
+  easy special leaves.
+
+  I have now also officially published primecount-backup binaries
+  which save intermediate results to a file once per hour and which
+  can resume from these files after e.g. a crash:
+  https://github.com/kimwalisch/primecount/tree/backup
+
+  * Renamed to --P2, --S1, --S2_trivial, --S2_easy, --S2_hard.
+  * find_fastest_alpha.sh: Benchmark which finds fastest alpha factors.
+  * src/primecount.cpp: Alpha factor tuning.
+  * src/P2.cpp: Use multi-threading for initialization.
+  * src/S2Status.cpp: --status[=N], N digits after decimal point.
+  * src/pi_lehmer.cpp: Remove pi_lehmer2(x).
+
+Changes in primecount-2.2, 2015-09-19
+
+  This version runs about 10% faster due to newly added pre-sieving
+  of small primes and wheel factorization.
+
+  * src/primecount.cpp: Increase pi(x) limit to 10^31 (previously 10^27).
+  * src/BitSieve.cpp: Add pre-sieving of small primes.
+  * src/P2.cpp: Use pre-sieving and wheel factorization.
+  * src/deleglise-rivat/*: Use pre-sieving and wheel factorization.
+  * src/lmo/*: Use pre-sieving and wheel factorization.
+  * include/popcount.hpp: Faster popcount algorithm for CPUs without POPCNT.
+  * include/Wheel.hpp: New wheel factorization data structures.
+
+Changes in primecount-2.1, 2015-04-12
+
+  * src/S1.cpp: Fix Windows performance regression.
+  * src/S2LoadBalancer.cpp: Refactoring.
+  * Makefile.am: Add autogen.sh to EXTRA_DIST.
+
+Changes in primecount-2.0, 2015-03-26
+
+  This version improves the POPCNT algorithm in the computation of the
+  hard special leaves and contains a new algorithm for the computation
+  of the ordinary leaves which uses half as much memory.
+
+  * src/S1.cpp: New implementation based on Douglas Staple's algorithm.
+  * src/S2LoadBalancer.cpp: Improved load balancing.
+  * src/deleglise-rivat/S2_hard.cpp: Also use POPCNT if high < y.
+  * src/lmo/pi_lmo5.cpp: Optimized sieving, up to 10% faster.
+  * src/lmo/pi_lmo_parallel3.cpp: Optimized sieving, up to 10% faster.
+  * include/BitSieve.hpp: Add count backwards optimization.
+
+Changes in primecount-1.9, 2015-03-08
+
+  This version introduces new command-line options for calculating
+  intermediate formulas of the Deleglise-Rivat algorithm. This allows
+  to distribute the computation of large pi(x) values on multiple
+  systems. This version also fixes two non-critical bugs.
+
+  * src/app: New options: --p2, --s1, --s2_trivial, --s2_easy, --s2_hard.
+  * src/deleglise-rivat/S2_trivial.cpp: Fix off by 1 bug.
+  * src/deleglise-rivat/*: Bugfix, set 1 and unset 2 in sieve.
+  * src/deleglise-rivat/S2_hard.cpp: Improved scaling for large x.
+  * src/deleglise-rivat/*: Alpha factor tuning.
+  * src/lmo/*: Bugfix, set 1 and unset 2 in sieve.
+  * src/lmo/*: Alpha factor tuning.
+  * src/primecount.cpp: Improved alpha formula.
+  * src/print.cpp: New print functions for terminal output.
+
+Changes in primecount-1.8, 2015-02-28
+
+  This version reduces the memory usage of the Deleglise-Rivat
+  implementation by up to 30 percent. Instead of using the same set of
+  memory intense data structures for all formulas (P2, S1, S2_trvial,
+  S2_easy, S2_hard), each individual formula now generates its own set
+  of data structures and the size of each data structure is the
+  smallest possible for the given formula.
+
+  * -a<N>, --alpha=<N>: Manually set the tuning factor.
+  * src/primecount.cpp: Improved alpha factor formula.
+  * src/deleglise-rivat/*: Reduce memory usage.
+  * src/lmo/*: Update S1(x) function calls.
+  * src/nth_prime.cpp: Add optimization for small primes.
+  * src/app/*: Add --alpha option.
+  * avoid_128bit_div.patch: merged into master branch.
+
+Changes in primecount-1.7.1, 2015-01-26
+
+  * Makefile.am: Add avoid_128bit_div.patch to EXTRA_DIST
+  * avoid_128bit_div.patch: Renamed
+
+Changes in primecount-1.7, 2015-01-24
+
+  This version runs to 20% faster on Windows for numbers >= 2^63 by
+  using 64-bit divisions instead of 128-bit divisions whenever
+  possible. While primecount-1.6 has already been very fast on Linux
+  it ran slower on Windows, primecount-1.7 now achieves the same
+  speed on both Windows and Linux.
+
+  * fast_div.patch: Avoid 128-bit divisions.
+
+Changes in primecount-1.6, 2015-01-05
+
+  This version calculates hard special leaves much faster, above a
+  certain threshold the algorithm switches to POPCNT for counting the
+  number of unsieved elements (instead of Tomás Oliveira's special
+  tree data structure) which dramatically improves memory efficiency.
+  This version also fixes a serious bug in P2(x, a) for x > 10^21,
+  thanks to Dana Jacobsen for reporting it.
+
+  * src/deleglise-rivat/S2_hard.cpp: Add POPCNT optimization.
+  * src/lmo/pi_lmo_parallel3: Add POPCNT optimization.
+  * src/lmo/pi_lmo5: Add POPCNT optimization.
+  * src/P2.cpp: Bug fix for numbers > 10^21.
+  * src/BitSieve.hpp: Improved memory efficiency.
+  * include/isqrt.hpp: Fixed C++11 bug in isqrt(x).
+  * include/min.hpp: Refactoring.
+  * include/int128.hpp: Add int128_t trait functions.
+
+Changes in primecount-1.5, 2014-12-27
+
+  This version runs up to 30 percent faster than primecount-1.4 for
+  numbers > 2^64. The speed up is achieved using a clever trick:
+  Instead of calculating xn = x / (primes[b] * primes[l]) which uses
+  a 128-bit division, x2 = x / primes[b] is calculated upfront and
+  then xn = x2 / primes[l]. If x2 is < 2^64 then xn can be calculated
+  using a 64-bit division which is much faster.
+
+  * src/deleglise-rivat/S2_*.cpp: Avoid 128-bit divisions.
+  * src/S2Status.cpp: Improved status precision.
+  * src/app/cmdoptions.cpp: Set -l = --lmo instead of --lehmer.
+  * README.md: Add command-line options summary.
+
+Changes in primecount-1.4, 2014-12-15
+
+  * src/deleglise-rivat/*.cpp: Improved computation of special leaves.
+  * src/P2.cpp: Use unsigned division.
+  * src/S1.cpp: Use unsigned division.
+  * src/S2LoadBalancer.cpp: Update documentation.
+  * src/PhiCache.cpp: Update documentation.
+  * include/PiTable.hpp: Update documentation.
+
+Changes in primecount-1.3, 2014-11-04
+
+  * Fixed bug in m4-ax_popcnt.m4 for QEMU virtual machines.
+  * Limit number of threads in phi.cpp to 8.
+  * Improve scaling of P2_lehmer(x, a).
+  * Improve scaling of P3(x, a).
+
+Changes in primecount-1.2, 2014-08-24
+
+  * Add --status (-s) command-line option.
+  * src/S2LoadBalancer.cpp: New faster load balancer.
+  * src/S2Status.cpp: Print S2 progress.
+  * Fixed integer overflow bugs in: Li_inverse(x), isqrt(x), iroot(x)
+
+Changes in primecount-1.1, 2014-08-06
+
+  * pi_deleglise_rivat4.cpp: 128-bit implementation.
+  * pi_deleglise_rivat_parallel4.cpp: 128-bit implementation.
+  * Add --time option to print elapsed seconds.
+  * include/S1.hpp: Added multi-threading and templates.
+  * include/FactorTable.hpp: template implementation.
+  * src/PiTable.cpp: Faster initialization.
+  * src/balance_S2_load.cpp: Improved load balancer.
+  * src/generate.cpp: Contains all generate_*() functions.
+
+Changes in primecount-1.0, 2014-07-19
+
+  * src/BitSieve.cpp: Fix big-endian CPU bug.
+  * src/lmo/*.cpp: Improved alpha factor.
+  * src/deleglise-rivat/*.cpp: Improved alpha factor.
+  * include/pmath.hpp: Add max3(a, b, c).
+  * m4/m4-ax_popcnt.m4: Support non x86 CPU architectures.
+  * Readme.md: Update documentation.

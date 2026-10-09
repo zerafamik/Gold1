@@ -1,0 +1,18 @@
+# Minimal buyer path - all 10 matrix cases remain in one flow
+./setup_all.sh
+./validate_all.sh
+GOLD1_AC_QUALIFY_REPEATS=5 RANK_RUNS=5 ./run_interval_matrix.sh
+
+# Fair four-worker matrix (all competitors share the same total concurrency cap)
+# GOLD1_BENCH_THREADS=4 GOLD1_AC_QUALIFY_REPEATS=5 RANK_RUNS=5 ./run_interval_matrix.sh
+
+# Focused Gold1/primesieve crossover measurement near width 1.5e11 at scale 1e18
+GOLD1_BENCH_THREADS=4 GOLD1_PROTOCOL_CALIBRATION_REPEATS=3 GOLD1_PROTOCOL_TIE_BREAK_REPEATS=2 GOLD1_PROTOCOL_NEAR_TIE=0.02 GOLD1_AC_QUALIFY_REPEATS=5 RANK_RUNS=7 ./run_crossover_bench.sh
+
+# Before public/commercial redistribution: stamp exact legal owner and refresh hashes
+# ./release_stamp.sh "Exact Legal Name"
+
+# Optional fourth comparator (fast-prime)
+# Windows: requires Visual Studio C++ Build Tools + Rust
+# Linux: setup installs Rust automatically when requested
+GOLD1_WITH_FASTPRIME=1 ./setup_all.sh

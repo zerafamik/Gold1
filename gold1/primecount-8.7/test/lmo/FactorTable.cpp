@@ -1,0 +1,105 @@
+///
+/// @file   FactorTable.cpp
+/// @brief  FactorTable is a compressed lookup table of mu
+///         (moebius) and lpf (least prime factor).
+///
+/// Copyright (C) 2026 Kim Walisch, <kim.walisch@gmail.com>
+///
+/// This file is distributed under the BSD License. See the COPYING
+/// file in the top level directory.
+///
+
+// factorTable.mu(n) = 0 is disabled by default for performance
+// reasons, we only enable it for testing.
+#define ENABLE_MU_0_TESTING
+
+#include <FactorTable.hpp>
+#include <generate_primes.hpp>
+#include <int128_t.hpp>
+
+#include <stdint.h>
+#include <iostream>
+#include <cstdlib>
+#include <vector>
+#include <random>
+
+using namespace primecount;
+
+void check(bool OK)
+{
+  if (!OK)
+  {
+    std::cout << "   ERROR\n";
+    std::exit(1);
+  }
+}
+
+int main()
+{
+  check(FactorTable<uint16_t>::max() == 4294705155ll);
+  check(FactorTable<uint32_t>::max() == pstd::numeric_limits<int64_t>::max());
+
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<int> dist(500000, 1000000);
+
+  auto max = dist(gen);
+  auto threads = max % 4;
+  auto primes = generate_primes<uint32_t>(max);
+  auto lpf = generate_lpf(max, primes);
+  auto mu = generate_moebius(max, primes);
+
+  FactorTable<uint16_t> factorTable(max, threads);
+  int64_t uint16_max = pstd::numeric_limits<uint16_t>::max();
+  int64_t limit = factorTable.first_coprime();
+
+  for (int64_t n = 1; n <= max; n++)
+  {
+    int64_t i = factorTable.to_index(n);
+    bool is_prime = (lpf[n] == n);
+    bool mu_OK;
+    bool lpf_OK;
+
+    // Check if n is coprime to the primes < limit
+    for (int64_t j = 1; primes[j] < limit; j++)
+      if (n % primes[j] == 0)
+        goto not_coprime;
+
+    mu_OK = (mu[n] == factorTable.mu(i));
+
+    if (!mu_OK)
+      std::cout << "mu(" << n << ") = " << factorTable.mu(i);
+
+    check(mu_OK);
+
+    // mu_lpf(n) is a combination of the mu(n) (Möbius function)
+    // and lpf(n) (least prime factor) functions.
+    // mu_lpf(n) returns (with n = to_number(index)):
+    //
+    // 1) INT_MAX - 1  if n = 1
+    // 2) INT_MAX      if n is a prime
+    // 3) 0            if moebius(n) = 0
+    // 4) lpf - 1      if moebius(n) = 1
+    // 5) lpf          if moebius(n) = -1
+
+    if (n == 1)
+      lpf_OK = (factorTable.mu_lpf(i) == uint16_max - 1);
+    else if (is_prime)
+      lpf_OK = (factorTable.mu_lpf(i) == uint16_max);
+    else if (mu[n] == 0)
+      lpf_OK = (factorTable.mu_lpf(i) == 0);
+    else
+      lpf_OK = (lpf[n] == factorTable.mu_lpf(i) + (factorTable.mu(i) == 1));
+
+    if (!lpf_OK)
+      std::cout << "lpf(" << n << ") = " << lpf[n];
+
+    check(lpf_OK);
+
+    not_coprime:;
+  }
+
+  std::cout << "All tests passed successfully!" << std::endl;
+
+  return 0;
+}

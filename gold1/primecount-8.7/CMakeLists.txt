@@ -1,0 +1,467 @@
+cmake_minimum_required(VERSION 3.9...4.2)
+
+project(primecount
+        VERSION 8.7
+        LANGUAGES CXX)
+
+# Build options ######################################################
+
+option(BUILD_PRIMECOUNT    "Build the primecount binary"           ON)
+option(BUILD_LIBPRIMESIEVE "Build libprimesieve"                   ON)
+option(BUILD_SHARED_LIBS   "Build the shared libprimecount"        OFF)
+option(BUILD_STATIC_LIBS   "Build the static libprimecount"        ON)
+option(BUILD_MANPAGE       "Regenerate man page using a2x program" OFF)
+option(BUILD_TESTS         "Build the test programs"               OFF)
+option(BUILD_CODEGEN_TESTS "Build the assembly codegen tests"      OFF)
+
+option(WITH_OPENMP          "Enable OpenMP multi-threading"        ON)
+option(WITH_MULTIARCH       "Enable runtime dispatching to fastest supported CPU instruction set" ON)
+option(WITH_DIV32           "Use 32-bit division instead of 64-bit division if possible" OFF)
+option(WITH_FLOAT128        "Use __float128 (requires libquadmath), increases precision of Li(x) & RiemannR" OFF)
+
+# Check if primecount is top level project ###########################
+
+if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    set(PRIMECOUNT_IS_TOP_PROJECT ON)
+else()
+    set(PRIMECOUNT_IS_TOP_PROJECT OFF)
+endif()
+
+# Enable/Disable libdivide ###########################################
+
+# Historically, integer division has been one of the slowest
+# instructions on most CPU architectures. Hence by default we
+# enable libdivide which replaces expensive integer division
+# instructions by a sequence of shift, add and multiply
+# instructions which is often much faster.
+
+set(DEFAULT_LIBDIVIDE ON)
+
+# Apple Silicon CPUs first released in 2020 have very fast integer
+# division instructions. For Apple Silicon CPUs on Apple OSes
+# we disable libdivide to get the best performance.
+
+if(APPLE)
+    include("${PROJECT_SOURCE_DIR}/cmake/Apple_ARM64.cmake")
+    if(Apple_ARM64)
+        set(DEFAULT_LIBDIVIDE OFF)
+    endif()
+endif()
+
+option(WITH_LIBDIVIDE "Use libdivide.h" ${DEFAULT_LIBDIVIDE})
+
+# Option sanity checks ###############################################
+
+if(NOT BUILD_SHARED_LIBS AND NOT BUILD_STATIC_LIBS)
+    message(FATAL_ERROR "One or both of BUILD_SHARED_LIBS or BUILD_STATIC_LIBS must be set to ON!")
+endif()
+
+if(WIN32 AND MSVC AND BUILD_SHARED_LIBS AND NOT BUILD_STATIC_LIBS AND
+   (BUILD_PRIMECOUNT OR BUILD_TESTS))
+    message(FATAL_ERROR
+        "On Windows with MSVC, BUILD_STATIC_LIBS must be ON when "
+        "BUILD_PRIMECOUNT or BUILD_TESTS is ON. "
+        "Either enable BUILD_STATIC_LIBS or disable BUILD_PRIMECOUNT and "
+        "BUILD_TESTS.")
+endif()
+
+# Set default build type to Release ##################################
+
+if(PRIMECOUNT_IS_TOP_PROJECT)
+    get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+
+    if(NOT isMultiConfig AND NOT CMAKE_BUILD_TYPE)
+        message(STATUS "Setting CMAKE_BUILD_TYPE = Release")
+        set(CMAKE_BUILD_TYPE Release CACHE STRING
+            "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel." FORCE)
+    endif()
+endif()
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    list(APPEND PRIMECOUNT_COMPILE_DEFINITIONS "ENABLE_ASSERT")
+endif()
+
+# Hide symbols of inline functions ###################################
+# This reduces the size of the shared libprimecount by about 1%.
+
+if(PRIMECOUNT_IS_TOP_PROJECT)
+    if (NOT DEFINED CMAKE_VISIBILITY_INLINES_HIDDEN)
+        message(STATUS "Setting CMAKE_VISIBILITY_INLINES_HIDDEN = ON")
+        set(CMAKE_VISIBILITY_INLINES_HIDDEN ON CACHE BOOL
+            "Whether to add a compiler flag to hide symbols of inline functions")
+    endif ()
+endif()
+
+# primecount binary source files #####################################
+
+set(BIN_SRC src/app/CmdOptions.cpp
+            src/app/main.cpp
+            src/app/help.cpp
+            src/app/test.cpp)
+
+# primecount library source files ####################################
+
+set(LIB_SRC src/api.cpp
+            src/api_c.cpp
+            src/BitSieve240.cpp
+            src/FactorTable.cpp
+            src/RiemannR.cpp
+            src/P2.cpp
+            src/P3.cpp
+            src/PhiTiny.cpp
+            src/PiTable.cpp
+            src/S1.cpp
+            src/sieve/Sieve.cpp
+            src/sieve/pre_sieve.cpp
+            src/LoadBalancerP2.cpp
+            src/LoadBalancerS2.cpp
+            src/LogarithmicIntegral.cpp
+            src/StatusS2.cpp
+            src/generate_primes.cpp
+            src/nth_prime.cpp
+            src/nth_prime_sieve.cpp
+            src/phi.cpp
+            src/phi_vector.cpp
+            src/pi_legendre.cpp
+            src/pi_lehmer.cpp
+            src/pi_meissel.cpp
+            src/pi_primesieve.cpp
+            src/print.cpp
+            src/util.cpp
+            src/lmo/pi_lmo1.cpp
+            src/lmo/pi_lmo2.cpp
+            src/lmo/pi_lmo3.cpp
+            src/lmo/pi_lmo4.cpp
+            src/lmo/pi_lmo5.cpp
+            src/lmo/pi_lmo_parallel.cpp
+            src/deleglise-rivat/S2_easy.cpp
+            src/deleglise-rivat/S2_hard.cpp
+            src/deleglise-rivat/S2_trivial.cpp
+            src/deleglise-rivat/pi_deleglise_rivat.cpp
+            src/gourdon/pi_gourdon.cpp
+            src/gourdon/Phi0.cpp
+            src/gourdon/AC.cpp
+            src/gourdon/B.cpp
+            src/gourdon/D.cpp
+            src/gourdon/D_delta_gold1.cpp
+            src/gourdon/LoadBalancerAC.cpp
+            src/gourdon/SegmentedPiTable.cpp
+            src/gourdon/Sigma.cpp)
+
+# Use libdivide.h (fast integer divison) #############################
+
+if(WITH_LIBDIVIDE)
+    list(APPEND PRIMECOUNT_COMPILE_DEFINITIONS "ENABLE_LIBDIVIDE")
+endif()
+
+# Check if compiler supports CPU multiarch ###########################
+
+if(WITH_MULTIARCH)
+    include("${PROJECT_SOURCE_DIR}/cmake/multiarch_x86_popcnt.cmake")
+    include("${PROJECT_SOURCE_DIR}/cmake/multiarch_avx512_vpopcnt.cmake")
+
+    if(multiarch_x86_popcnt OR multiarch_avx512_vpopcnt)
+        set(LIB_SRC ${LIB_SRC} src/arch/x86/cpuid.cpp)
+    else()
+        include("${PROJECT_SOURCE_DIR}/cmake/multiarch_arm_sve.cmake")
+        if(multiarch_arm_sve)
+            set(LIB_SRC ${LIB_SRC} src/arch/arm/sve.cpp)
+        endif()
+    endif()
+endif()
+
+# Enable __float128 support (requires libquadmath) ###################
+
+if(WITH_FLOAT128)
+    list(APPEND PRIMECOUNT_LINK_LIBRARIES "quadmath")
+    list(APPEND PRIMECOUNT_COMPILE_DEFINITIONS "HAVE_FLOAT128")
+    string(APPEND PRIMECOUNT_PKGCONFIG_LIBS_PRIVATE "-lquadmath ")
+endif()
+
+# Use 32-bit integer division ########################################
+
+# If WITH_DIV32 is enabled on the x64 CPU architecture we
+# check at runtime if we can divide using the divl
+# instruction (64-bit / 32-bit = 32-bit) which is usually
+# faster than a full 64-bit division. On most CPUs before
+# 2020 this significantly improves performance.
+
+if(WITH_DIV32)
+    list(APPEND PRIMECOUNT_COMPILE_DEFINITIONS "ENABLE_DIV32")
+endif()
+
+# Use -Wno-uninitialized with GCC compiler ###########################
+
+# GCC's -Wuninitialized enabled with -Wall -pedantic causes
+# false postive warnings in libprimecount:
+# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=107287
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    set(WNO_UNINITIALIZED "-Wno-uninitialized")
+endif()
+
+# Check if compiler supports C++11 or later ##########################
+
+include("${PROJECT_SOURCE_DIR}/cmake/compiler_supports_cpp11.cmake")
+
+# Check if int128_t is supported #####################################
+
+include("${PROJECT_SOURCE_DIR}/cmake/int128_t.cmake")
+
+# Check for OpenMP ###################################################
+
+include("${PROJECT_SOURCE_DIR}/cmake/OpenMP.cmake")
+
+# Required includes ##################################################
+
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
+
+# libprimesieve ######################################################
+
+# By default the libprimesieve dependency is built from source
+# (BUILD_LIBPRIMESIEVE=ON). However when packaging primecount
+# for e.g. a Linux distro this is not a good idea. For this use
+# case it is better to install the libprimesieve package
+# (e.g. libprimesieve-dev) and link against that version.
+
+if(BUILD_LIBPRIMESIEVE)
+    set(COPY_BUILD_EXAMPLES "${BUILD_EXAMPLES}")
+    set(COPY_BUILD_MANPAGE "${BUILD_MANPAGE}")
+    set(COPY_BUILD_TESTS "${BUILD_TESTS}")
+
+    set(BUILD_EXAMPLES OFF CACHE BOOL "Build example programs" FORCE)
+    set(BUILD_MANPAGE OFF CACHE BOOL "Build primesieve manpage" FORCE)
+    set(BUILD_TESTS OFF CACHE BOOL "Build primesieve tests" FORCE)
+    option(BUILD_PRIMESIEVE "Build primesieve binary" OFF)
+
+    add_subdirectory(lib/primesieve)
+
+    set(BUILD_EXAMPLES "${COPY_BUILD_EXAMPLES}" CACHE BOOL "Build example programs" FORCE)
+    set(BUILD_MANPAGE "${COPY_BUILD_MANPAGE}" CACHE BOOL "Regenerate man page using a2x" FORCE)
+    set(BUILD_TESTS "${COPY_BUILD_TESTS}" CACHE BOOL "Build test programs" FORCE)
+else()
+    find_package(primesieve REQUIRED)
+
+    if(primesieve_VERSION VERSION_LESS 11.0)
+        message(FATAL_ERROR "Found libprimesive-${primesieve_VERSION}, but primecount requires libprimesive >= 11.0")
+    endif()
+endif()
+
+# libprimecount ######################################################
+
+if(BUILD_SHARED_LIBS)
+    add_library(libprimecount SHARED ${LIB_SRC})
+    set_target_properties(libprimecount PROPERTIES OUTPUT_NAME primecount)
+    set_target_properties(libprimecount PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
+    set_target_properties(libprimecount PROPERTIES VERSION ${PROJECT_VERSION})
+    set_target_properties(libprimecount PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    target_compile_options(libprimecount PRIVATE "${WNO_UNINITIALIZED}")
+    target_compile_definitions(libprimecount PRIVATE ${PRIMECOUNT_COMPILE_DEFINITIONS})
+    target_link_libraries(libprimecount PRIVATE primesieve::primesieve ${PRIMECOUNT_LINK_LIBRARIES})
+
+    target_compile_features(libprimecount
+    PRIVATE
+        cxx_generic_lambdas)
+
+    target_include_directories(libprimecount
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+    install(TARGETS libprimecount
+            EXPORT primecountShared
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+endif()
+
+# libprimecount-static ###############################################
+
+if(BUILD_STATIC_LIBS)
+    add_library(libprimecount-static STATIC ${LIB_SRC})
+    set_target_properties(libprimecount-static PROPERTIES OUTPUT_NAME primecount)
+    target_compile_options(libprimecount-static PRIVATE "${WNO_UNINITIALIZED}")
+    target_compile_definitions(libprimecount-static PRIVATE ${PRIMECOUNT_COMPILE_DEFINITIONS})
+    target_link_libraries(libprimecount-static PRIVATE primesieve::primesieve ${PRIMECOUNT_LINK_LIBRARIES})
+
+    if(CMAKE_IMPORT_LIBRARY_SUFFIX AND
+       "${CMAKE_IMPORT_LIBRARY_SUFFIX}" STREQUAL "${CMAKE_STATIC_LIBRARY_SUFFIX}")
+        set_target_properties(libprimecount-static PROPERTIES ARCHIVE_OUTPUT_NAME primecount_static)
+    endif()
+
+    target_compile_features(libprimecount-static
+    PRIVATE
+        cxx_generic_lambdas)
+
+    target_include_directories(libprimecount-static
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+    install(TARGETS libprimecount-static
+            EXPORT primecountStatic
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+endif()
+
+# Shared vs. static linking ##########################################
+
+# On Unix-like OSes we use shared linking against libprimecount by
+# default mainly because this is required by Linux distributions.
+# On Windows we use static linking by default because the library's
+# path is not encoded into the binary. This means that the binary
+# will only work if the DLL is in the same directory or a directory
+# that is in the PATH environment variable.
+
+if(WIN32 AND TARGET libprimecount-static)
+    set(STATICALLY_LINK_LIBPRIMECOUNT ON)
+elseif(NOT TARGET libprimecount)
+    set(STATICALLY_LINK_LIBPRIMECOUNT ON)
+endif()
+
+if(STATICALLY_LINK_LIBPRIMECOUNT)
+    add_library(primecount::primecount ALIAS libprimecount-static)
+else()
+    add_library(primecount::primecount ALIAS libprimecount)
+endif()
+
+# primecount binary ##################################################
+
+if(BUILD_PRIMECOUNT)
+    add_executable(primecount ${BIN_SRC})
+    target_link_libraries(primecount PRIVATE primecount::primecount primesieve::primesieve)
+    target_include_directories(primecount PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+    target_compile_definitions(primecount PRIVATE ${PRIMECOUNT_COMPILE_DEFINITIONS})
+    target_compile_features(primecount PRIVATE cxx_auto_type)
+    install(TARGETS primecount DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+    # Workaround for LLVM OpenMP performance issue
+    if(LLVM_OpenMP AND 
+       (POSIX_setenv OR (WIN_getenv_s AND WIN_putenv_s)))
+        target_compile_definitions(primecount PRIVATE INIT_LLVM_OPENMP)
+        if(WIN_getenv_s AND WIN_putenv_s)
+            target_compile_definitions(primecount PRIVATE HAVE_GETENV_S)
+            target_compile_definitions(primecount PRIVATE HAVE_PUTENV_S)
+        endif()
+    endif()
+
+    # Copy primesieve.dll into the same directory as primecount.exe.
+    # On Windows the DLLs must be in the same directory as the
+    # binaries that depend on them.
+    if (WIN32 AND NOT STATICALLY_LINK_LIBPRIMECOUNT)
+        add_custom_command(TARGET primecount POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                $<TARGET_FILE:libprimesieve>
+                $<TARGET_FILE_DIR:primecount>)
+    endif()
+endif()
+
+
+# Gold1 experimental harnesses ########################################
+find_package(Threads REQUIRED)
+
+add_executable(gold1-delta-d src/app/gold1_delta_d_main.cpp)
+target_link_libraries(gold1-delta-d PRIVATE primecount::primecount primesieve::primesieve)
+target_include_directories(gold1-delta-d PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_compile_definitions(gold1-delta-d PRIVATE ${PRIMECOUNT_COMPILE_DEFINITIONS})
+target_compile_features(gold1-delta-d PRIVATE cxx_auto_type)
+
+add_executable(gold1-interval src/app/gold1_interval_main.cpp)
+target_link_libraries(gold1-interval PRIVATE primecount::primecount primesieve::primesieve Threads::Threads)
+target_include_directories(gold1-interval PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_compile_definitions(gold1-interval PRIVATE ${PRIMECOUNT_COMPILE_DEFINITIONS})
+target_compile_features(gold1-interval PRIVATE cxx_auto_type)
+
+add_executable(gold1-delta-ac-sched src/app/gold1_delta_ac_sched_main.cpp)
+target_link_libraries(gold1-delta-ac-sched PRIVATE primecount::primecount primesieve::primesieve Threads::Threads)
+target_include_directories(gold1-delta-ac-sched PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_compile_definitions(gold1-delta-ac-sched PRIVATE ${PRIMECOUNT_COMPILE_DEFINITIONS})
+target_compile_features(gold1-delta-ac-sched PRIVATE cxx_auto_type)
+
+# Install header #####################################################
+
+install(FILES include/primecount.h
+              include/primecount.hpp
+        COMPONENT libprimecount-headers
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+# CMake find_package(primecount) support #############################
+
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/primecountConfigVersion.cmake"
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMajorVersion)
+
+configure_package_config_file(
+    "${PROJECT_SOURCE_DIR}/cmake/primecountConfig.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/primecountConfig.cmake"
+    INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/primecount")
+
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/primecountConfig.cmake"
+              "${CMAKE_CURRENT_BINARY_DIR}/primecountConfigVersion.cmake"
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/primecount")
+
+if(TARGET libprimecount)
+    install(EXPORT primecountShared
+            NAMESPACE primecount::
+            DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/primecount")
+endif()
+
+if(TARGET libprimecount-static)
+    install(EXPORT primecountStatic
+            NAMESPACE primecount::
+            DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/primecount")
+endif()
+
+# Regenerate man page ################################################
+
+if(BUILD_MANPAGE)
+    find_program(A2X_EXECUTABLE a2x)
+
+    if(NOT A2X_EXECUTABLE)
+        message(FATAL_ERROR "Missing a2x program (required for man page generation)!")
+    else()
+        message(STATUS "Found a2x: ${A2X_EXECUTABLE}")
+
+        add_custom_command(
+            TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${A2X_EXECUTABLE}
+            ARGS --format=manpage
+                 -D "${PROJECT_SOURCE_DIR}/doc"
+                 "${PROJECT_SOURCE_DIR}/doc/primecount.txt"
+            VERBATIM)
+    endif()
+endif()
+
+# Install man page ###################################################
+
+if(BUILD_PRIMECOUNT)
+    install(FILES ${PROJECT_SOURCE_DIR}/doc/primecount.1
+            DESTINATION ${CMAKE_INSTALL_MANDIR}/man1)
+endif()
+
+# Install primecount.pc (pkgconf) ####################################
+
+configure_file(primecount.pc.in primecount.pc @ONLY)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/primecount.pc
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+
+# Testing ############################################################
+
+if(BUILD_TESTS OR BUILD_CODEGEN_TESTS)
+    enable_testing()
+endif()
+
+if(BUILD_TESTS)
+    add_subdirectory(test)
+endif()
+
+if(BUILD_CODEGEN_TESTS)
+    add_subdirectory(test/codegen)
+endif()

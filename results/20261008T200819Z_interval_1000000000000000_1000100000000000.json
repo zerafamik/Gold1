@@ -1,0 +1,424 @@
+{
+  "schema_version": "2.3.6-robust-calibration-crossover",
+  "utc": "20261008T200819Z",
+  "benchmark_started_utc": "2026-10-08T20:06:39.425Z",
+  "benchmark_finished_utc": "2026-10-08T20:08:19.261Z",
+  "task": {
+    "L": 1000000000000000,
+    "H": 1000100000000000,
+    "X": 999999999999999,
+    "width": 100000000000,
+    "relative_width": 9.999000099990002e-05,
+    "pi_H": 29847465740203,
+    "pi_X": 29844570422669,
+    "interval_count": 2895317534
+  },
+  "runs": 5,
+  "thread_budget": 4,
+  "thread_plan": {
+    "total": 4,
+    "concurrent_high": 2,
+    "concurrent_low": 2,
+    "sequential_per_endpoint": 4
+  },
+  "protocol_calibration_policy": {
+    "repeats": 3,
+    "tie_break_repeats": 2,
+    "near_tie_margin": 0.02,
+    "order": "alternating_sequential_first_then_concurrent_first",
+    "selection": "lower_final_median"
+  },
+  "gold1_execution_mode": "common_cutoff_delta",
+  "common_gourdon": {
+    "y": 1724682,
+    "z": 1724682,
+    "k": 8,
+    "source": "lower_endpoint",
+    "endpoint_status": {
+      "high": {
+        "y": 1724751,
+        "z": 1724751,
+        "k": 8,
+        "seconds": 0.30536790000041947
+      },
+      "low": {
+        "y": 1724682,
+        "z": 1724682,
+        "k": 8,
+        "seconds": 0.2690571999992244
+      },
+      "candidate_attempts": [
+        {
+          "source": "lower_endpoint",
+          "y": 1724682,
+          "z": 1724682,
+          "k": 8,
+          "attempt": 1,
+          "ok": true,
+          "seconds": 0.9625997000039206,
+          "verification_ac_mode": "sequential"
+        },
+        {
+          "source": "lower_endpoint",
+          "y": 1724682,
+          "z": 1724682,
+          "k": 8,
+          "attempt": 2,
+          "ok": true,
+          "seconds": 0.9434464000005391,
+          "verification_ac_mode": "sequential"
+        }
+      ],
+      "reference_generation_seconds": {
+        "pi_H": 0.2870986999987508,
+        "pi_X": 0.2896468000035384
+      }
+    }
+  },
+  "endpoint_gourdon": {
+    "high": {
+      "y": 1724751,
+      "z": 1724751,
+      "k": 8
+    },
+    "low": {
+      "y": 1724682,
+      "z": 1724682,
+      "k": 8
+    }
+  },
+  "cutoff_selection": {
+    "high": {
+      "y": 1724751,
+      "z": 1724751,
+      "k": 8,
+      "seconds": 0.30536790000041947
+    },
+    "low": {
+      "y": 1724682,
+      "z": 1724682,
+      "k": 8,
+      "seconds": 0.2690571999992244
+    },
+    "candidate_attempts": [
+      {
+        "source": "lower_endpoint",
+        "y": 1724682,
+        "z": 1724682,
+        "k": 8,
+        "attempt": 1,
+        "ok": true,
+        "seconds": 0.9625997000039206,
+        "verification_ac_mode": "sequential"
+      },
+      {
+        "source": "lower_endpoint",
+        "y": 1724682,
+        "z": 1724682,
+        "k": 8,
+        "attempt": 2,
+        "ok": true,
+        "seconds": 0.9434464000005391,
+        "verification_ac_mode": "sequential"
+      }
+    ],
+    "reference_generation_seconds": {
+      "pi_H": 0.2870986999987508,
+      "pi_X": 0.2896468000035384
+    }
+  },
+  "gold1_ac_mode": "sequential",
+  "gold1_ac_scheduler_qualification": {
+    "requested_balanced_repeats": 5,
+    "balanced_attempts": [
+      {
+        "attempt": 1,
+        "ok": true,
+        "seconds": 0.9551105999998981,
+        "returncode": 0
+      },
+      {
+        "attempt": 2,
+        "ok": true,
+        "seconds": 0.9563415000011446,
+        "returncode": 0
+      },
+      {
+        "attempt": 3,
+        "ok": false,
+        "seconds": 0.965902099997038,
+        "returncode": 1
+      }
+    ],
+    "selected_ac_mode": "sequential",
+    "fallback_reason": "balanced 2+2 AC did not pass repeatable exact verification; using sequential 4+4 AC",
+    "common_verify_attempts_per_candidate": 3,
+    "common_verify_required_successes": 2
+  },
+  "modes": {
+    "gold1": "direct_interval_sequential_4+4",
+    "primecount": "concurrent_2+2",
+    "primesieve": "direct_interval_4"
+  },
+  "calibration": {
+    "thread_plan": {
+      "total": 4,
+      "concurrent_high": 2,
+      "concurrent_low": 2,
+      "sequential_per_endpoint": 4
+    },
+    "policy": {
+      "repeats": 3,
+      "tie_break_repeats": 2,
+      "near_tie_margin": 0.02,
+      "order": "alternating_sequential_first_then_concurrent_first",
+      "selection": "lower_final_median"
+    },
+    "primecount": {
+      "sequential": 0.5603877999965334,
+      "concurrent": 0.557686799998919,
+      "sequential_samples": [
+        0.5592360000009649,
+        0.5603877999965334,
+        0.5568017000041436,
+        0.6026726000054623,
+        0.6131941999992705
+      ],
+      "concurrent_samples": [
+        0.5140974000023562,
+        0.557686799998919,
+        0.5770310000007157,
+        0.5575634999986505,
+        0.5597109999944223
+      ],
+      "sequential_median": 0.5603877999965334,
+      "concurrent_median": 0.557686799998919,
+      "concurrent_relative_gain": 0.004819876516996133,
+      "relative_median_gap": 0.004819876516996133,
+      "near_tie_margin": 0.02,
+      "near_tie": true,
+      "sequential_mode": "sequential_4+4",
+      "concurrent_mode": "concurrent_2+2",
+      "selected_mode": "concurrent_2+2",
+      "selection_reason": "lower repeated median after near-tie evaluation",
+      "base_repeats": 3,
+      "tie_break_repeats_requested": 2,
+      "tie_break_repeats_performed": 2,
+      "total_repeats": 5,
+      "initial_near_tie": true,
+      "initial_sequential_median": 0.5592360000009649,
+      "initial_concurrent_median": 0.557686799998919,
+      "order_by_repeat": [
+        [
+          "sequential",
+          "concurrent"
+        ],
+        [
+          "concurrent",
+          "sequential"
+        ],
+        [
+          "sequential",
+          "concurrent"
+        ],
+        [
+          "concurrent",
+          "sequential"
+        ],
+        [
+          "sequential",
+          "concurrent"
+        ]
+      ]
+    }
+  },
+  "times": {
+    "gold1": [
+      0.5118548000027658,
+      0.5123151000007056,
+      0.5183972000013455,
+      0.48728570000093896,
+      0.48808020000433316
+    ],
+    "primecount": [
+      0.5561196000053314,
+      0.5658178999947268,
+      0.5415137999953004,
+      0.5202260000005481,
+      0.5146786000041175
+    ],
+    "primesieve": [
+      10.730457599995134,
+      10.498485700001766,
+      10.03737209999963,
+      10.363343600001826,
+      9.512142399995355
+    ]
+  },
+  "statistics": {
+    "gold1": {
+      "mean": 0.5035866000020178,
+      "median": 0.5118548000027658,
+      "min": 0.48728570000093896,
+      "max": 0.5183972000013455,
+      "stdev": 0.014748487189818095,
+      "cv": 0.02928689363410186
+    },
+    "primecount": {
+      "mean": 0.5396711800000048,
+      "median": 0.5415137999953004,
+      "min": 0.5146786000041175,
+      "max": 0.5658178999947268,
+      "stdev": 0.022137868097804637,
+      "cv": 0.04102103080213481
+    },
+    "primesieve": {
+      "mean": 10.228360279998743,
+      "median": 10.363343600001826,
+      "min": 9.512142399995355,
+      "max": 10.730457599995134,
+      "stdev": 0.47242314044041694,
+      "cv": 0.046187573326315706
+    }
+  },
+  "raw": [
+    {
+      "round": 1,
+      "name": "gold1",
+      "seconds": 0.5118548000027658,
+      "mode": "direct_interval_sequential_4+4"
+    },
+    {
+      "round": 1,
+      "name": "primecount",
+      "seconds": 0.5561196000053314,
+      "mode": "concurrent_2+2"
+    },
+    {
+      "round": 1,
+      "name": "primesieve",
+      "seconds": 10.730457599995134,
+      "mode": "direct_interval_4"
+    },
+    {
+      "round": 2,
+      "name": "primesieve",
+      "seconds": 10.498485700001766,
+      "mode": "direct_interval_4"
+    },
+    {
+      "round": 2,
+      "name": "gold1",
+      "seconds": 0.5123151000007056,
+      "mode": "direct_interval_sequential_4+4"
+    },
+    {
+      "round": 2,
+      "name": "primecount",
+      "seconds": 0.5658178999947268,
+      "mode": "concurrent_2+2"
+    },
+    {
+      "round": 3,
+      "name": "primecount",
+      "seconds": 0.5415137999953004,
+      "mode": "concurrent_2+2"
+    },
+    {
+      "round": 3,
+      "name": "gold1",
+      "seconds": 0.5183972000013455,
+      "mode": "direct_interval_sequential_4+4"
+    },
+    {
+      "round": 3,
+      "name": "primesieve",
+      "seconds": 10.03737209999963,
+      "mode": "direct_interval_4"
+    },
+    {
+      "round": 4,
+      "name": "primesieve",
+      "seconds": 10.363343600001826,
+      "mode": "direct_interval_4"
+    },
+    {
+      "round": 4,
+      "name": "primecount",
+      "seconds": 0.5202260000005481,
+      "mode": "concurrent_2+2"
+    },
+    {
+      "round": 4,
+      "name": "gold1",
+      "seconds": 0.48728570000093896,
+      "mode": "direct_interval_sequential_4+4"
+    },
+    {
+      "round": 5,
+      "name": "gold1",
+      "seconds": 0.48808020000433316,
+      "mode": "direct_interval_sequential_4+4"
+    },
+    {
+      "round": 5,
+      "name": "primecount",
+      "seconds": 0.5146786000041175,
+      "mode": "concurrent_2+2"
+    },
+    {
+      "round": 5,
+      "name": "primesieve",
+      "seconds": 9.512142399995355,
+      "mode": "direct_interval_4"
+    }
+  ],
+  "ranking": [
+    "gold1",
+    "primecount",
+    "primesieve"
+  ],
+  "validation_status": "pass",
+  "build_metadata": {
+    "cpu_model": "Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz",
+    "physical_core_count": 6,
+    "logical_cpu_count": 12,
+    "total_ram_bytes": 17088835584,
+    "total_ram_gib": 15.915,
+    "os_caption": "Microsoft Windows 11 Pro",
+    "os_version": "10.0.26200",
+    "os_build_number": "26200",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "python": "3.14.7",
+    "compiler": "c++.exe (Rev3, Built by MSYS2 project) 16.2.0",
+    "primecount": "primecount 8.7, <https://github.com/kimwalisch/primecount>",
+    "primesieve": "primesieve 12.15, <https://github.com/kimwalisch/primesieve>",
+    "primesieve_pinned_version": "12.15",
+    "visual_studio_installation_path": "unknown",
+    "visual_studio_installation_version": "unknown",
+    "visual_studio_cmake_generator": "unknown",
+    "rustc": "unknown",
+    "ambient_rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "fastprime_build_rustc_verbose": "unknown",
+    "fastprime_build_cargo": "unknown",
+    "fastprime_toolchain": "unknown",
+    "fastprime_commit": "unknown",
+    "fastprime_rust_host": "unknown",
+    "fastprime_pool_mult": 1,
+    "fastprime_thread_override": "GOLD1_THREADS",
+    "fastprime_large_pages": "not-built-optional",
+    "fastprime_available": false,
+    "fastprime_status": "optional-skipped",
+    "gold1_source_sha256": "37e0f3e56676302473dcc7fe3552aaa9d79d4da38f6341547f935c9254dfc68a",
+    "gold1_source_sha256_scope": "gold1/apply_patch.py + gold1/patch/**",
+    "gold1_source_file_count": 5,
+    "benchmark_harness_sha256": "ac64d397d10b7001d3a5e895fccc53e48d0695f396e932f9ef91990caa964c97",
+    "benchmark_harness_sha256_scope": "tools/** + platform/** + setup/validation/runner entrypoints",
+    "benchmark_harness_file_count": 27,
+    "gold1_binary_sha256": "d33d1041359b879d05327b672558f0ab91acff1ead0964adc11ca48c107168e0",
+    "primecount_binary_sha256": "f35ce300bb731518bdef3ec6408c36076e3d82087b60b07a49103001e4d748a0",
+    "fastprime_binary_sha256": "unavailable",
+    "primesieve_binary_sha256": "dd8cf42131adbc4ac1c0daa99352d41e82ed08518565b9f37428b1fffe19cd3f"
+  }
+}

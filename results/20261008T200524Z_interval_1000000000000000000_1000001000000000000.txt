@@ -1,0 +1,105 @@
+Gold1 generalized exact interval prime-count ranking benchmark v2.3.6 - robust calibration + crossover suite
+UTC=20261008T200524Z
+benchmark_started_utc=2026-10-08T19:29:01.699Z
+benchmark_finished_utc=2026-10-08T20:05:24.192Z
+L=1000000000000000000
+H=1000001000000000000
+X=999999999999999999
+width=1000000000000
+relative_width=9.999990000010e-07
+pi_H=24739978415378643
+pi_X=24739954287740860
+expected_interval_count=24127637783
+thread_budget=4
+protocol_calibration_repeats=3
+protocol_tie_break_repeats=2
+protocol_near_tie_margin=2.000000%
+gold1_execution_mode=common_cutoff_delta
+common_y=32221967
+common_z=32221967
+common_k=8
+common_cutoff_source=lower_endpoint
+endpoint_high_y=32222000 endpoint_high_z=32222000 endpoint_high_k=8
+endpoint_low_y=32221967 endpoint_low_z=32221967 endpoint_low_k=8
+gold1_ac_mode=balanced
+gold1_ac_qualification={"requested_balanced_repeats":5,"balanced_attempts":[{"attempt":1,"ok":true,"seconds":49.84380190000229,"returncode":0},{"attempt":2,"ok":true,"seconds":49.469239999998535,"returncode":0},{"attempt":3,"ok":true,"seconds":49.81496150000021,"returncode":0},{"attempt":4,"ok":true,"seconds":50.56767140000011,"returncode":0},{"attempt":5,"ok":true,"seconds":51.397606699996686,"returncode":0}],"selected_ac_mode":"balanced","fallback_reason":null,"common_verify_attempts_per_candidate":3,"common_verify_required_successes":2}
+
+===== SELECTED PROTOCOLS =====
+gold1_mode=direct_interval_balanced_2+2
+primecount_mode=concurrent_2+2
+primesieve_mode=direct_interval_4
+
+===== RUNS / STATISTICS =====
+gold1_runs=23.964796,24.949670,24.475632,23.801113,23.880049
+gold1_mean_seconds=24.214252
+gold1_median_seconds=23.964796
+gold1_min_seconds=23.801113
+gold1_max_seconds=24.949670
+gold1_stdev_seconds=0.488304
+gold1_cv=0.020166
+primecount_runs=28.051594,28.506355,28.588423,28.549388,28.003029
+primecount_mean_seconds=28.339758
+primecount_median_seconds=28.506355
+primecount_min_seconds=28.003029
+primecount_max_seconds=28.588423
+primecount_stdev_seconds=0.287210
+primecount_cv=0.010135
+primesieve_runs=142.054327,157.499147,163.322093,163.338665,151.434004
+primesieve_mean_seconds=155.529647
+primesieve_median_seconds=157.499147
+primesieve_min_seconds=142.054327
+primesieve_max_seconds=163.338665
+primesieve_stdev_seconds=8.999173
+primesieve_cv=0.057861
+
+===== RANKING =====
+1. gold1 23.964796s
+2. primecount 28.506355s
+3. primesieve 157.499147s
+WINNER=gold1
+gold1_vs_primecount_speedup=1.189510x
+gold1_vs_primecount_saved_seconds=4.541560
+gold1_vs_primesieve_speedup=6.572105x
+gold1_vs_primesieve_saved_seconds=133.534351
+
+===== BUILD METADATA =====
+cpu_model=Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz
+physical_core_count=6
+logical_cpu_count=12
+total_ram_bytes=17088835584
+total_ram_gib=15.915
+os_caption=Microsoft Windows 11 Pro
+os_version=10.0.26200
+os_build_number=26200
+platform=Windows-11-10.0.26200-SP0
+machine=AMD64
+python=3.14.7
+compiler=c++.exe (Rev3, Built by MSYS2 project) 16.2.0
+primecount=primecount 8.7, <https://github.com/kimwalisch/primecount>
+primesieve=primesieve 12.15, <https://github.com/kimwalisch/primesieve>
+primesieve_pinned_version=12.15
+visual_studio_installation_path=unknown
+visual_studio_installation_version=unknown
+visual_studio_cmake_generator=unknown
+rustc=unknown
+ambient_rustc=rustc 1.98.1 (48a229cea 2026-09-01)
+fastprime_build_rustc_verbose=unknown
+fastprime_build_cargo=unknown
+fastprime_toolchain=unknown
+fastprime_commit=unknown
+fastprime_rust_host=unknown
+fastprime_pool_mult=1
+fastprime_thread_override=GOLD1_THREADS
+fastprime_large_pages=not-built-optional
+fastprime_available=False
+fastprime_status=optional-skipped
+gold1_source_sha256=37e0f3e56676302473dcc7fe3552aaa9d79d4da38f6341547f935c9254dfc68a
+gold1_source_sha256_scope=gold1/apply_patch.py + gold1/patch/**
+gold1_source_file_count=5
+benchmark_harness_sha256=ac64d397d10b7001d3a5e895fccc53e48d0695f396e932f9ef91990caa964c97
+benchmark_harness_sha256_scope=tools/** + platform/** + setup/validation/runner entrypoints
+benchmark_harness_file_count=27
+gold1_binary_sha256=d33d1041359b879d05327b672558f0ab91acff1ead0964adc11ca48c107168e0
+primecount_binary_sha256=f35ce300bb731518bdef3ec6408c36076e3d82087b60b07a49103001e4d748a0
+fastprime_binary_sha256=unavailable
+primesieve_binary_sha256=dd8cf42131adbc4ac1c0daa99352d41e82ed08518565b9f37428b1fffe19cd3f

@@ -1,0 +1,3 @@
+./setup_and_build_ucrt64.sh
+./run_validate.sh
+./run_bench_3.sh

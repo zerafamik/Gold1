@@ -1,0 +1,816 @@
+
+===== MATRIX 1/10 width_1e8_at_1e18 [1000000000000000000,1000000000100000000] =====
+===== GENERATED REFERENCE =====
+L=1000000000000000000
+H=1000000000100000000
+X=999999999999999999
+pi_H=24739954290155746
+pi_X=24739954287740860
+expected_interval_count=2414886
+gold1_execution_mode=common_cutoff_delta
+common_y=32221967 common_z=32221967 common_k=8 source=lower_endpoint
+gold1_ac_mode=balanced
+===== GOLD1 =====
+gold1_ok=True wall_seconds=22.176883
+===== PRIMECOUNT 8.7 =====
+primecount_H_ok=True seconds=14.480323
+primecount_X_ok=True seconds=14.839324
+===== FAST-PRIME V8 ADAPTER (OPTIONAL) =====
+fastprime_available=False (optional comparator skipped)
+===== PRIMESIEVE DIRECT INTERVAL =====
+primesieve_ok=True seconds=0.777765
+ALL_VALIDATION_PASS
+===== ROBUST PROTOCOL CALIBRATION =====
+calibration_repeats=3
+tie_break_repeats=2
+near_tie_margin=2.000000%
+primecount calibration_repeat=1 mode=sequential seconds=30.097606
+primecount calibration_repeat=1 mode=concurrent seconds=29.287293
+primecount calibration_repeat=2 mode=concurrent seconds=29.094750
+primecount calibration_repeat=2 mode=sequential seconds=29.716906
+primecount calibration_repeat=3 mode=sequential seconds=29.243742
+primecount calibration_repeat=3 mode=concurrent seconds=28.028721
+primecount sequential_4+4_median=29.716906s
+primecount concurrent_2+2_median=29.094750s
+primecount_concurrent_relative_gain=2.093612%
+primecount_selected=concurrent_2+2
+fastprime_selected=SKIPPED_OPTIONAL
+===== WARMUP =====
+gold1 warmup=22.372390s
+primecount warmup=29.217710s
+primesieve warmup=0.805867s
+===== MEASURED RUNS =====
+ROUND 1 order=gold1,primecount,primesieve
+  gold1: 22.119648s (direct_interval_balanced_2+2)
+  primecount: 30.068813s (concurrent_2+2)
+  primesieve: 0.774041s (direct_interval_4)
+ROUND 2 order=primesieve,gold1,primecount
+  primesieve: 0.779276s (direct_interval_4)
+  gold1: 21.996557s (direct_interval_balanced_2+2)
+  primecount: 28.597882s (concurrent_2+2)
+ROUND 3 order=primecount,gold1,primesieve
+  primecount: 28.650927s (concurrent_2+2)
+  gold1: 22.203704s (direct_interval_balanced_2+2)
+  primesieve: 0.789052s (direct_interval_4)
+ROUND 4 order=primesieve,primecount,gold1
+  primesieve: 0.775853s (direct_interval_4)
+  primecount: 28.879959s (concurrent_2+2)
+  gold1: 22.663127s (direct_interval_balanced_2+2)
+ROUND 5 order=gold1,primecount,primesieve
+  gold1: 22.369619s (direct_interval_balanced_2+2)
+  primecount: 28.638073s (concurrent_2+2)
+  primesieve: 0.797691s (direct_interval_4)
+
+fastprime_thread_override=GOLD1_THREADS
+fastprime_large_pages=not-built-optional
+fastprime_available=False
+fastprime_status=optional-skipped
+gold1_source_sha256=37e0f3e56676302473dcc7fe3552aaa9d79d4da38f6341547f935c9254dfc68a
+gold1_source_sha256_scope=gold1/apply_patch.py + gold1/patch/**
+gold1_source_file_count=5
+benchmark_harness_sha256=ac64d397d10b7001d3a5e895fccc53e48d0695f396e932f9ef91990caa964c97
+benchmark_harness_sha256_scope=tools/** + platform/** + setup/validation/runner entrypoints
+benchmark_harness_file_count=27
+gold1_binary_sha256=d33d1041359b879d05327b672558f0ab91acff1ead0964adc11ca48c107168e0
+primecount_binary_sha256=f35ce300bb731518bdef3ec6408c36076e3d82087b60b07a49103001e4d748a0
+fastprime_binary_sha256=unavailable
+primesieve_binary_sha256=dd8cf42131adbc4ac1c0daa99352d41e82ed08518565b9f37428b1fffe19cd3f
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T183630Z_interval_1000000000000000000_1000000000100000000.txt
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T183630Z_interval_1000000000000000000_1000000000100000000.json
+RESULT_JSON=C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T183630Z_interval_1000000000000000000_1000000000100000000.json
+
+===== MATRIX 2/10 width_1e9_at_1e18 [1000000000000000000,1000000001000000000] =====
+===== GENERATED REFERENCE =====
+L=1000000000000000000
+H=1000000001000000000
+X=999999999999999999
+pi_H=24739954311867945
+pi_X=24739954287740860
+expected_interval_count=24127085
+gold1_execution_mode=common_cutoff_delta
+common_y=32221967 common_z=32221967 common_k=8 source=lower_endpoint
+gold1_ac_mode=balanced
+===== GOLD1 =====
+gold1_ok=True wall_seconds=22.294144
+===== PRIMECOUNT 8.7 =====
+primecount_H_ok=True seconds=15.239075
+primecount_X_ok=True seconds=15.034572
+===== FAST-PRIME V8 ADAPTER (OPTIONAL) =====
+fastprime_available=False (optional comparator skipped)
+===== PRIMESIEVE DIRECT INTERVAL =====
+primesieve_ok=True seconds=1.187037
+ALL_VALIDATION_PASS
+===== ROBUST PROTOCOL CALIBRATION =====
+calibration_repeats=3
+tie_break_repeats=2
+near_tie_margin=2.000000%
+primecount calibration_repeat=1 mode=sequential seconds=29.539113
+primecount calibration_repeat=1 mode=concurrent seconds=28.640801
+primecount calibration_repeat=2 mode=concurrent seconds=28.026997
+primecount calibration_repeat=2 mode=sequential seconds=29.159332
+primecount calibration_repeat=3 mode=sequential seconds=29.628160
+primecount calibration_repeat=3 mode=concurrent seconds=28.361369
+primecount sequential_4+4_median=29.539113s
+primecount concurrent_2+2_median=28.361369s
+primecount_concurrent_relative_gain=3.987069%
+primecount_selected=concurrent_2+2
+fastprime_selected=SKIPPED_OPTIONAL
+===== WARMUP =====
+gold1 warmup=22.933951s
+primecount warmup=28.613304s
+primesieve warmup=1.151884s
+===== MEASURED RUNS =====
+ROUND 1 order=gold1,primecount,primesieve
+  gold1: 22.725870s (direct_interval_balanced_2+2)
+  primecount: 28.409644s (concurrent_2+2)
+  primesieve: 1.167566s (direct_interval_4)
+ROUND 2 order=primesieve,gold1,primecount
+  primesieve: 1.161770s (direct_interval_4)
+  gold1: 22.741224s (direct_interval_balanced_2+2)
+  primecount: 28.970986s (concurrent_2+2)
+ROUND 3 order=primecount,gold1,primesieve
+  primecount: 28.541995s (concurrent_2+2)
+  gold1: 22.463498s (direct_interval_balanced_2+2)
+  primesieve: 1.094450s (direct_interval_4)
+ROUND 4 order=primesieve,primecount,gold1
+  primesieve: 1.111737s (direct_interval_4)
+  primecount: 28.166863s (concurrent_2+2)
+  gold1: 23.097809s (direct_interval_balanced_2+2)
+ROUND 5 order=gold1,primecount,primesieve
+  gold1: 22.449286s (direct_interval_balanced_2+2)
+  primecount: 28.501765s (concurrent_2+2)
+  primesieve: 1.201715s (direct_interval_4)
+
+fastprime_thread_override=GOLD1_THREADS
+fastprime_large_pages=not-built-optional
+fastprime_available=False
+fastprime_status=optional-skipped
+gold1_source_sha256=37e0f3e56676302473dcc7fe3552aaa9d79d4da38f6341547f935c9254dfc68a
+gold1_source_sha256_scope=gold1/apply_patch.py + gold1/patch/**
+gold1_source_file_count=5
+benchmark_harness_sha256=ac64d397d10b7001d3a5e895fccc53e48d0695f396e932f9ef91990caa964c97
+benchmark_harness_sha256_scope=tools/** + platform/** + setup/validation/runner entrypoints
+benchmark_harness_file_count=27
+gold1_binary_sha256=d33d1041359b879d05327b672558f0ab91acff1ead0964adc11ca48c107168e0
+primecount_binary_sha256=f35ce300bb731518bdef3ec6408c36076e3d82087b60b07a49103001e4d748a0
+fastprime_binary_sha256=unavailable
+primesieve_binary_sha256=dd8cf42131adbc4ac1c0daa99352d41e82ed08518565b9f37428b1fffe19cd3f
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T185220Z_interval_1000000000000000000_1000000001000000000.txt
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T185220Z_interval_1000000000000000000_1000000001000000000.json
+RESULT_JSON=C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T185220Z_interval_1000000000000000000_1000000001000000000.json
+
+===== MATRIX 3/10 width_1e10_at_1e18 [1000000000000000000,1000000010000000000] =====
+===== GENERATED REFERENCE =====
+L=1000000000000000000
+H=1000000010000000000
+X=999999999999999999
+pi_H=24739954529013036
+pi_X=24739954287740860
+expected_interval_count=241272176
+gold1_execution_mode=common_cutoff_delta
+common_y=32221967 common_z=32221967 common_k=8 source=lower_endpoint
+gold1_ac_mode=balanced
+===== GOLD1 =====
+gold1_ok=True wall_seconds=23.914893
+===== PRIMECOUNT 8.7 =====
+primecount_H_ok=True seconds=14.888412
+primecount_X_ok=True seconds=14.722641
+===== FAST-PRIME V8 ADAPTER (OPTIONAL) =====
+fastprime_available=False (optional comparator skipped)
+===== PRIMESIEVE DIRECT INTERVAL =====
+primesieve_ok=True seconds=2.904533
+ALL_VALIDATION_PASS
+===== ROBUST PROTOCOL CALIBRATION =====
+calibration_repeats=3
+tie_break_repeats=2
+near_tie_margin=2.000000%
+primecount calibration_repeat=1 mode=sequential seconds=29.329626
+primecount calibration_repeat=1 mode=concurrent seconds=29.274365
+primecount calibration_repeat=2 mode=concurrent seconds=29.369362
+primecount calibration_repeat=2 mode=sequential seconds=29.680682
+primecount calibration_repeat=3 mode=sequential seconds=29.186736
+primecount calibration_repeat=3 mode=concurrent seconds=30.159326
+primecount_near_tie=True; adding 2 tie-break repeat(s)
+primecount calibration_repeat=4 mode=concurrent seconds=28.014870
+primecount calibration_repeat=4 mode=sequential seconds=28.969307
+primecount calibration_repeat=5 mode=sequential seconds=29.747108
+primecount calibration_repeat=5 mode=concurrent seconds=28.815905
+primecount sequential_4+4_median=29.329626s
+primecount concurrent_2+2_median=29.274365s
+primecount_concurrent_relative_gain=0.188411%
+primecount_selected=concurrent_2+2
+fastprime_selected=SKIPPED_OPTIONAL
+===== WARMUP =====
+gold1 warmup=23.708524s
+primecount warmup=28.240780s
+primesieve warmup=3.255263s
+===== MEASURED RUNS =====
+ROUND 1 order=gold1,primecount,primesieve
+  gold1: 24.089737s (direct_interval_balanced_2+2)
+  primecount: 28.893546s (concurrent_2+2)
+  primesieve: 3.032339s (direct_interval_4)
+ROUND 2 order=primesieve,gold1,primecount
+  primesieve: 3.059147s (direct_interval_4)
+  gold1: 24.224928s (direct_interval_balanced_2+2)
+  primecount: 29.240061s (concurrent_2+2)
+ROUND 3 order=primecount,gold1,primesieve
+  primecount: 29.348970s (concurrent_2+2)
+  gold1: 23.806353s (direct_interval_balanced_2+2)
+  primesieve: 2.987075s (direct_interval_4)
+ROUND 4 order=primesieve,primecount,gold1
+  primesieve: 2.869651s (direct_interval_4)
+  primecount: 28.480065s (concurrent_2+2)
+  gold1: 24.177172s (direct_interval_balanced_2+2)
+ROUND 5 order=gold1,primecount,primesieve
+  gold1: 24.001426s (direct_interval_balanced_2+2)
+  primecount: 28.175895s (concurrent_2+2)
+  primesieve: 3.052164s (direct_interval_4)
+
+fastprime_thread_override=GOLD1_THREADS
+fastprime_large_pages=not-built-optional
+fastprime_available=False
+fastprime_status=optional-skipped
+gold1_source_sha256=37e0f3e56676302473dcc7fe3552aaa9d79d4da38f6341547f935c9254dfc68a
+gold1_source_sha256_scope=gold1/apply_patch.py + gold1/patch/**
+gold1_source_file_count=5
+benchmark_harness_sha256=ac64d397d10b7001d3a5e895fccc53e48d0695f396e932f9ef91990caa964c97
+benchmark_harness_sha256_scope=tools/** + platform/** + setup/validation/runner entrypoints
+benchmark_harness_file_count=27
+gold1_binary_sha256=d33d1041359b879d05327b672558f0ab91acff1ead0964adc11ca48c107168e0
+primecount_binary_sha256=f35ce300bb731518bdef3ec6408c36076e3d82087b60b07a49103001e4d748a0
+fastprime_binary_sha256=unavailable
+primesieve_binary_sha256=dd8cf42131adbc4ac1c0daa99352d41e82ed08518565b9f37428b1fffe19cd3f
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T191039Z_interval_1000000000000000000_1000000010000000000.txt
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T191039Z_interval_1000000000000000000_1000000010000000000.json
+RESULT_JSON=C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T191039Z_interval_1000000000000000000_1000000010000000000.json
+
+===== MATRIX 4/10 width_1e11_at_1e18 [1000000000000000000,1000000100000000000] =====
+===== GENERATED REFERENCE =====
+L=1000000000000000000
+H=1000000100000000000
+X=999999999999999999
+pi_H=24739956700472074
+pi_X=24739954287740860
+expected_interval_count=2412731214
+gold1_execution_mode=common_cutoff_delta
+common_y=32221967 common_z=32221967 common_k=8 source=lower_endpoint
+gold1_ac_mode=balanced
+===== GOLD1 =====
+gold1_ok=True wall_seconds=24.058867
+===== PRIMECOUNT 8.7 =====
+primecount_H_ok=True seconds=15.211920
+primecount_X_ok=True seconds=14.847534
+===== FAST-PRIME V8 ADAPTER (OPTIONAL) =====
+fastprime_available=False (optional comparator skipped)
+===== PRIMESIEVE DIRECT INTERVAL =====
+primesieve_ok=True seconds=18.278676
+ALL_VALIDATION_PASS
+===== ROBUST PROTOCOL CALIBRATION =====
+calibration_repeats=3
+tie_break_repeats=2
+near_tie_margin=2.000000%
+primecount calibration_repeat=1 mode=sequential seconds=29.945569
+primecount calibration_repeat=1 mode=concurrent seconds=29.170236
+primecount calibration_repeat=2 mode=concurrent seconds=28.258058
+primecount calibration_repeat=2 mode=sequential seconds=30.231989
+primecount calibration_repeat=3 mode=sequential seconds=30.523510
+primecount calibration_repeat=3 mode=concurrent seconds=28.330044
+primecount sequential_4+4_median=30.231989s
+primecount concurrent_2+2_median=28.330044s
+primecount_concurrent_relative_gain=6.291168%
+primecount_selected=concurrent_2+2
+fastprime_selected=SKIPPED_OPTIONAL
+===== WARMUP =====
+gold1 warmup=23.881668s
+primecount warmup=29.254049s
+primesieve warmup=16.375165s
+===== MEASURED RUNS =====
+ROUND 1 order=gold1,primecount,primesieve
+  gold1: 24.323300s (direct_interval_balanced_2+2)
+  primecount: 28.759876s (concurrent_2+2)
+  primesieve: 16.921120s (direct_interval_4)
+ROUND 2 order=primesieve,gold1,primecount
+  primesieve: 16.384332s (direct_interval_4)
+  gold1: 24.113359s (direct_interval_balanced_2+2)
+  primecount: 28.407628s (concurrent_2+2)
+ROUND 3 order=primecount,gold1,primesieve
+  primecount: 27.916785s (concurrent_2+2)
+  gold1: 23.862542s (direct_interval_balanced_2+2)
+  primesieve: 16.312769s (direct_interval_4)
+ROUND 4 order=primesieve,primecount,gold1
+  primesieve: 17.464688s (direct_interval_4)
+  primecount: 28.710282s (concurrent_2+2)
+  gold1: 24.259694s (direct_interval_balanced_2+2)
+ROUND 5 order=gold1,primecount,primesieve
+  gold1: 24.757691s (direct_interval_balanced_2+2)
+  primecount: 30.881608s (concurrent_2+2)
+  primesieve: 16.440510s (direct_interval_4)
+
+fastprime_thread_override=GOLD1_THREADS
+fastprime_large_pages=not-built-optional
+fastprime_available=False
+fastprime_status=optional-skipped
+gold1_source_sha256=37e0f3e56676302473dcc7fe3552aaa9d79d4da38f6341547f935c9254dfc68a
+gold1_source_sha256_scope=gold1/apply_patch.py + gold1/patch/**
+gold1_source_file_count=5
+benchmark_harness_sha256=ac64d397d10b7001d3a5e895fccc53e48d0695f396e932f9ef91990caa964c97
+benchmark_harness_sha256_scope=tools/** + platform/** + setup/validation/runner entrypoints
+benchmark_harness_file_count=27
+gold1_binary_sha256=d33d1041359b879d05327b672558f0ab91acff1ead0964adc11ca48c107168e0
+primecount_binary_sha256=f35ce300bb731518bdef3ec6408c36076e3d82087b60b07a49103001e4d748a0
+fastprime_binary_sha256=unavailable
+primesieve_binary_sha256=dd8cf42131adbc4ac1c0daa99352d41e82ed08518565b9f37428b1fffe19cd3f
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T192859Z_interval_1000000000000000000_1000000100000000000.txt
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T192859Z_interval_1000000000000000000_1000000100000000000.json
+RESULT_JSON=C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T192859Z_interval_1000000000000000000_1000000100000000000.json
+
+===== MATRIX 5/10 width_1e12_at_1e18 [1000000000000000000,1000001000000000000] =====
+===== GENERATED REFERENCE =====
+L=1000000000000000000
+H=1000001000000000000
+X=999999999999999999
+pi_H=24739978415378643
+pi_X=24739954287740860
+expected_interval_count=24127637783
+gold1_execution_mode=common_cutoff_delta
+common_y=32221967 common_z=32221967 common_k=8 source=lower_endpoint
+gold1_ac_mode=balanced
+===== GOLD1 =====
+gold1_ok=True wall_seconds=24.453752
+===== PRIMECOUNT 8.7 =====
+primecount_H_ok=True seconds=14.674159
+primecount_X_ok=True seconds=14.502209
+===== FAST-PRIME V8 ADAPTER (OPTIONAL) =====
+fastprime_available=False (optional comparator skipped)
+===== PRIMESIEVE DIRECT INTERVAL =====
+primesieve_ok=True seconds=160.487409
+ALL_VALIDATION_PASS
+===== ROBUST PROTOCOL CALIBRATION =====
+calibration_repeats=3
+tie_break_repeats=2
+near_tie_margin=2.000000%
+primecount calibration_repeat=1 mode=sequential seconds=29.478460
+primecount calibration_repeat=1 mode=concurrent seconds=28.527841
+primecount calibration_repeat=2 mode=concurrent seconds=28.403337
+primecount calibration_repeat=2 mode=sequential seconds=28.852837
+primecount calibration_repeat=3 mode=sequential seconds=28.992185
+primecount calibration_repeat=3 mode=concurrent seconds=28.004263
+primecount sequential_4+4_median=28.992185s
+primecount concurrent_2+2_median=28.403337s
+primecount_concurrent_relative_gain=2.031058%
+primecount_selected=concurrent_2+2
+fastprime_selected=SKIPPED_OPTIONAL
+===== WARMUP =====
+gold1 warmup=24.865188s
+primecount warmup=28.520523s
+primesieve warmup=146.685884s
+===== MEASURED RUNS =====
+ROUND 1 order=gold1,primecount,primesieve
+  gold1: 23.964796s (direct_interval_balanced_2+2)
+  primecount: 28.051594s (concurrent_2+2)
+  primesieve: 142.054327s (direct_interval_4)
+ROUND 2 order=primesieve,gold1,primecount
+  primesieve: 157.499147s (direct_interval_4)
+  gold1: 24.949670s (direct_interval_balanced_2+2)
+  primecount: 28.506355s (concurrent_2+2)
+ROUND 3 order=primecount,gold1,primesieve
+  primecount: 28.588423s (concurrent_2+2)
+  gold1: 24.475632s (direct_interval_balanced_2+2)
+  primesieve: 163.322093s (direct_interval_4)
+ROUND 4 order=primesieve,primecount,gold1
+  primesieve: 163.338665s (direct_interval_4)
+  primecount: 28.549388s (concurrent_2+2)
+  gold1: 23.801113s (direct_interval_balanced_2+2)
+ROUND 5 order=gold1,primecount,primesieve
+  gold1: 23.880049s (direct_interval_balanced_2+2)
+  primecount: 28.003029s (concurrent_2+2)
+  primesieve: 151.434004s (direct_interval_4)
+
+fastprime_thread_override=GOLD1_THREADS
+fastprime_large_pages=not-built-optional
+fastprime_available=False
+fastprime_status=optional-skipped
+gold1_source_sha256=37e0f3e56676302473dcc7fe3552aaa9d79d4da38f6341547f935c9254dfc68a
+gold1_source_sha256_scope=gold1/apply_patch.py + gold1/patch/**
+gold1_source_file_count=5
+benchmark_harness_sha256=ac64d397d10b7001d3a5e895fccc53e48d0695f396e932f9ef91990caa964c97
+benchmark_harness_sha256_scope=tools/** + platform/** + setup/validation/runner entrypoints
+benchmark_harness_file_count=27
+gold1_binary_sha256=d33d1041359b879d05327b672558f0ab91acff1ead0964adc11ca48c107168e0
+primecount_binary_sha256=f35ce300bb731518bdef3ec6408c36076e3d82087b60b07a49103001e4d748a0
+fastprime_binary_sha256=unavailable
+primesieve_binary_sha256=dd8cf42131adbc4ac1c0daa99352d41e82ed08518565b9f37428b1fffe19cd3f
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T200524Z_interval_1000000000000000000_1000001000000000000.txt
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T200524Z_interval_1000000000000000000_1000001000000000000.json
+RESULT_JSON=C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T200524Z_interval_1000000000000000000_1000001000000000000.json
+
+===== MATRIX 6/10 scale_1e14_width_1e11 [100000000000000,100100000000000] =====
+===== GENERATED REFERENCE =====
+L=100000000000000
+H=100100000000000
+X=99999999999999
+pi_H=3208043814729
+pi_X=3204941750802
+expected_interval_count=3102063927
+gold1_execution_mode=dual_cutoff_endpoint_fallback
+high_y=660341 high_z=660341 high_k=8
+low_y=660067 low_z=660067 low_k=8
+gold1_ac_mode=endpoint_specific_sequential
+gold1_ac_fallback=no endpoint-selected common Gourdon cutoff passed sequential verification; using exact endpoint-specific Gourdon fallback inside the normal matrix
+===== GOLD1 =====
+gold1_ok=True wall_seconds=0.160184
+===== PRIMECOUNT 8.7 =====
+primecount_H_ok=True seconds=0.082011
+primecount_X_ok=True seconds=0.082451
+===== FAST-PRIME V8 ADAPTER (OPTIONAL) =====
+fastprime_available=False (optional comparator skipped)
+===== PRIMESIEVE DIRECT INTERVAL =====
+primesieve_ok=True seconds=8.056156
+ALL_VALIDATION_PASS
+===== ROBUST PROTOCOL CALIBRATION =====
+calibration_repeats=3
+tie_break_repeats=2
+near_tie_margin=2.000000%
+primecount calibration_repeat=1 mode=sequential seconds=0.166415
+primecount calibration_repeat=1 mode=concurrent seconds=0.152494
+primecount calibration_repeat=2 mode=concurrent seconds=0.146628
+primecount calibration_repeat=2 mode=sequential seconds=0.167250
+primecount calibration_repeat=3 mode=sequential seconds=0.181748
+primecount calibration_repeat=3 mode=concurrent seconds=0.145117
+primecount sequential_4+4_median=0.167250s
+primecount concurrent_2+2_median=0.146628s
+primecount_concurrent_relative_gain=12.330269%
+primecount_selected=concurrent_2+2
+fastprime_selected=SKIPPED_OPTIONAL
+===== WARMUP =====
+gold1 warmup=0.158047s
+primecount warmup=0.144085s
+primesieve warmup=8.069627s
+===== MEASURED RUNS =====
+ROUND 1 order=gold1,primecount,primesieve
+  gold1: 0.150227s (dual_cutoff_endpoint_fallback_sequential_4+4)
+  primecount: 0.158801s (concurrent_2+2)
+  primesieve: 8.840042s (direct_interval_4)
+ROUND 2 order=primesieve,gold1,primecount
+  primesieve: 8.342331s (direct_interval_4)
+  gold1: 0.158881s (dual_cutoff_endpoint_fallback_sequential_4+4)
+  primecount: 0.150031s (concurrent_2+2)
+ROUND 3 order=primecount,gold1,primesieve
+  primecount: 0.167748s (concurrent_2+2)
+  gold1: 0.159840s (dual_cutoff_endpoint_fallback_sequential_4+4)
+  primesieve: 8.348611s (direct_interval_4)
+ROUND 4 order=primesieve,primecount,gold1
+  primesieve: 8.165858s (direct_interval_4)
+  primecount: 0.160785s (concurrent_2+2)
+  gold1: 0.163486s (dual_cutoff_endpoint_fallback_sequential_4+4)
+ROUND 5 order=gold1,primecount,primesieve
+  gold1: 0.172637s (dual_cutoff_endpoint_fallback_sequential_4+4)
+  primecount: 0.159345s (concurrent_2+2)
+  primesieve: 7.950251s (direct_interval_4)
+
+fastprime_thread_override=GOLD1_THREADS
+fastprime_large_pages=not-built-optional
+fastprime_available=False
+fastprime_status=optional-skipped
+gold1_source_sha256=37e0f3e56676302473dcc7fe3552aaa9d79d4da38f6341547f935c9254dfc68a
+gold1_source_sha256_scope=gold1/apply_patch.py + gold1/patch/**
+gold1_source_file_count=5
+benchmark_harness_sha256=ac64d397d10b7001d3a5e895fccc53e48d0695f396e932f9ef91990caa964c97
+benchmark_harness_sha256_scope=tools/** + platform/** + setup/validation/runner entrypoints
+benchmark_harness_file_count=27
+gold1_binary_sha256=d33d1041359b879d05327b672558f0ab91acff1ead0964adc11ca48c107168e0
+primecount_binary_sha256=f35ce300bb731518bdef3ec6408c36076e3d82087b60b07a49103001e4d748a0
+fastprime_binary_sha256=unavailable
+primesieve_binary_sha256=dd8cf42131adbc4ac1c0daa99352d41e82ed08518565b9f37428b1fffe19cd3f
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T200637Z_interval_100000000000000_100100000000000.txt
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T200637Z_interval_100000000000000_100100000000000.json
+RESULT_JSON=C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T200637Z_interval_100000000000000_100100000000000.json
+
+===== MATRIX 7/10 scale_1e15_width_1e11 [1000000000000000,1000100000000000] =====
+===== GENERATED REFERENCE =====
+L=1000000000000000
+H=1000100000000000
+X=999999999999999
+pi_H=29847465740203
+pi_X=29844570422669
+expected_interval_count=2895317534
+gold1_execution_mode=common_cutoff_delta
+common_y=1724682 common_z=1724682 common_k=8 source=lower_endpoint
+gold1_ac_mode=sequential
+gold1_ac_fallback=balanced 2+2 AC did not pass repeatable exact verification; using sequential 4+4 AC
+===== GOLD1 =====
+gold1_ok=True wall_seconds=0.505230
+===== PRIMECOUNT 8.7 =====
+primecount_H_ok=True seconds=0.271162
+primecount_X_ok=True seconds=0.277968
+===== FAST-PRIME V8 ADAPTER (OPTIONAL) =====
+fastprime_available=False (optional comparator skipped)
+===== PRIMESIEVE DIRECT INTERVAL =====
+primesieve_ok=True seconds=9.450807
+ALL_VALIDATION_PASS
+===== ROBUST PROTOCOL CALIBRATION =====
+calibration_repeats=3
+tie_break_repeats=2
+near_tie_margin=2.000000%
+primecount calibration_repeat=1 mode=sequential seconds=0.559236
+primecount calibration_repeat=1 mode=concurrent seconds=0.514097
+primecount calibration_repeat=2 mode=concurrent seconds=0.557687
+primecount calibration_repeat=2 mode=sequential seconds=0.560388
+primecount calibration_repeat=3 mode=sequential seconds=0.556802
+primecount calibration_repeat=3 mode=concurrent seconds=0.577031
+primecount_near_tie=True; adding 2 tie-break repeat(s)
+primecount calibration_repeat=4 mode=concurrent seconds=0.557563
+primecount calibration_repeat=4 mode=sequential seconds=0.602673
+primecount calibration_repeat=5 mode=sequential seconds=0.613194
+primecount calibration_repeat=5 mode=concurrent seconds=0.559711
+primecount sequential_4+4_median=0.560388s
+primecount concurrent_2+2_median=0.557687s
+primecount_concurrent_relative_gain=0.481988%
+primecount_selected=concurrent_2+2
+fastprime_selected=SKIPPED_OPTIONAL
+===== WARMUP =====
+gold1 warmup=0.486386s
+primecount warmup=0.555159s
+primesieve warmup=9.769918s
+===== MEASURED RUNS =====
+ROUND 1 order=gold1,primecount,primesieve
+  gold1: 0.511855s (direct_interval_sequential_4+4)
+  primecount: 0.556120s (concurrent_2+2)
+  primesieve: 10.730458s (direct_interval_4)
+ROUND 2 order=primesieve,gold1,primecount
+  primesieve: 10.498486s (direct_interval_4)
+  gold1: 0.512315s (direct_interval_sequential_4+4)
+  primecount: 0.565818s (concurrent_2+2)
+ROUND 3 order=primecount,gold1,primesieve
+  primecount: 0.541514s (concurrent_2+2)
+  gold1: 0.518397s (direct_interval_sequential_4+4)
+  primesieve: 10.037372s (direct_interval_4)
+ROUND 4 order=primesieve,primecount,gold1
+  primesieve: 10.363344s (direct_interval_4)
+  primecount: 0.520226s (concurrent_2+2)
+  gold1: 0.487286s (direct_interval_sequential_4+4)
+ROUND 5 order=gold1,primecount,primesieve
+  gold1: 0.488080s (direct_interval_sequential_4+4)
+  primecount: 0.514679s (concurrent_2+2)
+  primesieve: 9.512142s (direct_interval_4)
+
+fastprime_thread_override=GOLD1_THREADS
+fastprime_large_pages=not-built-optional
+fastprime_available=False
+fastprime_status=optional-skipped
+gold1_source_sha256=37e0f3e56676302473dcc7fe3552aaa9d79d4da38f6341547f935c9254dfc68a
+gold1_source_sha256_scope=gold1/apply_patch.py + gold1/patch/**
+gold1_source_file_count=5
+benchmark_harness_sha256=ac64d397d10b7001d3a5e895fccc53e48d0695f396e932f9ef91990caa964c97
+benchmark_harness_sha256_scope=tools/** + platform/** + setup/validation/runner entrypoints
+benchmark_harness_file_count=27
+gold1_binary_sha256=d33d1041359b879d05327b672558f0ab91acff1ead0964adc11ca48c107168e0
+primecount_binary_sha256=f35ce300bb731518bdef3ec6408c36076e3d82087b60b07a49103001e4d748a0
+fastprime_binary_sha256=unavailable
+primesieve_binary_sha256=dd8cf42131adbc4ac1c0daa99352d41e82ed08518565b9f37428b1fffe19cd3f
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T200819Z_interval_1000000000000000_1000100000000000.txt
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T200819Z_interval_1000000000000000_1000100000000000.json
+RESULT_JSON=C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T200819Z_interval_1000000000000000_1000100000000000.json
+
+===== MATRIX 8/10 scale_1e16_width_1e11 [10000000000000000,10000100000000000] =====
+===== GENERATED REFERENCE =====
+L=10000000000000000
+H=10000100000000000
+X=9999999999999999
+pi_H=279241055370509
+pi_X=279238341033925
+expected_interval_count=2714336584
+gold1_execution_mode=common_cutoff_delta
+common_y=4496510 common_z=4496510 common_k=8 source=lower_endpoint
+gold1_ac_mode=balanced
+===== GOLD1 =====
+gold1_ok=True wall_seconds=1.737947
+===== PRIMECOUNT 8.7 =====
+primecount_H_ok=True seconds=1.060383
+primecount_X_ok=True seconds=1.067782
+===== FAST-PRIME V8 ADAPTER (OPTIONAL) =====
+fastprime_available=False (optional comparator skipped)
+===== PRIMESIEVE DIRECT INTERVAL =====
+primesieve_ok=True seconds=11.028952
+ALL_VALIDATION_PASS
+===== ROBUST PROTOCOL CALIBRATION =====
+calibration_repeats=3
+tie_break_repeats=2
+near_tie_margin=2.000000%
+primecount calibration_repeat=1 mode=sequential seconds=1.985503
+primecount calibration_repeat=1 mode=concurrent seconds=1.965969
+primecount calibration_repeat=2 mode=concurrent seconds=1.953706
+primecount calibration_repeat=2 mode=sequential seconds=2.025830
+primecount calibration_repeat=3 mode=sequential seconds=2.023883
+primecount calibration_repeat=3 mode=concurrent seconds=1.951835
+primecount sequential_4+4_median=2.023883s
+primecount concurrent_2+2_median=1.953706s
+primecount_concurrent_relative_gain=3.467448%
+primecount_selected=concurrent_2+2
+fastprime_selected=SKIPPED_OPTIONAL
+===== WARMUP =====
+gold1 warmup=1.775744s
+primecount warmup=1.952490s
+primesieve warmup=11.135943s
+===== MEASURED RUNS =====
+ROUND 1 order=gold1,primecount,primesieve
+  gold1: 1.741961s (direct_interval_balanced_2+2)
+  primecount: 1.996270s (concurrent_2+2)
+  primesieve: 11.418981s (direct_interval_4)
+ROUND 2 order=primesieve,gold1,primecount
+  primesieve: 11.646885s (direct_interval_4)
+  gold1: 1.714971s (direct_interval_balanced_2+2)
+  primecount: 1.981478s (concurrent_2+2)
+ROUND 3 order=primecount,gold1,primesieve
+  primecount: 2.046951s (concurrent_2+2)
+  gold1: 1.743080s (direct_interval_balanced_2+2)
+  primesieve: 10.699414s (direct_interval_4)
+ROUND 4 order=primesieve,primecount,gold1
+  primesieve: 11.425296s (direct_interval_4)
+  primecount: 1.980273s (concurrent_2+2)
+  gold1: 1.716732s (direct_interval_balanced_2+2)
+ROUND 5 order=gold1,primecount,primesieve
+  gold1: 1.708739s (direct_interval_balanced_2+2)
+  primecount: 1.947928s (concurrent_2+2)
+  primesieve: 11.071061s (direct_interval_4)
+
+fastprime_thread_override=GOLD1_THREADS
+fastprime_large_pages=not-built-optional
+fastprime_available=False
+fastprime_status=optional-skipped
+gold1_source_sha256=37e0f3e56676302473dcc7fe3552aaa9d79d4da38f6341547f935c9254dfc68a
+gold1_source_sha256_scope=gold1/apply_patch.py + gold1/patch/**
+gold1_source_file_count=5
+benchmark_harness_sha256=ac64d397d10b7001d3a5e895fccc53e48d0695f396e932f9ef91990caa964c97
+benchmark_harness_sha256_scope=tools/** + platform/** + setup/validation/runner entrypoints
+benchmark_harness_file_count=27
+gold1_binary_sha256=d33d1041359b879d05327b672558f0ab91acff1ead0964adc11ca48c107168e0
+primecount_binary_sha256=f35ce300bb731518bdef3ec6408c36076e3d82087b60b07a49103001e4d748a0
+fastprime_binary_sha256=unavailable
+primesieve_binary_sha256=dd8cf42131adbc4ac1c0daa99352d41e82ed08518565b9f37428b1fffe19cd3f
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T201057Z_interval_10000000000000000_10000100000000000.txt
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T201057Z_interval_10000000000000000_10000100000000000.json
+RESULT_JSON=C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T201057Z_interval_10000000000000000_10000100000000000.json
+
+===== MATRIX 9/10 scale_1e17_width_1e11 [100000000000000000,100000100000000000] =====
+===== GENERATED REFERENCE =====
+L=100000000000000000
+H=100000100000000000
+X=99999999999999999
+pi_H=2623559712366328
+pi_X=2623557157654233
+expected_interval_count=2554712095
+gold1_execution_mode=common_cutoff_delta
+common_y=11914935 common_z=11914935 common_k=8 source=lower_endpoint
+gold1_ac_mode=balanced
+===== GOLD1 =====
+gold1_ok=True wall_seconds=6.436937
+===== PRIMECOUNT 8.7 =====
+primecount_H_ok=True seconds=4.042219
+primecount_X_ok=True seconds=3.882897
+===== FAST-PRIME V8 ADAPTER (OPTIONAL) =====
+fastprime_available=False (optional comparator skipped)
+===== PRIMESIEVE DIRECT INTERVAL =====
+primesieve_ok=True seconds=12.830982
+ALL_VALIDATION_PASS
+===== ROBUST PROTOCOL CALIBRATION =====
+calibration_repeats=3
+tie_break_repeats=2
+near_tie_margin=2.000000%
+primecount calibration_repeat=1 mode=sequential seconds=7.974101
+primecount calibration_repeat=1 mode=concurrent seconds=7.541124
+primecount calibration_repeat=2 mode=concurrent seconds=7.461776
+primecount calibration_repeat=2 mode=sequential seconds=8.127500
+primecount calibration_repeat=3 mode=sequential seconds=8.006315
+primecount calibration_repeat=3 mode=concurrent seconds=7.797587
+primecount sequential_4+4_median=8.006315s
+primecount concurrent_2+2_median=7.541124s
+primecount_concurrent_relative_gain=5.810300%
+primecount_selected=concurrent_2+2
+fastprime_selected=SKIPPED_OPTIONAL
+===== WARMUP =====
+gold1 warmup=6.697905s
+primecount warmup=7.811082s
+primesieve warmup=12.960914s
+===== MEASURED RUNS =====
+ROUND 1 order=gold1,primecount,primesieve
+  gold1: 6.507997s (direct_interval_balanced_2+2)
+  primecount: 7.813930s (concurrent_2+2)
+  primesieve: 13.691104s (direct_interval_4)
+ROUND 2 order=primesieve,gold1,primecount
+  primesieve: 12.146590s (direct_interval_4)
+  gold1: 6.531839s (direct_interval_balanced_2+2)
+  primecount: 7.625437s (concurrent_2+2)
+ROUND 3 order=primecount,gold1,primesieve
+  primecount: 7.793363s (concurrent_2+2)
+  gold1: 6.509878s (direct_interval_balanced_2+2)
+  primesieve: 13.517309s (direct_interval_4)
+ROUND 4 order=primesieve,primecount,gold1
+  primesieve: 14.789428s (direct_interval_4)
+  primecount: 7.698186s (concurrent_2+2)
+  gold1: 6.580857s (direct_interval_balanced_2+2)
+ROUND 5 order=gold1,primecount,primesieve
+  gold1: 6.535641s (direct_interval_balanced_2+2)
+  primecount: 7.833013s (concurrent_2+2)
+  primesieve: 12.035827s (direct_interval_4)
+
+fastprime_thread_override=GOLD1_THREADS
+fastprime_large_pages=not-built-optional
+fastprime_available=False
+fastprime_status=optional-skipped
+gold1_source_sha256=37e0f3e56676302473dcc7fe3552aaa9d79d4da38f6341547f935c9254dfc68a
+gold1_source_sha256_scope=gold1/apply_patch.py + gold1/patch/**
+gold1_source_file_count=5
+benchmark_harness_sha256=ac64d397d10b7001d3a5e895fccc53e48d0695f396e932f9ef91990caa964c97
+benchmark_harness_sha256_scope=tools/** + platform/** + setup/validation/runner entrypoints
+benchmark_harness_file_count=27
+gold1_binary_sha256=d33d1041359b879d05327b672558f0ab91acff1ead0964adc11ca48c107168e0
+primecount_binary_sha256=f35ce300bb731518bdef3ec6408c36076e3d82087b60b07a49103001e4d748a0
+fastprime_binary_sha256=unavailable
+primesieve_binary_sha256=dd8cf42131adbc4ac1c0daa99352d41e82ed08518565b9f37428b1fffe19cd3f
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T201659Z_interval_100000000000000000_100000100000000000.txt
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T201659Z_interval_100000000000000000_100000100000000000.json
+RESULT_JSON=C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T201659Z_interval_100000000000000000_100000100000000000.json
+
+===== MATRIX 10/10 scale_1e18_width_1e11 [1000000000000000000,1000000100000000000] =====
+===== GENERATED REFERENCE =====
+L=1000000000000000000
+H=1000000100000000000
+X=999999999999999999
+pi_H=24739956700472074
+pi_X=24739954287740860
+expected_interval_count=2412731214
+gold1_execution_mode=common_cutoff_delta
+common_y=32221967 common_z=32221967 common_k=8 source=lower_endpoint
+gold1_ac_mode=balanced
+===== GOLD1 =====
+gold1_ok=True wall_seconds=23.725106
+===== PRIMECOUNT 8.7 =====
+primecount_H_ok=True seconds=14.539472
+primecount_X_ok=True seconds=14.998934
+===== FAST-PRIME V8 ADAPTER (OPTIONAL) =====
+fastprime_available=False (optional comparator skipped)
+===== PRIMESIEVE DIRECT INTERVAL =====
+primesieve_ok=True seconds=17.218821
+ALL_VALIDATION_PASS
+===== ROBUST PROTOCOL CALIBRATION =====
+calibration_repeats=3
+tie_break_repeats=2
+near_tie_margin=2.000000%
+primecount calibration_repeat=1 mode=sequential seconds=29.151224
+primecount calibration_repeat=1 mode=concurrent seconds=28.004267
+primecount calibration_repeat=2 mode=concurrent seconds=27.828980
+primecount calibration_repeat=2 mode=sequential seconds=28.934466
+primecount calibration_repeat=3 mode=sequential seconds=28.810790
+primecount calibration_repeat=3 mode=concurrent seconds=28.734817
+primecount sequential_4+4_median=28.934466s
+primecount concurrent_2+2_median=28.004267s
+primecount_concurrent_relative_gain=3.214847%
+primecount_selected=concurrent_2+2
+fastprime_selected=SKIPPED_OPTIONAL
+===== WARMUP =====
+gold1 warmup=24.203435s
+primecount warmup=29.518014s
+primesieve warmup=15.696809s
+===== MEASURED RUNS =====
+ROUND 1 order=gold1,primecount,primesieve
+  gold1: 24.594867s (direct_interval_balanced_2+2)
+  primecount: 28.293870s (concurrent_2+2)
+  primesieve: 16.734907s (direct_interval_4)
+ROUND 2 order=primesieve,gold1,primecount
+  primesieve: 17.804508s (direct_interval_4)
+  gold1: 23.721838s (direct_interval_balanced_2+2)
+  primecount: 28.414785s (concurrent_2+2)
+ROUND 3 order=primecount,gold1,primesieve
+  primecount: 28.499722s (concurrent_2+2)
+  gold1: 23.501285s (direct_interval_balanced_2+2)
+  primesieve: 17.184953s (direct_interval_4)
+ROUND 4 order=primesieve,primecount,gold1
+  primesieve: 17.430485s (direct_interval_4)
+  primecount: 28.203640s (concurrent_2+2)
+  gold1: 24.071961s (direct_interval_balanced_2+2)
+ROUND 5 order=gold1,primecount,primesieve
+  gold1: 24.007158s (direct_interval_balanced_2+2)
+  primecount: 28.588757s (concurrent_2+2)
+  primesieve: 17.065245s (direct_interval_4)
+
+fastprime_thread_override=GOLD1_THREADS
+fastprime_large_pages=not-built-optional
+fastprime_available=False
+fastprime_status=optional-skipped
+gold1_source_sha256=37e0f3e56676302473dcc7fe3552aaa9d79d4da38f6341547f935c9254dfc68a
+gold1_source_sha256_scope=gold1/apply_patch.py + gold1/patch/**
+gold1_source_file_count=5
+benchmark_harness_sha256=ac64d397d10b7001d3a5e895fccc53e48d0695f396e932f9ef91990caa964c97
+benchmark_harness_sha256_scope=tools/** + platform/** + setup/validation/runner entrypoints
+benchmark_harness_file_count=27
+gold1_binary_sha256=d33d1041359b879d05327b672558f0ab91acff1ead0964adc11ca48c107168e0
+primecount_binary_sha256=f35ce300bb731518bdef3ec6408c36076e3d82087b60b07a49103001e4d748a0
+fastprime_binary_sha256=unavailable
+primesieve_binary_sha256=dd8cf42131adbc4ac1c0daa99352d41e82ed08518565b9f37428b1fffe19cd3f
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T203503Z_interval_1000000000000000000_1000000100000000000.txt
+Saved: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T203503Z_interval_1000000000000000000_1000000100000000000.json
+RESULT_JSON=C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T203503Z_interval_1000000000000000000_1000000100000000000.json
+
+Saved aggregate CSV: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T182043Z_interval_matrix.csv
+Saved aggregate JSON: C:/Users/Mik/Desktop/Final_NumberAlgorithms/GOLD1/results/20261008T182043Z_interval_matrix.json

@@ -1,0 +1,122 @@
+///
+/// @file  PiTable.hpp
+/// @brief The PiTable class is a compressed lookup table of prime
+///        counts. Each bit of the lookup table corresponds to an
+///        integer that is not divisible by 2, 3 and 5. The 8 bits of
+///        each byte correspond to the offsets { 1, 7, 11, 13, 17, 19,
+///        23, 29 }. Since our lookup table uses the uint64_t data
+///        type, one array element (8 bytes) corresponds to an
+///        interval of size 30 * 8 = 240.
+///
+/// Copyright (C) 2026 Kim Walisch, <kim.walisch@gmail.com>
+///
+/// This file is distributed under the BSD License. See the COPYING
+/// file in the top level directory.
+///
+
+#ifndef PITABLE_HPP
+#define PITABLE_HPP
+
+#include <BitSieve240.hpp>
+#include <popcnt.hpp>
+#include <macros.hpp>
+#include <Vector.hpp>
+
+#include <stdint.h>
+#include <type_traits>
+
+namespace primecount {
+
+class PiTable : public BitSieve240
+{
+public:
+  PiTable(uint64_t max_x, int threads);
+
+  uint64_t size() const
+  {
+    return max_x_ + 1;
+  }
+
+  static int64_t max_cached()
+  {
+    return pi_cache_.size() * 240 - 1;
+  }
+
+  /// Get number of primes <= x
+  ALWAYS_INLINE int64_t operator[](uint64_t x) const
+  {
+    ASSERT(x <= max_x_);
+
+    if (x < pi_tiny_.size())
+      return pi_tiny_[x];
+
+    uint64_t count = pi_[x / 240].count;
+    uint64_t bits = pi_[x / 240].bits;
+    uint64_t bitmask = unset_larger_[x % 240];
+    return count + popcnt64(bits & bitmask);
+  }
+
+  /// Get number of primes <= x
+  ALWAYS_INLINE static int64_t pi_cache(uint64_t x)
+  {
+    if (x < pi_tiny_.size())
+      return pi_tiny_[x];
+
+    uint64_t count = pi_cache_[x / 240].count;
+    uint64_t bits = pi_cache_[x / 240].bits;
+    uint64_t bitmask = unset_larger_[x % 240];
+    return count + popcnt64(bits & bitmask);
+  }
+
+  /// Returns a vector with the primes <= x.
+  /// The primes vector uses 1-indexing i.e. primes[1] = 2.
+  ///
+  template <typename T>
+  typename std::enable_if<std::is_same<T, uint32_t>::value, Vector<uint32_t>>::type
+  get_primes(uint64_t x, int threads) const
+  {
+    return get_primes_u32(x, threads);
+  }
+
+  /// Returns a vector with the primes <= x.
+  /// The primes vector uses 1-indexing i.e. primes[1] = 2.
+  ///
+  template <typename T>
+  typename std::enable_if<std::is_same<T, int64_t>::value, Vector<int64_t>>::type
+  get_primes(uint64_t x, int threads) const
+  {
+    return get_primes_i64(x, threads);
+  }
+
+  /// Returns a vector with the first n primes.
+  /// The primes vector uses 1-indexing i.e. primes[1] = 2.
+  ///
+  template <typename T>
+  typename std::enable_if<std::is_same<T, uint32_t>::value, Vector<uint32_t>>::type
+  get_n_primes(uint64_t n) const
+  {
+    return get_n_primes_u32(n);
+  }
+
+private:
+  struct pi_t
+  {
+    uint64_t count;
+    uint64_t bits;
+  };
+
+  void init(uint64_t limit, uint64_t cache_limit, int threads);
+  void init_bits(uint64_t low, uint64_t high, uint64_t thread_num);
+  void init_count(uint64_t low, uint64_t high, uint64_t thread_num);
+  Vector<uint32_t> get_primes_u32(uint64_t x, int threads) const;
+  Vector<int64_t> get_primes_i64(uint64_t x, int threads) const;
+  Vector<uint32_t> get_n_primes_u32(uint64_t n) const;
+  static const Array<pi_t, 128> pi_cache_;
+  Vector<pi_t> pi_;
+  Vector<uint64_t> counts_;
+  uint64_t max_x_;
+};
+
+} // namespace
+
+#endif

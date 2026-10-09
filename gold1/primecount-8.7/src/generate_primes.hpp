@@ -1,0 +1,59 @@
+///
+/// @file  generate_primes.hpp
+///
+/// Copyright (C) 2026 Kim Walisch, <kim.walisch@gmail.com>
+///
+/// This file is distributed under the BSD License. See the COPYING
+/// file in the top level directory.
+///
+
+#ifndef GENERATE_PRIMES_HPP
+#define GENERATE_PRIMES_HPP
+
+#include <Vector.hpp>
+
+#include <type_traits>
+#include <stdint.h>
+
+namespace primecount {
+
+/// defined in generate_primes.cpp
+Vector<uint32_t> generate_primes_u32(int64_t max);
+Vector<int64_t> generate_primes_i64(int64_t max);
+
+/// Returns a vector with the primes <= max.
+/// The primes vector uses 1-indexing i.e. primes[1] = 2.
+///
+template <typename T>
+typename std::enable_if<std::is_same<T, uint32_t>::value, Vector<uint32_t>>::type
+generate_primes(int64_t max)
+{
+  return generate_primes_u32(max);
+}
+
+/// Returns a vector with the primes <= max.
+/// The primes vector uses 1-indexing i.e. primes[1] = 2.
+///
+template <typename T>
+typename std::enable_if<std::is_same<T, int64_t>::value, Vector<int64_t>>::type
+generate_primes(int64_t max)
+{
+  return generate_primes_i64(max);
+}
+
+/// Returns a vector with Möbius function values
+Vector<int8_t> generate_moebius(int64_t max, const Vector<uint32_t>& primes);
+
+/// Returns a vector with the largest prime
+/// factors of the integers <= max.
+///
+Vector<uint32_t> generate_mpf(int64_t max, const Vector<uint32_t>& primes);
+
+/// Returns a vector with the least prime
+/// factors of the integers <= max.
+///
+Vector<uint32_t> generate_lpf(int64_t max, const Vector<uint32_t>& primes);
+
+} // namespace
+
+#endif

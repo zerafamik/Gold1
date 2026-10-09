@@ -1,0 +1,15 @@
+# Generated build outputs
+**/build/
+**/CMakeFiles/
+**/CMakeCache.txt
+**/.ninja_*
+*.obj
+*.o
+*.exe
+*.dll
+*.pyc
+__pycache__/
+.venv/
+.env
+.env.*
+!.env.example

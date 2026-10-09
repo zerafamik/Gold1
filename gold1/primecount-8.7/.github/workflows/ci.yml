@@ -1,0 +1,610 @@
+name: ci
+
+on:
+  push:
+    branches-ignore:
+      - backup3
+      - gh-pages
+  pull_request:
+    branches-ignore:
+      - backup3
+      - gh-pages
+
+jobs:
+  # See documentation: https://www.msys2.org/docs/ci/
+  windows_mingw64:
+    strategy:
+      matrix:
+        platform: ['windows-latest']
+        config: ['Debug', 'Release']
+    runs-on: ${{ matrix.platform }}
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
+      - name: Build primecount
+        run: |
+            cmake . -G "Unix Makefiles" -DBUILD_TESTS=ON -DBUILD_CODEGEN_TESTS=ON -DCMAKE_BUILD_TYPE=${{matrix.config}} -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror"
+            grep "^OpenMP:INTERNAL=1$" CMakeCache.txt
+            grep "^int128.*:INTERNAL=1$" CMakeCache.txt
+            cmake --build . --parallel --verbose
+      - name: CTest (unit tests)
+        run: ctest -j2 --output-on-failure
+      - name: primecount --test option
+        run: ./primecount --test
+      - name: primecount --test
+        run: ./primecount --test
+      - name: primecount 1e11 --legendre
+        run: ./primecount 1e11 --legendre
+      - name: primecount 1e12 --meissel
+        run: ./primecount 1e12 --meissel
+      - name: primecount 1e11 --lehmer
+        run: ./primecount 1e11 --lehmer
+      - name: primecount 1e12 --lmo
+        run: ./primecount 1e12 --lmo
+      - name: primecount 1e13 --deleglise-rivat
+        run: ./primecount 1e13 --deleglise-rivat
+      - name: primecount 1e14 --gourdon
+        run: ./primecount 1e14 --gourdon
+
+  windows_clang:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build primecount
+        run: |
+            cmake . -G Ninja -DCMAKE_CXX_COMPILER="C:/Program Files/LLVM/bin/clang++.exe" -DCMAKE_C_COMPILER="C:/Program Files/LLVM/bin/clang.exe" -DCMAKE_CXX_FLAGS="-O3 -Wall -Wextra -pedantic -Werror" -DCMAKE_C_FLAGS="-O3 -Wall -Wextra -pedantic -Werror" -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Release
+            cmake --build . --parallel --verbose
+      - name: CTest (unit tests)
+        run: ctest -j2 --output-on-failure
+      - name: primecount --test
+        run: .\primecount.exe --test
+      - name: primecount 1e11 --legendre
+        run: .\primecount.exe 1e11 --legendre
+      - name: primecount 1e12 --meissel
+        run: .\primecount.exe 1e12 --meissel
+      - name: primecount 1e11 --lehmer
+        run: .\primecount.exe 1e11 --lehmer
+      - name: primecount 1e12 --lmo
+        run: .\primecount.exe 1e12 --lmo
+      - name: primecount 1e13 --deleglise-rivat
+        run: .\primecount.exe 1e13 --deleglise-rivat
+      - name: primecount 1e14 --gourdon
+        run: .\primecount.exe 1e14 --gourdon
+
+  windows_msvc2022:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build primecount
+        run: |
+            cmake . -G "Visual Studio 17 2022" -DBUILD_TESTS=ON -DBUILD_CODEGEN_TESTS=ON -DCMAKE_CXX_FLAGS="/W3 /WX /MP /EHsc"
+            cmake --build . --config Release --target install
+      - name: CTest (unit tests)
+        run: ctest -j2 -C Release --output-on-failure
+      - name: primecount --test
+        run: Release\primecount.exe --test
+      - name: primecount 1e11 --legendre
+        run: Release\primecount.exe 1e11 --legendre
+      - name: primecount 1e12 --meissel
+        run: Release\primecount.exe 1e12 --meissel
+      - name: primecount 1e11 --lehmer
+        run: Release\primecount.exe 1e11 --lehmer
+      - name: primecount 1e12 --lmo
+        run: Release\primecount.exe 1e12 --lmo
+      - name: primecount 1e13 --deleglise-rivat
+        run: Release\primecount.exe 1e13 --deleglise-rivat
+      - name: primecount 1e14 --gourdon
+        run: Release\primecount.exe 1e14 --gourdon
+
+  windows_msvc2022_POPCNT:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build primecount
+        # Enable POPCNT using /arch:AVX
+        run: |
+            cmake . -G "Visual Studio 17 2022" -DBUILD_TESTS=ON -DBUILD_CODEGEN_TESTS=ON -DCMAKE_CXX_FLAGS="/arch:AVX /W3 /WX /MP /EHsc"
+            cmake --build . --config Release --target install
+      - name: CTest (unit tests)
+        run: ctest -j2 -C Release --output-on-failure
+      - name: primecount --test
+        run: Release\primecount.exe --test
+      - name: primecount 1e11 --legendre
+        run: Release\primecount.exe 1e11 --legendre
+      - name: primecount 1e12 --meissel
+        run: Release\primecount.exe 1e12 --meissel
+      - name: primecount 1e11 --lehmer
+        run: Release\primecount.exe 1e11 --lehmer
+      - name: primecount 1e12 --lmo
+        run: Release\primecount.exe 1e12 --lmo
+      - name: primecount 1e13 --deleglise-rivat
+        run: Release\primecount.exe 1e13 --deleglise-rivat
+      - name: primecount 1e14 --gourdon
+        run: Release\primecount.exe 1e14 --gourdon
+
+  linux_gcc:
+    strategy:
+      matrix:
+        platform: ['ubuntu-latest']
+        config: ['Debug', 'Release']
+    runs-on: ${{ matrix.platform }}
+    env:
+      CC: gcc
+      CXX: g++
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build primecount
+        run: |
+            cmake . -DBUILD_TESTS=ON -DBUILD_CODEGEN_TESTS=ON -DCMAKE_BUILD_TYPE=${{matrix.config}} -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror"
+            grep "^OpenMP:INTERNAL=1$" CMakeCache.txt
+            grep "^int128.*:INTERNAL=1$" CMakeCache.txt
+            cmake --build . --parallel --verbose
+      - name: CTest (unit tests)
+        run: ctest -j2 --output-on-failure
+      - name: primecount --test
+        run: ./primecount --test
+      - name: primecount 1e11 --legendre
+        run: ./primecount 1e11 --legendre
+      - name: primecount 1e12 --meissel
+        run: ./primecount 1e12 --meissel
+      - name: primecount 1e11 --lehmer
+        run: ./primecount 1e11 --lehmer
+      - name: primecount 1e12 --lmo
+        run: ./primecount 1e12 --lmo
+      - name: primecount 1e13 --deleglise-rivat
+        run: ./primecount 1e13 --deleglise-rivat
+      - name: primecount 1e14 --gourdon
+        run: ./primecount 1e14 --gourdon
+
+  # AArch64 (arm64) Linux runners are free for public repositories and
+  # have CPUs with ARM SVE support, so this job actually runs our ARM
+  # SVE multiarch (runtime dispatch) code. Our ARM SVE runtime dispatch
+  # requires GCC >= 14, but Ubuntu 24.04 ships GCC 13 by default, hence
+  # we install GCC 14. Otherwise the ARM SVE code path would be disabled
+  # and only the default code path would be tested.
+  # Note: GitHub does not provide an "ubuntu-latest-arm" label yet, only
+  # versioned labels such as "ubuntu-24.04-arm". When this image is
+  # eventually deprecated the label below needs to be bumped.
+  linux_arm_gcc:
+    strategy:
+      matrix:
+        config: ['Debug', 'Release']
+    runs-on: ubuntu-24.04-arm
+    env:
+      CC: gcc-14
+      CXX: g++-14
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install GCC 14
+        run: |
+            sudo apt update
+            sudo apt install -y gcc-14 g++-14
+      - name: Build primecount
+        run: |
+            cmake . -DBUILD_TESTS=ON -DBUILD_CODEGEN_TESTS=ON -DCMAKE_BUILD_TYPE=${{matrix.config}} -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror"
+            grep "^OpenMP:INTERNAL=1$" CMakeCache.txt
+            grep "^int128.*:INTERNAL=1$" CMakeCache.txt
+            cmake --build . --parallel --verbose
+      - name: CTest (unit tests)
+        run: ctest -j2 --output-on-failure
+      - name: primecount --test
+        run: ./primecount --test
+      - name: primecount 1e11 --legendre
+        run: ./primecount 1e11 --legendre
+      - name: primecount 1e12 --meissel
+        run: ./primecount 1e12 --meissel
+      - name: primecount 1e11 --lehmer
+        run: ./primecount 1e11 --lehmer
+      - name: primecount 1e12 --lmo
+        run: ./primecount 1e12 --lmo
+      - name: primecount 1e13 --deleglise-rivat
+        run: ./primecount 1e13 --deleglise-rivat
+      - name: primecount 1e14 --gourdon
+        run: ./primecount 1e14 --gourdon
+
+  # Same as linux_arm_gcc, but using the Clang compiler. We install
+  # Clang 19 (matching the linux_clang job); it supports our ARM SVE
+  # runtime dispatch code.
+  linux_arm_clang:
+    strategy:
+      matrix:
+        config: ['Debug', 'Release']
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: |
+            sudo apt update
+            sudo apt install clang-19 libomp-19-dev
+      - name: Build primecount
+        run: |
+            CXX=clang++-19 CC=clang-19 cmake . -DBUILD_TESTS=ON -DBUILD_CODEGEN_TESTS=ON -DCMAKE_BUILD_TYPE=${{matrix.config}} -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror"
+            grep "^OpenMP.*:INTERNAL=1$" CMakeCache.txt
+            grep "^int128.*:INTERNAL=1$" CMakeCache.txt
+            cmake --build . --parallel --verbose
+      - name: CTest (unit tests)
+        run: ctest -j2 --output-on-failure
+      - name: primecount --test
+        run: ./primecount --test
+      - name: primecount 1e11 --legendre
+        run: ./primecount 1e11 --legendre
+      - name: primecount 1e12 --meissel
+        run: ./primecount 1e12 --meissel
+      - name: primecount 1e11 --lehmer
+        run: ./primecount 1e11 --lehmer
+      - name: primecount 1e12 --lmo
+        run: ./primecount 1e12 --lmo
+      - name: primecount 1e13 --deleglise-rivat
+        run: ./primecount 1e13 --deleglise-rivat
+      - name: primecount 1e14 --gourdon
+        run: ./primecount 1e14 --gourdon
+
+  linux_gcc_mpopcnt:
+    strategy:
+      matrix:
+        platform: ['ubuntu-latest']
+        config: ['Debug', 'Release']
+    runs-on: ${{ matrix.platform }}
+    env:
+      CC: gcc
+      CXX: g++
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build primecount
+        run: |
+            cmake . -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=${{matrix.config}} -DCMAKE_CXX_FLAGS="-mpopcnt -Wall -Wextra -pedantic -Werror"
+            grep "^OpenMP:INTERNAL=1$" CMakeCache.txt
+            grep "^int128.*:INTERNAL=1$" CMakeCache.txt
+            cmake --build . --parallel --verbose
+      - name: CTest (unit tests)
+        run: ctest -j2 --output-on-failure
+      - name: primecount --test
+        run: ./primecount --test
+      - name: primecount 1e11 --legendre
+        run: ./primecount 1e11 --legendre
+      - name: primecount 1e12 --meissel
+        run: ./primecount 1e12 --meissel
+      - name: primecount 1e11 --lehmer
+        run: ./primecount 1e11 --lehmer
+      - name: primecount 1e12 --lmo
+        run: ./primecount 1e12 --lmo
+      - name: primecount 1e13 --deleglise-rivat
+        run: ./primecount 1e13 --deleglise-rivat
+      - name: primecount 1e14 --gourdon
+        run: ./primecount 1e14 --gourdon
+
+  linux_gcc_sanitizers:
+    runs-on: ubuntu-latest
+    env:
+      CC: gcc
+      CXX: g++
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build primecount
+        run: |
+            cmake . -DBUILD_TESTS=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror -O1 -g -fsanitize=address -fsanitize=undefined -fno-sanitize-recover=all -fno-omit-frame-pointer"
+            cmake --build . --parallel --verbose
+      - name: CTest (unit tests)
+        run: ctest -j2 --output-on-failure
+      - name: primecount --test
+        run: ./primecount --test
+      - name: primecount 1e11 --legendre
+        run: ./primecount 1e11 --legendre
+      - name: primecount 1e12 --meissel
+        run: ./primecount 1e12 --meissel
+      - name: primecount 1e11 --lehmer
+        run: ./primecount 1e11 --lehmer
+      - name: primecount 1e12 --lmo
+        run: ./primecount 1e12 --lmo
+      - name: primecount 1e13 --deleglise-rivat
+        run: ./primecount 1e13 --deleglise-rivat
+      - name: primecount 1e14 --gourdon
+        run: ./primecount 1e14 --gourdon
+      - name: primecount 1e14 --status
+        run: ./primecount 1e14 --status
+
+  linux_gcc_valgrind:
+    runs-on: ubuntu-latest
+    env:
+      CC: gcc
+      CXX: g++
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: |
+            sudo apt update
+            sudo apt install valgrind
+      - name: Build primecount
+        run: |
+            cmake . -DBUILD_SHARED_LIBS=OFF -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror -g"
+            cmake --build . --parallel --verbose
+      - name: primecount 1e11 --legendre
+        run: valgrind ./primecount 1e11 --legendre
+      - name: primecount 1e12 --meissel
+        run: valgrind ./primecount 1e12 --meissel
+      - name: primecount 1e11 --lehmer
+        run: valgrind ./primecount 1e11 --lehmer
+      - name: primecount 1e12 --lmo
+        run: valgrind ./primecount 1e12 --lmo
+      - name: primecount 1e13 --deleglise-rivat
+        run: valgrind ./primecount 1e13 --deleglise-rivat
+      - name: primecount 1e14 --gourdon
+        run: valgrind ./primecount 1e14 --gourdon
+      - name: primecount 1e14 --status
+        run: valgrind ./primecount 1e14 --status
+
+  linux_clang:
+    strategy:
+      matrix:
+        platform: ['ubuntu-latest']
+        config: ['Debug', 'Release']
+    runs-on: ${{ matrix.platform }}
+    env:
+      CC: clang
+      CXX: clang++
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: |
+            sudo apt update
+            sudo apt install clang-19 libomp-19-dev asciidoc libxml2-utils xmlto
+      - name: Build primecount
+        run: |
+            CXX=clang++-19 CC=clang-19 cmake . -DBUILD_TESTS=ON -DBUILD_CODEGEN_TESTS=ON -DBUILD_MANPAGE=ON -DCMAKE_BUILD_TYPE=${{matrix.config}} -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror"
+            grep "^OpenMP.*:INTERNAL=1$" CMakeCache.txt
+            grep "^int128.*:INTERNAL=1$" CMakeCache.txt
+            cmake --build . --parallel --verbose
+      - name: CTest (unit tests)
+        run: ctest -j2 --output-on-failure
+      - name: primecount --test
+        run: ./primecount --test
+      - name: primecount 1e11 --legendre
+        run: ./primecount 1e11 --legendre
+      - name: primecount 1e12 --meissel
+        run: ./primecount 1e12 --meissel
+      - name: primecount 1e11 --lehmer
+        run: ./primecount 1e11 --lehmer
+      - name: primecount 1e12 --lmo
+        run: ./primecount 1e12 --lmo
+      - name: primecount 1e13 --deleglise-rivat
+        run: ./primecount 1e13 --deleglise-rivat
+      - name: primecount 1e14 --gourdon
+        run: ./primecount 1e14 --gourdon
+
+  linux_clang_mpopcnt:
+    strategy:
+      matrix:
+        platform: ['ubuntu-latest']
+        config: ['Debug', 'Release']
+    runs-on: ${{ matrix.platform }}
+    env:
+      CC: clang
+      CXX: clang++
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: |
+            sudo apt update
+            sudo apt install libomp-dev asciidoc libxml2-utils xmlto
+      - name: Build primecount
+        run: |
+            cmake . -DBUILD_TESTS=ON -DBUILD_MANPAGE=ON -DCMAKE_BUILD_TYPE=${{matrix.config}} -DCMAKE_CXX_FLAGS="-mpopcnt -Wall -Wextra -pedantic -Werror"
+            grep "^OpenMP.*:INTERNAL=1$" CMakeCache.txt
+            grep "^int128.*:INTERNAL=1$" CMakeCache.txt
+            cmake --build . --parallel --verbose
+      - name: CTest (unit tests)
+        run: ctest -j2 --output-on-failure
+      - name: primecount --test
+        run: ./primecount --test
+      - name: primecount 1e11 --legendre
+        run: ./primecount 1e11 --legendre
+      - name: primecount 1e12 --meissel
+        run: ./primecount 1e12 --meissel
+      - name: primecount 1e11 --lehmer
+        run: ./primecount 1e11 --lehmer
+      - name: primecount 1e12 --lmo
+        run: ./primecount 1e12 --lmo
+      - name: primecount 1e13 --deleglise-rivat
+        run: ./primecount 1e13 --deleglise-rivat
+      - name: primecount 1e14 --gourdon
+        run: ./primecount 1e14 --gourdon
+
+  freebsd_clang:
+    strategy:
+      matrix:
+        config: ['Debug', 'Release']
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build and test primecount
+        uses: vmactions/freebsd-vm@v1
+        with:
+          usesh: true
+          run: |
+              pkg update
+              pkg install -y cmake ninja asciidoc xmlto libxml2
+              CC=clang CXX=clang++ cmake . -G Ninja -DBUILD_TESTS=ON -DBUILD_MANPAGE=ON -DCMAKE_BUILD_TYPE=${{matrix.config}} -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror"
+              grep "^OpenMP.*:INTERNAL=1$" CMakeCache.txt
+              grep "^int128.*:INTERNAL=1$" CMakeCache.txt
+              cmake --build . --parallel --verbose
+              ctest -j2 --output-on-failure
+              ./primecount --test
+              ./primecount 1e11 --legendre
+              ./primecount 1e12 --meissel
+              ./primecount 1e11 --lehmer
+              ./primecount 1e12 --lmo
+              ./primecount 1e13 --deleglise-rivat
+              ./primecount 1e14 --gourdon
+
+  linux_emscripten:
+    strategy:
+      matrix:
+        platform: ['ubuntu-latest']
+        config: ['Release']
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install Emscripten SDK
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+          ./emsdk install latest
+          ./emsdk activate latest
+      - name: Configure (CMake)
+        run: |
+          source $GITHUB_WORKSPACE/emsdk/emsdk_env.sh
+          mkdir build
+          cd build
+          emcmake cmake .. -DCMAKE_BUILD_TYPE=${{matrix.config}} -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror"
+      - name: Build (emmake make)
+        run: |
+          source $GITHUB_WORKSPACE/emsdk/emsdk_env.sh
+          cd build
+          emmake make -j2
+      - name: primecount --test
+        run: |
+          source $GITHUB_WORKSPACE/emsdk/emsdk_env.sh
+          cd build
+          node ./primecount.js --test
+
+  macos_clang:
+    strategy:
+      matrix:
+        platform: ['macos-latest']
+        config: ['Debug', 'Release']
+    runs-on: ${{ matrix.platform }}
+    env:
+      CC: clang
+      CXX: clang++
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install dependencies
+        run: brew install libomp
+      - name: Build primecount
+        run: |
+            LDFLAGS="-L$(brew --prefix libomp)/lib" cmake . -DBUILD_TESTS=ON -DBUILD_CODEGEN_TESTS=ON -DCMAKE_BUILD_TYPE=${{matrix.config}} -DCMAKE_CXX_FLAGS="-I$(brew --prefix libomp)/include -Wall -Wextra -pedantic -Werror"
+            grep "^OpenMP.*:INTERNAL=1$" CMakeCache.txt
+            grep "^int128.*:INTERNAL=1$" CMakeCache.txt
+            cmake --build . --parallel --verbose
+      - name: CTest (unit tests)
+        run: ctest -j2 --output-on-failure
+      - name: primecount --test
+        run: ./primecount --test
+      - name: primecount 1e11 --legendre
+        run: ./primecount 1e11 --legendre
+      - name: primecount 1e12 --meissel
+        run: ./primecount 1e12 --meissel
+      - name: primecount 1e11 --lehmer
+        run: ./primecount 1e11 --lehmer
+      - name: primecount 1e12 --lmo
+        run: ./primecount 1e12 --lmo
+      - name: primecount 1e13 --deleglise-rivat
+        run: ./primecount 1e13 --deleglise-rivat
+      - name: primecount 1e14 --gourdon
+        run: ./primecount 1e14 --gourdon
+
+  linux_128bit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build primecount
+        run: |
+            cmake . -DBUILD_TESTS=ON
+            grep "^OpenMP:INTERNAL=1$" CMakeCache.txt
+            grep "^int128.*:INTERNAL=1$" CMakeCache.txt
+            cmake --build . --parallel --verbose
+      - name: CTest (unit tests)
+        run: ctest -j2 --output-on-failure
+      - name: PrimePi(1e20) 128-bit test
+        run: |
+            ./primecount 1e20 -s | tee primecount-1e20.log
+            grep 2220819602560918840 primecount-1e20.log
+
+  linux_gcc_pkgconfig:
+    strategy:
+      matrix:
+        shared: ['ON', 'OFF']
+    runs-on: ubuntu-latest
+    env:
+      CC: gcc
+      CXX: g++
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build & install primecount
+        run: |
+            cmake . -DBUILD_SHARED_LIBS=${{matrix.shared}} -DCMAKE_INSTALL_PREFIX=$PWD/inst
+            grep "^OpenMP:INTERNAL=1$" CMakeCache.txt
+            cmake --build . --parallel --verbose
+            cmake --install .
+            cat inst/lib/pkgconfig/primecount.pc
+      - name: primecount.pc contains the OpenMP runtime libraries
+        run: grep -E "^Libs.private:.*-lgomp" inst/lib/pkgconfig/primecount.pc
+      - name: Link libprimecount using pkg-config (shared)
+        if: matrix.shared == 'ON'
+        run: |
+            export PKG_CONFIG_PATH=$PWD/inst/lib/pkgconfig
+            export LD_LIBRARY_PATH=$PWD/inst/lib
+            pkg-config --cflags --libs primecount
+            printf '#include <primecount.hpp>\nint main() { return primecount::pi(1000) != 168; }\n' > pkgconfig_test.cpp
+            g++ pkgconfig_test.cpp $(pkg-config --cflags --libs primecount) -o pkgconfig_test
+            ./pkgconfig_test
+      - name: Link libprimecount using pkg-config (static)
+        if: matrix.shared == 'OFF'
+        run: |
+            export PKG_CONFIG_PATH=$PWD/inst/lib/pkgconfig
+            pkg-config --cflags --libs --static primecount
+            printf '#include <primecount.hpp>\nint main() { return primecount::pi(1000) != 168; }\n' > pkgconfig_test.cpp
+            g++ pkgconfig_test.cpp $(pkg-config --cflags --libs --static primecount) -o pkgconfig_test
+            ./pkgconfig_test
+
+  linux_gcc_cmake_find_package:
+    strategy:
+      matrix:
+        shared: ['ON', 'OFF']
+    runs-on: ubuntu-latest
+    env:
+      CC: gcc
+      CXX: g++
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build & install primecount
+        run: |
+            cmake . -DBUILD_SHARED_LIBS=${{matrix.shared}} -DCMAKE_INSTALL_PREFIX=$PWD/inst
+            cmake --build . --parallel --verbose
+            cmake --install .
+      - name: Create test program
+        run: |
+            mkdir cmake_test
+            printf '#include <primecount.hpp>\nint main() { return primecount::pi(1000) != 168; }\n' > cmake_test/main.cpp
+      - name: Link libprimecount using find_package (shared)
+        if: matrix.shared == 'ON'
+        run: |
+            cat > cmake_test/CMakeLists.txt <<'EOF'
+            cmake_minimum_required(VERSION 3.9...4.2)
+            project(cmake_test LANGUAGES CXX)
+            find_package(primecount REQUIRED)
+            add_executable(cmake_test main.cpp)
+            target_link_libraries(cmake_test primecount::primecount)
+            EOF
+            cmake -S cmake_test -B cmake_test/build -DCMAKE_PREFIX_PATH=$PWD/inst
+            cmake --build cmake_test/build --parallel --verbose
+            LD_LIBRARY_PATH=$PWD/inst/lib ./cmake_test/build/cmake_test
+      - name: Link libprimecount using find_package (static)
+        if: matrix.shared == 'OFF'
+        run: |
+            cat > cmake_test/CMakeLists.txt <<'EOF'
+            cmake_minimum_required(VERSION 3.9...4.2)
+            project(cmake_test LANGUAGES CXX)
+            find_package(primecount REQUIRED static)
+            add_executable(cmake_test main.cpp)
+            target_link_libraries(cmake_test primecount::primecount)
+            EOF
+            cmake -S cmake_test -B cmake_test/build -DCMAKE_PREFIX_PATH=$PWD/inst
+            cmake --build cmake_test/build --parallel --verbose
+            ./cmake_test/build/cmake_test

@@ -1,0 +1,780 @@
+{
+  "schema_version": "2.3.7-gold1-primecount-only",
+  "benchmark_started_utc": "2026-09-14T08:58:18.115+00:00",
+  "task": {
+    "L": 2000000000000000000,
+    "H": 2000001000000000000,
+    "X": 1999999999999999999,
+    "pi_H": 48645185012479212,
+    "pi_X": 48645161281738535,
+    "interval": 23730740677,
+    "y": 43624764,
+    "z": 43624764,
+    "k": 8,
+    "cutoff_source": "lower_endpoint",
+    "endpoint_status": {
+      "high": {
+        "y": 43624764,
+        "z": 43624764,
+        "k": 8,
+        "seconds": 23.16295700002229
+      },
+      "low": {
+        "y": 43624764,
+        "z": 43624764,
+        "k": 8,
+        "seconds": 23.000677300035022
+      },
+      "candidate_attempts": [
+        {
+          "source": "lower_endpoint",
+          "y": 43624764,
+          "z": 43624764,
+          "k": 8,
+          "attempt": 1,
+          "ok": true,
+          "seconds": 76.72996550000971,
+          "verification_ac_mode": "sequential"
+        },
+        {
+          "source": "lower_endpoint",
+          "y": 43624764,
+          "z": 43624764,
+          "k": 8,
+          "attempt": 2,
+          "ok": true,
+          "seconds": 75.76612390001537,
+          "verification_ac_mode": "sequential"
+        }
+      ],
+      "reference_generation_seconds": {
+        "pi_H": 22.556827699998394,
+        "pi_X": 23.01006810000399
+      }
+    },
+    "execution_mode": "common_cutoff_delta",
+    "high_cutoff": {
+      "y": 43624764,
+      "z": 43624764,
+      "k": 8
+    },
+    "low_cutoff": {
+      "y": 43624764,
+      "z": 43624764,
+      "k": 8
+    },
+    "gold1_ac_mode": "balanced",
+    "ac_scheduler_qualification": {
+      "requested_balanced_repeats": 5,
+      "balanced_attempts": [
+        {
+          "attempt": 1,
+          "ok": true,
+          "seconds": 75.31571939995047,
+          "returncode": 0
+        },
+        {
+          "attempt": 2,
+          "ok": true,
+          "seconds": 76.3004443999962,
+          "returncode": 0
+        },
+        {
+          "attempt": 3,
+          "ok": true,
+          "seconds": 76.51708560000407,
+          "returncode": 0
+        },
+        {
+          "attempt": 4,
+          "ok": true,
+          "seconds": 77.24181919998955,
+          "returncode": 0
+        },
+        {
+          "attempt": 5,
+          "ok": true,
+          "seconds": 77.60612020001281,
+          "returncode": 0
+        }
+      ],
+      "selected_ac_mode": "balanced",
+      "fallback_reason": null,
+      "common_verify_attempts_per_candidate": 3,
+      "common_verify_required_successes": 2
+    },
+    "width": 1000000000000,
+    "interval_count": 23730740677
+  },
+  "runs": 5,
+  "thread_budget": 4,
+  "thread_plan": {
+    "total": 4,
+    "concurrent_high": 2,
+    "concurrent_low": 2,
+    "sequential_per_endpoint": 4
+  },
+  "comparators": {
+    "gold1": "included",
+    "primecount": "included",
+    "primesieve": "excluded_by_selection",
+    "fastprime": "excluded_by_selection"
+  },
+  "validation_scope": "Gold1 verification plus exact primecount endpoint checks. Gold1 reuses primecount components; no primesieve or third-algorithm check.",
+  "validation_status": "pass",
+  "stage": "complete",
+  "build_metadata": {
+    "cpu_model": "Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz",
+    "physical_core_count": 6,
+    "logical_cpu_count": 12,
+    "total_ram_bytes": 17088835584,
+    "total_ram_gib": 15.915,
+    "os_caption": "Microsoft Windows 11 Pro",
+    "os_version": "10.0.26200",
+    "os_build_number": "26200",
+    "gold1_source_sha256": "37e0f3e56676302473dcc7fe3552aaa9d79d4da38f6341547f935c9254dfc68a",
+    "gold1_source_sha256_scope": "gold1/apply_patch.py + gold1/patch/**",
+    "gold1_source_file_count": 5,
+    "benchmark_harness_sha256": "2b1cf3c46b6ae6b85cccf1234ed845db9e7029892fcdace91687fadbb9ba57a8",
+    "benchmark_harness_sha256_scope": "SHA256(base tree hash + LF + two-way runner hash + LF)",
+    "benchmark_harness_file_count": 27,
+    "base_harness_schema": "2.3.6-robust-calibration-crossover",
+    "base_benchmark_harness_sha256": "ac64d397d10b7001d3a5e895fccc53e48d0695f396e932f9ef91990caa964c97",
+    "two_way_runner_sha256": "fe57fe17cba67de006e96b38040cd853e3bb07262f2f7944edbc6213018343bd",
+    "gold1_binary_sha256": "4c8b6f4f315e9c67642763781964810f0211e82677c214b304ff922286bcebac",
+    "primecount_binary_sha256": "4e89b7f4bb5149d42d881afa9f51e660dbe869600a2eeb4e4eb8e856faedd8c1",
+    "primecount": "primecount 8.7, <https://github.com/kimwalisch/primecount>",
+    "compiler": "c++.exe (Rev3, Built by MSYS2 project) 16.2.0\nCopyright (C) 2026 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+    "python": "3.14.7",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "primesieve_status": "excluded_by_selection",
+    "fastprime_status": "excluded_by_selection"
+  },
+  "settings": {
+    "timeout_seconds": 3600,
+    "preparation_timeout_seconds": 3600,
+    "ac_qualify_repeats": 5,
+    "common_verify_attempts": 3
+  },
+  "times": {
+    "gold1": [
+      36.55756190000102,
+      36.13015430001542,
+      37.532092200010084,
+      38.62646810000297,
+      38.39439390000189
+    ],
+    "primecount": [
+      44.232428599963896,
+      44.41074000002118,
+      44.79604730004212,
+      44.777338000014424,
+      46.146233599982224
+    ]
+  },
+  "raw": [
+    {
+      "round": 1,
+      "name": "gold1",
+      "mode": "direct_interval_balanced_2+2",
+      "seconds": 36.55756190000102,
+      "result": {
+        "ok": true,
+        "seconds": 36.55756190000102,
+        "output": "Gold1 v0.9.1 integrated Delta-Gourdon + balanced paired-AC\nGold1_execution_mode=common_cutoff_delta\nH=2000001000000000000\nX=1999999999999999999\ny=43624764 z=43624764 k=8 threads=4\nAC_scheduler=balanced_2+2\nSigma_H=879678729511327\nSigma_X=879678090498656\ndelta_Sigma=639012671\nSigma_pair_seconds=0.011977\nPhi0_H=134702068400977\nPhi0_X=134702001051298\ndelta_Phi0=67349679\nPhi0_pair_seconds=0.091282\nAC_H=19341965562420950\nAC_X=19341956788536405\ndelta_AC=8773884545\nAC_pair_seconds=12.162421\nB_H=16581613836753041\nB_X=16581604586110174\ndelta_B=9250642867\nB_pair_seconds=4.840099\ndelta_D=23501136649\npaired_D_seconds=19.436504\ninterval_count=23730740677\ngold1_seconds=36.542284\n",
+        "returncode": 0
+      }
+    },
+    {
+      "round": 1,
+      "name": "primecount",
+      "mode": "concurrent_2+2",
+      "seconds": 44.232428599963896,
+      "result": {
+        "ok": true,
+        "seconds": 44.232428599963896,
+        "high": {
+          "command": [
+            "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+            "2000001000000000000",
+            "--gourdon",
+            "--threads=2"
+          ],
+          "returncode": 0,
+          "output": "48645185012479212\n",
+          "ok": true,
+          "value": 48645185012479212,
+          "expected": 48645185012479212
+        },
+        "low": {
+          "command": [
+            "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+            "1999999999999999999",
+            "--gourdon",
+            "--threads=2"
+          ],
+          "returncode": 0,
+          "output": "48645161281738535\n",
+          "ok": true,
+          "value": 48645161281738535,
+          "expected": 48645161281738535
+        }
+      }
+    },
+    {
+      "round": 2,
+      "name": "primecount",
+      "mode": "concurrent_2+2",
+      "seconds": 44.41074000002118,
+      "result": {
+        "ok": true,
+        "seconds": 44.41074000002118,
+        "high": {
+          "command": [
+            "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+            "2000001000000000000",
+            "--gourdon",
+            "--threads=2"
+          ],
+          "returncode": 0,
+          "output": "48645185012479212\n",
+          "ok": true,
+          "value": 48645185012479212,
+          "expected": 48645185012479212
+        },
+        "low": {
+          "command": [
+            "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+            "1999999999999999999",
+            "--gourdon",
+            "--threads=2"
+          ],
+          "returncode": 0,
+          "output": "48645161281738535\n",
+          "ok": true,
+          "value": 48645161281738535,
+          "expected": 48645161281738535
+        }
+      }
+    },
+    {
+      "round": 2,
+      "name": "gold1",
+      "mode": "direct_interval_balanced_2+2",
+      "seconds": 36.13015430001542,
+      "result": {
+        "ok": true,
+        "seconds": 36.13015430001542,
+        "output": "Gold1 v0.9.1 integrated Delta-Gourdon + balanced paired-AC\nGold1_execution_mode=common_cutoff_delta\nH=2000001000000000000\nX=1999999999999999999\ny=43624764 z=43624764 k=8 threads=4\nAC_scheduler=balanced_2+2\nSigma_H=879678729511327\nSigma_X=879678090498656\ndelta_Sigma=639012671\nSigma_pair_seconds=0.012671\nPhi0_H=134702068400977\nPhi0_X=134702001051298\ndelta_Phi0=67349679\nPhi0_pair_seconds=0.093138\nAC_H=19341965562420950\nAC_X=19341956788536405\ndelta_AC=8773884545\nAC_pair_seconds=12.176981\nB_H=16581613836753041\nB_X=16581604586110174\ndelta_B=9250642867\nB_pair_seconds=4.986287\ndelta_D=23501136649\npaired_D_seconds=18.849335\ninterval_count=23730740677\ngold1_seconds=36.118413\n",
+        "returncode": 0
+      }
+    },
+    {
+      "round": 3,
+      "name": "gold1",
+      "mode": "direct_interval_balanced_2+2",
+      "seconds": 37.532092200010084,
+      "result": {
+        "ok": true,
+        "seconds": 37.532092200010084,
+        "output": "Gold1 v0.9.1 integrated Delta-Gourdon + balanced paired-AC\nGold1_execution_mode=common_cutoff_delta\nH=2000001000000000000\nX=1999999999999999999\ny=43624764 z=43624764 k=8 threads=4\nAC_scheduler=balanced_2+2\nSigma_H=879678729511327\nSigma_X=879678090498656\ndelta_Sigma=639012671\nSigma_pair_seconds=0.011928\nPhi0_H=134702068400977\nPhi0_X=134702001051298\ndelta_Phi0=67349679\nPhi0_pair_seconds=0.085233\nAC_H=19341965562420950\nAC_X=19341956788536405\ndelta_AC=8773884545\nAC_pair_seconds=12.668798\nB_H=16581613836753041\nB_X=16581604586110174\ndelta_B=9250642867\nB_pair_seconds=4.997270\ndelta_D=23501136649\npaired_D_seconds=19.758726\ninterval_count=23730740677\ngold1_seconds=37.521956\n",
+        "returncode": 0
+      }
+    },
+    {
+      "round": 3,
+      "name": "primecount",
+      "mode": "concurrent_2+2",
+      "seconds": 44.79604730004212,
+      "result": {
+        "ok": true,
+        "seconds": 44.79604730004212,
+        "high": {
+          "command": [
+            "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+            "2000001000000000000",
+            "--gourdon",
+            "--threads=2"
+          ],
+          "returncode": 0,
+          "output": "48645185012479212\n",
+          "ok": true,
+          "value": 48645185012479212,
+          "expected": 48645185012479212
+        },
+        "low": {
+          "command": [
+            "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+            "1999999999999999999",
+            "--gourdon",
+            "--threads=2"
+          ],
+          "returncode": 0,
+          "output": "48645161281738535\n",
+          "ok": true,
+          "value": 48645161281738535,
+          "expected": 48645161281738535
+        }
+      }
+    },
+    {
+      "round": 4,
+      "name": "primecount",
+      "mode": "concurrent_2+2",
+      "seconds": 44.777338000014424,
+      "result": {
+        "ok": true,
+        "seconds": 44.777338000014424,
+        "high": {
+          "command": [
+            "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+            "2000001000000000000",
+            "--gourdon",
+            "--threads=2"
+          ],
+          "returncode": 0,
+          "output": "48645185012479212\n",
+          "ok": true,
+          "value": 48645185012479212,
+          "expected": 48645185012479212
+        },
+        "low": {
+          "command": [
+            "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+            "1999999999999999999",
+            "--gourdon",
+            "--threads=2"
+          ],
+          "returncode": 0,
+          "output": "48645161281738535\n",
+          "ok": true,
+          "value": 48645161281738535,
+          "expected": 48645161281738535
+        }
+      }
+    },
+    {
+      "round": 4,
+      "name": "gold1",
+      "mode": "direct_interval_balanced_2+2",
+      "seconds": 38.62646810000297,
+      "result": {
+        "ok": true,
+        "seconds": 38.62646810000297,
+        "output": "Gold1 v0.9.1 integrated Delta-Gourdon + balanced paired-AC\nGold1_execution_mode=common_cutoff_delta\nH=2000001000000000000\nX=1999999999999999999\ny=43624764 z=43624764 k=8 threads=4\nAC_scheduler=balanced_2+2\nSigma_H=879678729511327\nSigma_X=879678090498656\ndelta_Sigma=639012671\nSigma_pair_seconds=0.011755\nPhi0_H=134702068400977\nPhi0_X=134702001051298\ndelta_Phi0=67349679\nPhi0_pair_seconds=0.085633\nAC_H=19341965562420950\nAC_X=19341956788536405\ndelta_AC=8773884545\nAC_pair_seconds=13.072345\nB_H=16581613836753041\nB_X=16581604586110174\ndelta_B=9250642867\nB_pair_seconds=5.271626\ndelta_D=23501136649\npaired_D_seconds=20.174294\ninterval_count=23730740677\ngold1_seconds=38.615654\n",
+        "returncode": 0
+      }
+    },
+    {
+      "round": 5,
+      "name": "gold1",
+      "mode": "direct_interval_balanced_2+2",
+      "seconds": 38.39439390000189,
+      "result": {
+        "ok": true,
+        "seconds": 38.39439390000189,
+        "output": "Gold1 v0.9.1 integrated Delta-Gourdon + balanced paired-AC\nGold1_execution_mode=common_cutoff_delta\nH=2000001000000000000\nX=1999999999999999999\ny=43624764 z=43624764 k=8 threads=4\nAC_scheduler=balanced_2+2\nSigma_H=879678729511327\nSigma_X=879678090498656\ndelta_Sigma=639012671\nSigma_pair_seconds=0.014023\nPhi0_H=134702068400977\nPhi0_X=134702001051298\ndelta_Phi0=67349679\nPhi0_pair_seconds=0.084738\nAC_H=19341965562420950\nAC_X=19341956788536405\ndelta_AC=8773884545\nAC_pair_seconds=12.932776\nB_H=16581613836753041\nB_X=16581604586110174\ndelta_B=9250642867\nB_pair_seconds=5.250471\ndelta_D=23501136649\npaired_D_seconds=20.102060\ninterval_count=23730740677\ngold1_seconds=38.384070\n",
+        "returncode": 0
+      }
+    },
+    {
+      "round": 5,
+      "name": "primecount",
+      "mode": "concurrent_2+2",
+      "seconds": 46.146233599982224,
+      "result": {
+        "ok": true,
+        "seconds": 46.146233599982224,
+        "high": {
+          "command": [
+            "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+            "2000001000000000000",
+            "--gourdon",
+            "--threads=2"
+          ],
+          "returncode": 0,
+          "output": "48645185012479212\n",
+          "ok": true,
+          "value": 48645185012479212,
+          "expected": 48645185012479212
+        },
+        "low": {
+          "command": [
+            "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+            "1999999999999999999",
+            "--gourdon",
+            "--threads=2"
+          ],
+          "returncode": 0,
+          "output": "48645161281738535\n",
+          "ok": true,
+          "value": 48645161281738535,
+          "expected": 48645161281738535
+        }
+      }
+    }
+  ],
+  "statistics": {
+    "gold1": {
+      "mean": 37.44813408000628,
+      "median": 37.532092200010084,
+      "min": 36.13015430001542,
+      "max": 38.62646810000297,
+      "stdev": 1.0978521284533636,
+      "cv": 0.029316604296167365
+    },
+    "primecount": {
+      "mean": 44.87255750000477,
+      "median": 44.777338000014424,
+      "min": 44.232428599963896,
+      "max": 46.146233599982224,
+      "stdev": 0.7517000371639523,
+      "cv": 0.016751887546500383
+    }
+  },
+  "ranking": [
+    "gold1",
+    "primecount"
+  ],
+  "updated_utc": "2026-09-14T09:22:47.708+00:00",
+  "elapsed_seconds": 1469.593262600014,
+  "validation_attempts": [
+    {
+      "execution_mode": "common_cutoff_delta",
+      "ac_mode": "balanced",
+      "result": {
+        "ok": true,
+        "seconds": 37.573041299998295,
+        "output": "Gold1 v0.9.1 integrated Delta-Gourdon + balanced paired-AC\nGold1_execution_mode=common_cutoff_delta\nH=2000001000000000000\nX=1999999999999999999\ny=43624764 z=43624764 k=8 threads=4\nAC_scheduler=balanced_2+2\nSigma_H=879678729511327\nSigma_X=879678090498656\ndelta_Sigma=639012671\nSigma_pair_seconds=0.013280\nPhi0_H=134702068400977\nPhi0_X=134702001051298\ndelta_Phi0=67349679\nPhi0_pair_seconds=0.086619\nAC_H=19341965562420950\nAC_X=19341956788536405\ndelta_AC=8773884545\nAC_pair_seconds=12.566020\nB_H=16581613836753041\nB_X=16581604586110174\ndelta_B=9250642867\nB_pair_seconds=5.069386\ndelta_D=23501136649\npaired_D_seconds=19.824193\ninterval_count=23730740677\ngold1_seconds=37.559498\n",
+        "returncode": 0
+      }
+    }
+  ],
+  "primecount_validation": {
+    "ok": true,
+    "seconds": 45.19520499999635,
+    "high": {
+      "command": [
+        "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+        "2000001000000000000",
+        "--gourdon",
+        "--threads=4"
+      ],
+      "returncode": 0,
+      "output": "48645185012479212\n",
+      "seconds": 23.039622300013434,
+      "ok": true,
+      "value": 48645185012479212,
+      "expected": 48645185012479212
+    },
+    "low": {
+      "command": [
+        "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+        "1999999999999999999",
+        "--gourdon",
+        "--threads=4"
+      ],
+      "returncode": 0,
+      "output": "48645161281738535\n",
+      "seconds": 22.155582699982915,
+      "ok": true,
+      "value": 48645161281738535,
+      "expected": 48645161281738535
+    }
+  },
+  "gold1_execution_mode": "common_cutoff_delta",
+  "gold1_ac_mode": "balanced",
+  "calibration": {
+    "samples": [
+      {
+        "repeat": 1,
+        "mode": "sequential",
+        "result": {
+          "ok": true,
+          "seconds": 45.12855020002462,
+          "high": {
+            "command": [
+              "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+              "2000001000000000000",
+              "--gourdon",
+              "--threads=4"
+            ],
+            "returncode": 0,
+            "output": "48645185012479212\n",
+            "seconds": 22.689807799994014,
+            "ok": true,
+            "value": 48645185012479212,
+            "expected": 48645185012479212
+          },
+          "low": {
+            "command": [
+              "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+              "1999999999999999999",
+              "--gourdon",
+              "--threads=4"
+            ],
+            "returncode": 0,
+            "output": "48645161281738535\n",
+            "seconds": 22.438742400030605,
+            "ok": true,
+            "value": 48645161281738535,
+            "expected": 48645161281738535
+          }
+        }
+      },
+      {
+        "repeat": 1,
+        "mode": "concurrent",
+        "result": {
+          "ok": true,
+          "seconds": 43.09758850000799,
+          "high": {
+            "command": [
+              "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+              "2000001000000000000",
+              "--gourdon",
+              "--threads=2"
+            ],
+            "returncode": 0,
+            "output": "48645185012479212\n",
+            "ok": true,
+            "value": 48645185012479212,
+            "expected": 48645185012479212
+          },
+          "low": {
+            "command": [
+              "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+              "1999999999999999999",
+              "--gourdon",
+              "--threads=2"
+            ],
+            "returncode": 0,
+            "output": "48645161281738535\n",
+            "ok": true,
+            "value": 48645161281738535,
+            "expected": 48645161281738535
+          }
+        }
+      },
+      {
+        "repeat": 2,
+        "mode": "concurrent",
+        "result": {
+          "ok": true,
+          "seconds": 43.521329700015485,
+          "high": {
+            "command": [
+              "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+              "2000001000000000000",
+              "--gourdon",
+              "--threads=2"
+            ],
+            "returncode": 0,
+            "output": "48645185012479212\n",
+            "ok": true,
+            "value": 48645185012479212,
+            "expected": 48645185012479212
+          },
+          "low": {
+            "command": [
+              "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+              "1999999999999999999",
+              "--gourdon",
+              "--threads=2"
+            ],
+            "returncode": 0,
+            "output": "48645161281738535\n",
+            "ok": true,
+            "value": 48645161281738535,
+            "expected": 48645161281738535
+          }
+        }
+      },
+      {
+        "repeat": 2,
+        "mode": "sequential",
+        "result": {
+          "ok": true,
+          "seconds": 44.03626829996938,
+          "high": {
+            "command": [
+              "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+              "2000001000000000000",
+              "--gourdon",
+              "--threads=4"
+            ],
+            "returncode": 0,
+            "output": "48645185012479212\n",
+            "seconds": 22.006003899965435,
+            "ok": true,
+            "value": 48645185012479212,
+            "expected": 48645185012479212
+          },
+          "low": {
+            "command": [
+              "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+              "1999999999999999999",
+              "--gourdon",
+              "--threads=4"
+            ],
+            "returncode": 0,
+            "output": "48645161281738535\n",
+            "seconds": 22.030264400003944,
+            "ok": true,
+            "value": 48645161281738535,
+            "expected": 48645161281738535
+          }
+        }
+      },
+      {
+        "repeat": 3,
+        "mode": "sequential",
+        "result": {
+          "ok": true,
+          "seconds": 45.20878260000609,
+          "high": {
+            "command": [
+              "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+              "2000001000000000000",
+              "--gourdon",
+              "--threads=4"
+            ],
+            "returncode": 0,
+            "output": "48645185012479212\n",
+            "seconds": 22.50977399997646,
+            "ok": true,
+            "value": 48645185012479212,
+            "expected": 48645185012479212
+          },
+          "low": {
+            "command": [
+              "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+              "1999999999999999999",
+              "--gourdon",
+              "--threads=4"
+            ],
+            "returncode": 0,
+            "output": "48645161281738535\n",
+            "seconds": 22.69900860002963,
+            "ok": true,
+            "value": 48645161281738535,
+            "expected": 48645161281738535
+          }
+        }
+      },
+      {
+        "repeat": 3,
+        "mode": "concurrent",
+        "result": {
+          "ok": true,
+          "seconds": 45.36072360002436,
+          "high": {
+            "command": [
+              "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+              "2000001000000000000",
+              "--gourdon",
+              "--threads=2"
+            ],
+            "returncode": 0,
+            "output": "48645185012479212\n",
+            "ok": true,
+            "value": 48645185012479212,
+            "expected": 48645185012479212
+          },
+          "low": {
+            "command": [
+              "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+              "1999999999999999999",
+              "--gourdon",
+              "--threads=2"
+            ],
+            "returncode": 0,
+            "output": "48645161281738535\n",
+            "ok": true,
+            "value": 48645161281738535,
+            "expected": 48645161281738535
+          }
+        }
+      }
+    ],
+    "policy": {
+      "repeats": 3,
+      "tie_break_repeats": 2,
+      "near_tie_margin": 0.02,
+      "order": "alternating",
+      "selection": "lower_final_median"
+    },
+    "primecount": {
+      "sequential": 45.12855020002462,
+      "concurrent": 43.521329700015485,
+      "sequential_samples": [
+        45.12855020002462,
+        44.03626829996938,
+        45.20878260000609
+      ],
+      "concurrent_samples": [
+        43.09758850000799,
+        43.521329700015485,
+        45.36072360002436
+      ],
+      "sequential_median": 45.12855020002462,
+      "concurrent_median": 43.521329700015485,
+      "concurrent_relative_gain": 0.03561427284690962,
+      "relative_median_gap": 0.03561427284690962,
+      "near_tie_margin": 0.02,
+      "near_tie": false,
+      "sequential_mode": "sequential_4+4",
+      "concurrent_mode": "concurrent_2+2",
+      "selected_mode": "concurrent_2+2",
+      "selection_reason": "lower repeated median",
+      "base_repeats": 3,
+      "total_repeats": 3,
+      "initial_near_tie": false,
+      "tie_break_repeats_performed": 0
+    }
+  },
+  "modes": {
+    "gold1": "direct_interval_balanced_2+2",
+    "primecount": "concurrent_2+2"
+  },
+  "warmups": {
+    "gold1": {
+      "ok": true,
+      "seconds": 38.248633400013205,
+      "output": "Gold1 v0.9.1 integrated Delta-Gourdon + balanced paired-AC\nGold1_execution_mode=common_cutoff_delta\nH=2000001000000000000\nX=1999999999999999999\ny=43624764 z=43624764 k=8 threads=4\nAC_scheduler=balanced_2+2\nSigma_H=879678729511327\nSigma_X=879678090498656\ndelta_Sigma=639012671\nSigma_pair_seconds=0.013563\nPhi0_H=134702068400977\nPhi0_X=134702001051298\ndelta_Phi0=67349679\nPhi0_pair_seconds=0.096678\nAC_H=19341965562420950\nAC_X=19341956788536405\ndelta_AC=8773884545\nAC_pair_seconds=12.890309\nB_H=16581613836753041\nB_X=16581604586110174\ndelta_B=9250642867\nB_pair_seconds=5.034720\ndelta_D=23501136649\npaired_D_seconds=20.201705\ninterval_count=23730740677\ngold1_seconds=38.236976\n",
+      "returncode": 0
+    },
+    "primecount": {
+      "ok": true,
+      "seconds": 43.346715399995446,
+      "high": {
+        "command": [
+          "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+          "2000001000000000000",
+          "--gourdon",
+          "--threads=2"
+        ],
+        "returncode": 0,
+        "output": "48645185012479212\n",
+        "ok": true,
+        "value": 48645185012479212,
+        "expected": 48645185012479212
+      },
+      "low": {
+        "command": [
+          "C:/Users/Mik/Desktop/Gold1/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/Gold1_RANKING_BENCH_v2.3.6_ROBUST_CALIBRATION_CROSSOVER_2026-09-14/gold1/build/primecount.exe",
+          "1999999999999999999",
+          "--gourdon",
+          "--threads=2"
+        ],
+        "returncode": 0,
+        "output": "48645161281738535\n",
+        "ok": true,
+        "value": 48645161281738535,
+        "expected": 48645161281738535
+      }
+    }
+  },
+  "benchmark_finished_utc": "2026-09-14T09:22:47.708+00:00"
+}

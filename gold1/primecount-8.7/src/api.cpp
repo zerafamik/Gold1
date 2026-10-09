@@ -1,0 +1,276 @@
+///
+/// @file  api.cpp
+///        primecount's C++ API.
+///
+/// Copyright (C) 2026 Kim Walisch, <kim.walisch@gmail.com>
+///
+/// This file is distributed under the BSD License. See the COPYING
+/// file in the top level directory.
+///
+
+#include <primecount.hpp>
+#include <primecount-internal.hpp>
+#include <primesieve.hpp>
+#include <gourdon.hpp>
+#include <imath.hpp>
+#include <int128_t.hpp>
+#include <macros.hpp>
+#include <PiTable.hpp>
+#include <print.hpp>
+
+#include <algorithm>
+#include <string>
+#include <stdint.h>
+
+#ifdef _OPENMP
+  #include <omp.h>
+#endif
+
+namespace {
+
+#if defined(_OPENMP)
+  int threads_ = 0;
+#endif
+
+} // namespace
+
+namespace primecount {
+
+int64_t pi(int64_t x)
+{
+  return pi(x, get_num_threads());
+}
+
+pc_int128_t pi(pc_int128_t x)
+{
+  if (x.hi < 0)
+  {
+    pc_int128_t res;
+    res.lo = 0;
+    res.hi = 0;
+    return res;
+  }
+
+  if (x.hi == 0 &&
+      x.lo <= (uint64_t) pstd::numeric_limits<int64_t>::max())
+  {
+    pc_int128_t res;
+    res.lo = pi((int64_t) x.lo);
+    res.hi = 0;
+    return res;
+  }
+
+#if defined(HAVE_INT128_T)
+  int128_t x128 = x.lo | (int128_t(x.hi) << 64);
+  int128_t r128 = pi(x128);
+  pc_int128_t res;
+  res.lo = (uint64_t) r128;
+  res.hi = (int64_t) (r128 >> 64);
+  return res;
+#else
+  throw primecount_error("pi(x): x must be <= 2^63-1");
+#endif
+}
+
+int64_t pi(int64_t x, int threads)
+{
+  // Compute pi(x) in O(1) for small values of x
+  if (x <= PiTable::max_cached())
+    return pi_cache(x);
+
+  // For ]10^4, 10^5] Legendre's algorithm runs fastest
+  if (x <= (int64_t) 1e5)
+    return pi_legendre(x, threads);
+
+  // For ]10^5, 10^8] Meissel's algorithm runs fastest
+  if (x <= (int64_t) 1e8)
+    return pi_meissel(x, threads);
+
+  // For large x Gourdon's algorithm runs fastest
+  return pi_gourdon_64(x, threads);
+}
+
+/// Used internally for initialization
+int64_t pi_noprint(int64_t x, int threads)
+{
+  bool is_print = false;
+
+  if (x <= PiTable::max_cached())
+    return pi_cache(x, is_print);
+  else if (x <= (int64_t) 1e5)
+    return pi_legendre(x, threads, is_print);
+  else if (x <= (int64_t) 1e8)
+    return pi_meissel(x, threads, is_print);
+  else
+    return pi_gourdon_64(x, threads, is_print);
+}
+
+int64_t pi_cache(int64_t x, bool is_print)
+{
+  if (x < 2)
+    return 0;
+
+  if (is_print)
+  {
+    print("");
+    print("=== pi_cache(x) ===");
+    print("x", x);
+    print("threads", 1);
+  }
+
+  ASSERT(x >= 0);
+  return PiTable::pi_cache(x);
+}
+
+int64_t pi_deleglise_rivat(int64_t x, int threads)
+{
+  return pi_deleglise_rivat_64(x, threads);
+}
+
+int64_t pi_gourdon(int64_t x, int threads)
+{
+  return pi_gourdon_64(x, threads);
+}
+
+int64_t nth_prime(int64_t n)
+{
+  return nth_prime(n, get_num_threads());
+}
+
+int64_t nth_prime(int64_t n, int threads)
+{
+  return nth_prime_64(n, threads);
+}
+
+pc_int128_t nth_prime(pc_int128_t n)
+{
+  // n < 1
+  if ((n.lo == 0 && n.hi == 0) || n.hi < 0)
+    throw primecount_error("nth_prime(n): n must be >= 1");
+
+  // Number of primes < 2^63
+  constexpr uint64_t max_n_int64 = 216289611853439384ull;
+
+  if (n.hi == 0 &&
+      n.lo <= max_n_int64)
+  {
+    pc_int128_t res;
+    res.lo = nth_prime((int64_t) n.lo);
+    res.hi = 0;
+    return res;
+  }
+
+#if defined(HAVE_INT128_T)
+  int128_t n128 = n.lo | (int128_t(n.hi) << 64);
+  int128_t r128 = nth_prime(n128);
+  pc_int128_t res;
+  res.lo = (uint64_t) r128;
+  res.hi = (int64_t) (r128 >> 64);
+  return res;
+#else
+  throw primecount_error("nth_prime(n): n must be <= " + std::to_string(max_n_int64));
+#endif
+}
+
+#ifdef HAVE_INT128_T
+
+int128_t pi(int128_t x)
+{
+  return pi(x, get_num_threads());
+}
+
+int128_t pi(int128_t x, int threads)
+{
+  // Prevent 64-bit cast to random
+  // integer if x <= -2^63.
+  if (x < 0)
+    return 0;
+
+  // Use 64-bit if possible
+  if (x <= pstd::numeric_limits<int64_t>::max())
+    return pi((int64_t) x, threads);
+  else
+    return pi_gourdon_128(x, threads);
+}
+
+int128_t pi_deleglise_rivat(int128_t x, int threads)
+{
+  // Prevent 64-bit cast to random
+  // integer if x <= -2^63.
+  if (x < 0)
+    return 0;
+
+  // Use 64-bit if possible
+  if (x <= pstd::numeric_limits<int64_t>::max())
+    return pi_deleglise_rivat_64((int64_t) x, threads);
+  else
+    return pi_deleglise_rivat_128(x, threads);
+}
+
+int128_t pi_gourdon(int128_t x, int threads)
+{
+  // Prevent 64-bit cast to random
+  // integer if x <= -2^63.
+  if (x < 0)
+    return 0;
+
+  // Use 64-bit if possible
+  if (x <= pstd::numeric_limits<int64_t>::max())
+    return pi_gourdon_64((int64_t) x, threads);
+  else
+    return pi_gourdon_128(x, threads);
+}
+
+int128_t nth_prime(int128_t n)
+{
+  return nth_prime(n, get_num_threads());
+}
+
+int128_t nth_prime(int128_t n, int threads)
+{
+  if_unlikely(n < 1)
+    throw primecount_error("nth_prime(n): n must be >= 1");
+
+  // Number of primes < 2^63
+  constexpr int64_t max_n_int64 = 216289611853439384ll;
+
+  // Use 64-bit if possible
+  if (n <= max_n_int64)
+    return nth_prime_64((int64_t) n, threads);
+  else
+    return nth_prime_128(n, threads);
+}
+
+#endif
+
+int64_t phi(int64_t x, int64_t a)
+{
+  return phi(x, a, get_num_threads());
+}
+
+std::string primecount_version()
+{
+  return PRIMECOUNT_VERSION;
+}
+
+int get_num_threads()
+{
+#ifdef _OPENMP
+  if (threads_)
+    return threads_;
+  else
+    return std::max(1, omp_get_max_threads());
+#else
+  return 1;
+#endif
+}
+
+void set_num_threads(int threads)
+{
+#ifdef _OPENMP
+  threads_ = in_between(1, threads, omp_get_max_threads());
+#endif
+  primesieve::set_num_threads(threads);
+}
+
+} // namespace
